@@ -37,7 +37,7 @@
 	
 	<!-- Run the JUnit Tests -->
 	<!-- Output is XML, could also be plain-->
-	<target name="junit" depends="compile">
+	<target name="test" depends="compile">
 		<junit printsummary="on" fork="true" haltonfailure="yes">
 			<classpath refid="junit.class.path" />
 			<formatter type="xml" />
@@ -49,7 +49,7 @@
 		</junit>
 	</target>
 	
-	<target name="main" depends="compile, junit">
+	<target name="main" depends="compile, test">
 		<description>Main target</description>
 	</target>
 
