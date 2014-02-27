@@ -3,30 +3,52 @@ package ra;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Itemset implements Cloneable {
+public class Itemset {
 	private ArrayList<Integer> data;
 
+	/**
+	 * Empty constructor
+	 */
 	public Itemset() {
 		this.data = new ArrayList<Integer>();
 	}
 	
+	/**
+	 * Constructor
+	 * @param itemset The itemset as a list.
+	 */
 	public Itemset(ArrayList<Integer> itemset) {
 		this.data = itemset;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Itemset clone() {
 	    return new Itemset((ArrayList<Integer>)this.data.clone());
 	}
 	
+	/**
+	 * Accessor to the size of the itemset.
+	 * @return The number of item in the itemset.
+	 */
 	public int size() {
 		return this.data.size();
 	}
 	
+	/**
+	 * Accessor to the items of the itemset.
+	 * @param i The number of the item to get.
+	 * @return The item.
+	 */
 	public int get(int i) {
 		return this.data.get(i);
 	}
 	
+	/**
+	 * Adds an item to the itemsets.
+	 * @param item The item.
+	 * @return True if the item was not already part of the itemset.
+	 */
 	public boolean add(int item) {
 		if(this.data.contains(item)) {
 			return false;
@@ -35,6 +57,10 @@ public class Itemset implements Cloneable {
 		return true;
 	}
 	
+	/**
+	 * Returns the base of the itemset, an itemset made of all the items but the last.
+	 * @return The base of the itemset.
+	 */
 	public Itemset getBase() {
 		ArrayList<Integer> base = new ArrayList<Integer>();
 		for(int i=0; i<this.size()-1; i++) {
@@ -43,6 +69,11 @@ public class Itemset implements Cloneable {
 		return new Itemset(base);
 	}
 	
+	/**
+	 * Computes the support of the itemset on some transactions.
+	 * @param transactions The transactions.
+	 * @return The support.
+	 */
 	public double calcSupport(List<Transaction> transactions) {
 		double support = 0;
 		for(Transaction transaction: transactions) {
@@ -53,6 +84,12 @@ public class Itemset implements Cloneable {
 		return support / transactions.size();
 	}
 	
+	/**
+	 * Checks if two itemsets have a common base.
+	 * @see calcSupport for a definition of the base.
+	 * @param itemset The second itemset.
+	 * @return True if the two itemsets have the same base.
+	 */
 	public boolean commonBase(Itemset itemset) {
 		if(itemset.size() != this.size()) {
 			throw new IllegalArgumentException("The two itemset must have the same size ("+itemset.size()+" != "+this.size()+").");
@@ -65,6 +102,11 @@ public class Itemset implements Cloneable {
 		return true;
 	}
 	
+	/**
+	 * Computes the k+1-itemsets from a k-itemset.
+	 * @param itemset The itemset.
+	 * @return The k+1-itemsets.
+	 */
 	public List<Itemset> calcItemsetsK1(Itemset itemset) {
 		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		if(this.commonBase(itemset)) {
@@ -83,6 +125,10 @@ public class Itemset implements Cloneable {
 		return itemsetsK1;
 	}
 	
+	/**
+	 * Computes the k-itemsets from a k+1-itemset.
+	 * @return The k-itemsets.
+	 */
 	public ArrayList<Itemset> calcSubItemsets() {
 		ArrayList<Itemset> subItemsets = new ArrayList<Itemset>();
 		for(int i=0; i<this.size(); i++) {
@@ -118,6 +164,7 @@ public class Itemset implements Cloneable {
 		return true;
 	}
 	
+	@Override
 	public String toString() {
 		String result = "Itemset: ";
 		for(int item: this.data) {

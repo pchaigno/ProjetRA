@@ -25,6 +25,9 @@ public class TestTransaction extends TestCase {
 		this.transaction2 = new Transaction(t2);
 	}
 
+	/**
+	 * Tests the contains method.
+	 */
 	public void testContains() {
 		Itemset itemset3A = new Itemset();
 		itemset3A.add(1);

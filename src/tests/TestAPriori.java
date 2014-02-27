@@ -11,6 +11,9 @@ import junit.framework.TestCase;
 
 public class TestAPriori extends TestCase {
 
+	/**
+	 * Tests the A Priori algorithm.
+	 */
 	@SuppressWarnings("serial")
 	public void testAPriori() {
 		List<Transaction> transactions = new ArrayList<Transaction>();

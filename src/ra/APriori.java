@@ -9,11 +9,20 @@ public class APriori {
 	private List<Transaction> transactions;
 	private List<List<Itemset>> itemsets;
 	
+	/**
+	 * Constructor
+	 * @param transactions The transactions.
+	 */
 	public APriori(List<Transaction> transactions) {
 		this.transactions = transactions;
 		this.itemsets = new ArrayList<List<Itemset>>();
 	}
 	
+	/**
+	 * A Priori algorithm to compute the k-itemsets.
+	 * @param minSupport The minimum support to keep an itemset.
+	 * @return All the computed k-itemsets.
+	 */
 	public List<List<Itemset>> aPriori(double minSupport) {
 		this.init1Itemset();
 		boolean noMoreItemsets = false;
@@ -28,6 +37,9 @@ public class APriori {
 		return this.itemsets;
 	}
 	
+	/**
+	 * Computes the 1-itemsets from the transactions.
+	 */
 	private void init1Itemset() {
 		Set<Integer> items = new HashSet<Integer>();
 		for(Transaction transaction: this.transactions) {
@@ -48,6 +60,12 @@ public class APriori {
 		this.itemsets.add(itemset);
 	}
 	
+	/**
+	 * Computes the k+1-itemsets from the k-itemsets.
+	 * @param itemsets The k-itemsets.
+	 * @param minSupport The minimum support to keep a k+1-itemset.
+	 * @return The k+1-itemsets.
+	 */
 	private List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
 		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		for(int i=0; i<itemsets.size(); i++) {
@@ -65,6 +83,12 @@ public class APriori {
 		return itemsetsK1;
 	}
 	
+	/**
+	 * Checks that all k-itemsets of a k+1-itemset are frequent.
+	 * @param itemsets The k-itemsets.
+	 * @param itemset The k+1-itemsets.
+	 * @return True if all k-itemsets of the k+1-itemsets are frequent.
+	 */
 	private static boolean allSubItemsetsFrequent(List<Itemset> itemsets, Itemset itemset) {
 		List<Itemset> subItemsets = itemset.calcSubItemsets();
 		for(Itemset subItemset: subItemsets) {
@@ -79,6 +103,10 @@ public class APriori {
 		return true;
 	}
 
+	/**
+	 * Tests
+	 * @param args
+	 */
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
 		List<Transaction> transactions = new ArrayList<Transaction>();
