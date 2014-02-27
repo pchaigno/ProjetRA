@@ -6,6 +6,10 @@ import java.util.List;
 public class Itemset implements Cloneable {
 	private ArrayList<Integer> data;
 
+	public Itemset() {
+		this.data = new ArrayList<Integer>();
+	}
+	
 	public Itemset(ArrayList<Integer> itemset) {
 		this.data = itemset;
 	}

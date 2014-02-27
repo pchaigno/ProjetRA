@@ -101,8 +101,8 @@ public class APriori {
 		
 		APriori apriori = new APriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
-		for(int i=1; i<itemsets.size(); i++) {
-			System.out.println(i+"-itemsets:");
+		for(int i=0; i<itemsets.size(); i++) {
+			System.out.println((i+1)+"-itemsets:");
 			for(Itemset itemset: itemsets.get(i)) {
 				System.out.println(itemset);
 			}
