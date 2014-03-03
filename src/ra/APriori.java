@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public class APriori {
-	private List<Transaction> transactions;
-	private List<List<Itemset>> itemsets;
+	protected List<Transaction> transactions;
+	protected List<List<Itemset>> itemsets;
 	
 	/**
 	 * Constructor

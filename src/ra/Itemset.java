@@ -139,6 +139,20 @@ public class Itemset {
 		return subItemsets;
 	}
 	
+	/**
+	 * finds out if the current k-itemset is included in a k+1-itemset
+	 * @param k1Itemset the superior-itemset
+	 * @return true if the current itemset is included in k1Itemset
+	 */
+	public boolean isIncludedIn(Itemset k1Itemset) {
+		boolean res = true;
+		for(int i = 0 ; i < data.size() && res ; i++) {
+			int item = data.get(i);
+			res = data.contains(item);
+		}
+		return res;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
