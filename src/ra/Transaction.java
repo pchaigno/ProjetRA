@@ -33,4 +33,16 @@ public class Transaction {
 		}
 		return true;
 	}
+	
+	public static double frequency(List<Transaction> transactions, int item) {
+		double res = 0;
+		for(Transaction t : transactions) {
+			for(int i : t.data) {
+				if(i == item)
+					res++;
+			}
+		}
+		res /= transactions.size();
+		return res;
+	}
 }

@@ -50,10 +50,7 @@ public class MaxAPriori extends APriori {
 			add(2); add(5);
 		}};
 		transactions.add(new Transaction(t4));
-		System.out.println("t1 : " + t1);
-		System.out.println("t2 : " + t2);
-		System.out.println("t3 : " + t3);
-		System.out.println("t4 : " + t4);
+		
 		APriori apriori = new MaxAPriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		for(int i=0; i<itemsets.size(); i++) {

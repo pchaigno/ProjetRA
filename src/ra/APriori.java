@@ -24,7 +24,7 @@ public class APriori {
 	 * @return All the computed k-itemsets.
 	 */
 	public List<List<Itemset>> aPriori(double minSupport) {
-		this.init1Itemset();
+		this.init1Itemset(minSupport);
 		boolean noMoreItemsets = false;
 		for(int i=1; !noMoreItemsets; i++) {
 			List<Itemset> newItemsets = this.calcK1Itemset(itemsets.get(i-1), minSupport);
@@ -38,13 +38,15 @@ public class APriori {
 	}
 	
 	/**
+	 * TODO : this method is wrong (cf lesson) --> you have to check support
 	 * Computes the 1-itemsets from the transactions.
 	 */
-	private void init1Itemset() {
+	private void init1Itemset(double minSupport) {
 		Set<Integer> items = new HashSet<Integer>();
 		for(Transaction transaction: this.transactions) {
 			for(int item: transaction.getItems()) {
-				items.add(item);
+				if(Transaction.frequency(transactions, item) >= minSupport)
+					items.add(item);
 			}
 		}
 		
