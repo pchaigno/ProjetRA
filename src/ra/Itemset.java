@@ -148,7 +148,7 @@ public class Itemset {
 		boolean res = true;
 		for(int i = 0 ; i < data.size() && res ; i++) {
 			int item = data.get(i);
-			res = data.contains(item);
+			res = k1Itemset.data.contains(item);	
 		}
 		return res;
 	}
