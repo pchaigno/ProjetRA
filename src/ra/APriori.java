@@ -115,6 +115,18 @@ public class APriori {
 		}
 		return true;
 	}
+	
+	private List<Rule> generateRules(double minConfidence) {
+		
+		for(List<Itemset> setOfItemset : itemsets) {
+			for(Itemset itemset : setOfItemset) {
+				// generate every possible rule for each itemset
+				// compute confidence for each one and add it if greater than minConfidence
+			}
+		}
+		
+		return null;
+	}
 
 	/**
 	 * Tests
