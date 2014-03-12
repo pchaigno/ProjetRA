@@ -153,6 +153,24 @@ public class Itemset {
 		return res;
 	}
 	
+	public List<Rule> generateAllRules() {
+		List<Rule> rules = new ArrayList<Rule>();
+		
+		for(int i=0; i<data.size(); i++) {
+			Rule rule = new Rule();
+			rule.addRightPart(data.get(i));
+			
+			for(int j=0; j<data.size(); j++) {					
+				if(j != i)
+					rule.addLeftPart(data.get(j));
+			}
+			
+			rules.add(rule);
+		}
+		
+		return rules;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -185,5 +203,36 @@ public class Itemset {
 			result += item+" ";
 		}
 		return result;
+	}
+	
+	/**
+	 * Tests
+	 * @param args
+	 */
+	@SuppressWarnings("serial")
+	public static void main(String[] args) {
+		
+		ArrayList<Integer> t1 = new ArrayList<Integer>() {{
+			add(1); add(3); add(4);
+		}};
+		
+		ArrayList<Integer> t2 = new ArrayList<Integer>() {{
+			add(1); add(3); add(4); add(5);
+		}};
+		
+		Itemset itemset1 = new Itemset(t1);
+		Itemset itemset2 = new Itemset(t2);
+		
+		List<Rule> rules1 = itemset1.generateAllRules();
+		List<Rule> rules2 = itemset2.generateAllRules();
+		
+		System.out.println("Rules from itemset1");
+		for(Rule rule : rules1)
+			System.out.println(rule.toString());
+		
+		System.out.println("Rules from itemset2");
+		for(Rule rule : rules2)
+			System.out.println(rule.toString());
+		
 	}
 }
