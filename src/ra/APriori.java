@@ -44,21 +44,20 @@ public class APriori {
 		Set<Integer> items = new HashSet<Integer>();
 		for(Transaction transaction: this.transactions) {
 			for(int item: transaction.getItems()) {
-				if(Transaction.frequency(transactions, item) >= minSupport)
-					items.add(item);
+				items.add(item);
+			}
+		}
+
+		List<Itemset> itemsets = new ArrayList<Itemset>();
+		for(int item: items) {
+			Itemset itemset = new Itemset();
+			itemset.add(item);
+			if(itemset.calcSupport(this.transactions) >= minSupport) {
+				itemsets.add(itemset);
 			}
 		}
 		
-		List<Itemset> itemset = new ArrayList<Itemset>();
-		for(final int item: items) {
-			@SuppressWarnings("serial")
-			ArrayList<Integer> itemList = new ArrayList<Integer>() {{
-				add(item);
-			}};
-			itemset.add(new Itemset(itemList));
-		}
-		
-		this.itemsets.add(itemset);
+		this.itemsets.add(itemsets);
 	}
 	
 	/**
