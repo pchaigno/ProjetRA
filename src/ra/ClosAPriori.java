@@ -18,11 +18,14 @@ public class ClosAPriori extends APriori {
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
 			for(Itemset itemset: this.itemsets.get(i)) {
 				double support = itemset.calcSupport(this.transactions);
-				for(Itemset filsItemset: this.itemsets.get(i-1)){
+				ArrayList<Itemset> removeList = new ArrayList<>();
+				for(Itemset filsItemset: this.itemsets.get(i-1))
 					// Si l'itemset de rang i-1 est inclus dans l'interset de rang i et son support est egal au support de son pere
 					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support)
-						this.itemsets.get(i-1).remove(filsItemset);
-				}
+						removeList.add(filsItemset);	
+				
+				for(Itemset toRemove: removeList)
+					this.itemsets.get(i-1).remove(toRemove);
 			}
 		}
 
@@ -64,7 +67,7 @@ public class ClosAPriori extends APriori {
 			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); }}));
 		 */
 		
-		APriori apriori = new MaxAPriori(transactions);
+		APriori apriori = new ClosAPriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println((i+1)+"-itemsets:");
