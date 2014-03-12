@@ -82,8 +82,8 @@ public class APriori {
 			for(int j=i+1; j<itemsets.size(); j++) {
 				List<Itemset> someItemsetsK1 = itemsets.get(i).calcItemsetsK1(itemsets.get(j));
 				for(Itemset itemsetK1: someItemsetsK1) {
-					if(itemsetK1.calcSupport(this.transactions) >= minSupport) {
-						if(allSubItemsetsFrequent(itemsets, itemsetK1)) {
+					if(allSubItemsetsFrequent(itemsets, itemsetK1)) {
+						if(itemsetK1.calcSupport(this.transactions) >= minSupport) {
 							itemsetsK1.add(itemsetK1);
 						}
 					}

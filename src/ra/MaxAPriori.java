@@ -48,8 +48,8 @@ public class MaxAPriori extends APriori {
 				boolean maximal = true;
 				List<Itemset> someItemsetsK1 = kItemsets.get(i).calcItemsetsK1(kItemsets.get(j));
 				for(Itemset itemsetK1: someItemsetsK1) {
-					if(itemsetK1.calcSupport(this.transactions) >= minSupport) {
-						if(allSubItemsetsFrequent(kItemsets, itemsetK1)) {
+					if(allSubItemsetsFrequent(kItemsets, itemsetK1)) {
+						if(itemsetK1.calcSupport(this.transactions) >= minSupport) {
 							itemsetsK1.add(itemsetK1);
 							maximal = false;
 						}
