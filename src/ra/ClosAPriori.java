@@ -18,7 +18,7 @@ public class ClosAPriori extends APriori {
 			for(Itemset itemset: this.itemsets.get(i)) {
 				double support = itemset.calcSupport(this.transactions);
 				for(Itemset filsItemset: this.itemsets.get(i-1)){
-					// Si l'itemset de rang i-1 est inclus dans l'interset de rang i et son support est egal au spport de son pere
+					// Si l'itemset de rang i-1 est inclus dans l'interset de rang i et son support est egal au support de son pere
 					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support)
 						this.itemsets.get(i-1).remove(filsItemset);
 				}
