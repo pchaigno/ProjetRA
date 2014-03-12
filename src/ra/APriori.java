@@ -38,7 +38,6 @@ public class APriori {
 	}
 	
 	/**
-	 * TODO : this method is wrong (cf lesson) --> you have to check support
 	 * Computes the 1-itemsets from the transactions.
 	 */
 	private void init1Itemset(double minSupport) {
