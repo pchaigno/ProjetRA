@@ -1,5 +1,6 @@
 package ra;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClosAPriori extends APriori {
@@ -26,5 +27,51 @@ public class ClosAPriori extends APriori {
 		}
 
 		return this.itemsets;
+	}
+	
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("serial")
+	public static void main(String[] args) {
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		List<Integer> t1 = new ArrayList<Integer>() {{
+			add(1); add(3); add(4);
+		}};
+		transactions.add(new Transaction(t1));
+		List<Integer> t2 = new ArrayList<Integer>() {{
+			add(2); add(3); add(5);
+		}};
+		transactions.add(new Transaction(t2));
+		List<Integer> t3 = new ArrayList<Integer>() {{
+			add(1); add(2); add(3); add(5);
+		}};
+		transactions.add(new Transaction(t3));
+		List<Integer> t4 = new ArrayList<Integer>() {{
+			add(2); add(5);
+		}};
+		transactions.add(new Transaction(t4));
+		/*
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(3); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(4); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); add(4); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); add(4); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(3); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); }}));
+			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); }}));
+		 */
+		
+		APriori apriori = new MaxAPriori(transactions);
+		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
+		for(int i=0; i<itemsets.size(); i++) {
+			System.out.println((i+1)+"-itemsets:");
+			for(Itemset itemset: itemsets.get(i)) {
+				System.out.println(itemset);
+			}
+			System.out.println();
+		}
 	}
 }
