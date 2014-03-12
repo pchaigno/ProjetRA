@@ -27,7 +27,6 @@ public class MaxAPriori extends APriori {
 	}
 
 
-
 	/**
 	 * @param args
 	 */

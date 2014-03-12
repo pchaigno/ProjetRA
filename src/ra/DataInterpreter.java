@@ -20,14 +20,23 @@ public class DataInterpreter {
 	public List<Transaction> interpret(File data) throws IOException {
 		List<Transaction> res = new ArrayList<Transaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
-		String line = "";
+		String line = in.readLine();
+		List<Attribute> attributes = initAttributes(line);
+		System.out.println(attributes);
 		while((line = in.readLine()) != null) {
 			
 		}
 		return res;
 	}
 	
-	//public List<Attributes> getAttributes()
+	//TODO : revoir les separateur
+	public List<Attribute> initAttributes(String attributes) {
+		List<Attribute> res = new ArrayList<Attribute>();
+		String[] table = attributes.split("\b\t");
+		for(int i = 0 ; i < table.length ; i++)
+			res.add(new Attribute(table[i]));
+		return res;
+	}
 	
 	public static void main(String[] args) {
 		File abs = new File("");
