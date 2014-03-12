@@ -9,15 +9,11 @@ import ra.Itemset;
 import ra.Transaction;
 
 public class TestClosApriori extends TestAPriori {
-	@Override
-	protected APriori makeAPriori(List<Transaction> transactions) {
-		return new ClosAPriori(transactions);
-	}
 
 	@Override
 	public void testAPriori() {
 		List<Transaction> transactions = getTransactions();
-		APriori apriori = makeAPriori(transactions);
+		APriori apriori = new ClosAPriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		Assert.assertEquals(3, itemsets.size());
 		

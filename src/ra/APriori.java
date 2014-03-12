@@ -66,7 +66,6 @@ public class APriori {
 	 * @param minSupport The minimum support to keep a k+1-itemset.
 	 * @return The k+1-itemsets.
 	 */
-	 
 	 /**
 	  * decomposer en : 
 	  * 1)generate candidates of size k+1 from k itemsets
@@ -77,7 +76,7 @@ public class APriori {
 	  * 			increment support
 	  * 4)Keep only itemsets with minimum support
 	  */
-	private List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
+	protected List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
 		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		for(int i=0; i<itemsets.size(); i++) {
 			for(int j=i+1; j<itemsets.size(); j++) {
@@ -100,7 +99,7 @@ public class APriori {
 	 * @param itemset The k+1-itemsets.
 	 * @return True if all k-itemsets of the k+1-itemsets are frequent.
 	 */
-	private static boolean allSubItemsetsFrequent(List<Itemset> itemsets, Itemset itemset) {
+	protected static boolean allSubItemsetsFrequent(List<Itemset> itemsets, Itemset itemset) {
 		List<Itemset> subItemsets = itemset.calcSubItemsets();
 		for(Itemset subItemset: subItemsets) {
 			if(!itemsets.contains(subItemset)) {
