@@ -1,7 +1,9 @@
 package ra;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Itemset {
 	private ArrayList<Integer> data;
@@ -153,6 +155,10 @@ public class Itemset {
 		return res;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Rule> generateAllRules() {
 		List<Rule> rules = new ArrayList<Rule>();
 		
@@ -169,6 +175,22 @@ public class Itemset {
 		}
 		
 		return rules;
+	}
+	
+	public List<Integer> getItems() {
+		return this.data;
+	}
+	
+	/**
+	 * 
+	 */
+	public Itemset getUnion(Itemset itemset) {
+		Set<Integer> result = new HashSet<Integer>();
+
+        result.addAll(this.data);
+        result.addAll(itemset.getItems());
+
+        return new Itemset(new ArrayList<Integer>(result));
 	}
 	
 	@Override
@@ -233,6 +255,11 @@ public class Itemset {
 		System.out.println("Rules from itemset2");
 		for(Rule rule : rules2)
 			System.out.println(rule.toString());
+		
+		Itemset itemset3 = itemset1.getUnion(itemset2);
+		System.out.println("Union of itemset1 and itemset2");
+		System.out.println(itemset3.toString());
+		
 		
 	}
 }

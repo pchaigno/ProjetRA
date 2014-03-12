@@ -8,7 +8,7 @@ import java.util.Set;
 public class APriori {
 	protected List<Transaction> transactions;
 	protected List<List<Itemset>> itemsets;
-	
+
 	/**
 	 * Constructor
 	 * @param transactions The transactions.
@@ -17,7 +17,7 @@ public class APriori {
 		this.transactions = transactions;
 		this.itemsets = new ArrayList<List<Itemset>>();
 	}
-	
+
 	/**
 	 * A Priori algorithm to compute the k-itemsets.
 	 * @param minSupport The minimum support to keep an itemset.
@@ -36,7 +36,7 @@ public class APriori {
 		}
 		return this.itemsets;
 	}
-	
+
 	/**
 	 * TODO : this method is wrong (cf lesson) --> you have to check support
 	 * Computes the 1-itemsets from the transactions.
@@ -49,7 +49,7 @@ public class APriori {
 					items.add(item);
 			}
 		}
-		
+
 		List<Itemset> itemset = new ArrayList<Itemset>();
 		for(final int item: items) {
 			@SuppressWarnings("serial")
@@ -58,27 +58,27 @@ public class APriori {
 			}};
 			itemset.add(new Itemset(itemList));
 		}
-		
+
 		this.itemsets.add(itemset);
 	}
-	
+
 	/**
 	 * Computes the k+1-itemsets from the k-itemsets.
 	 * @param itemsets The k-itemsets.
 	 * @param minSupport The minimum support to keep a k+1-itemset.
 	 * @return The k+1-itemsets.
 	 */
-	 
-	 /**
-	  * decomposer en : 
-	  * 1)generate candidates of size k+1 from k itemsets
-	  * 2)Check that all subsets of each candidate are frequent. If not, delete candidate
-	  * 3)Go through database and count support :
-	  * 	for each data row
-	  * 		if candidate in data row
-	  * 			increment support
-	  * 4)Keep only itemsets with minimum support
-	  */
+
+	/**
+	 * decomposer en : 
+	 * 1)generate candidates of size k+1 from k itemsets
+	 * 2)Check that all subsets of each candidate are frequent. If not, delete candidate
+	 * 3)Go through database and count support :
+	 * 	for each data row
+	 * 		if candidate in data row
+	 * 			increment support
+	 * 4)Keep only itemsets with minimum support
+	 */
 	private List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
 		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		for(int i=0; i<itemsets.size(); i++) {
@@ -95,7 +95,7 @@ public class APriori {
 		}
 		return itemsetsK1;
 	}
-	
+
 	/**
 	 * Checks that all k-itemsets of a k+1-itemset are frequent.
 	 * @param itemsets The k-itemsets.
@@ -115,17 +115,24 @@ public class APriori {
 		}
 		return true;
 	}
-	
-	private List<Rule> generateRules(double minConfidence) {
-		
+
+	public List<Rule> generateRules(double minConfidence) {
+		List<Rule> filteredRules = new ArrayList<Rule>();
+
+		// generate every possible rule for each itemset
+		// compute confidence for each one and add it if greater than minConfidence
 		for(List<Itemset> setOfItemset : itemsets) {
 			for(Itemset itemset : setOfItemset) {
-				// generate every possible rule for each itemset
-				// compute confidence for each one and add it if greater than minConfidence
+				if(itemset.size() >= 2) {
+					for(Rule rule : itemset.generateAllRules()) {
+						if(rule.getConfidence(transactions) >= minConfidence)
+							filteredRules.add(rule);
+					}
+				}
 			}
 		}
-		
-		return null;
+
+		return filteredRules;
 	}
 
 	/**
@@ -151,7 +158,7 @@ public class APriori {
 			add(2); add(5);
 		}};
 		transactions.add(new Transaction(t4));
-		
+
 		APriori apriori = new APriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		for(int i=0; i<itemsets.size(); i++) {
@@ -161,5 +168,8 @@ public class APriori {
 			}
 			System.out.println();
 		}
+
+		for(Rule rule : apriori.generateRules(0.8))
+			System.out.println(rule.toString());
 	}
 }
