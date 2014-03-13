@@ -3,7 +3,7 @@ package ra.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.algo.Itemset;
+import ra.algo.AbstractItemset;
 
 public abstract class AbstractTransaction<T> {
 
@@ -33,7 +33,7 @@ public abstract class AbstractTransaction<T> {
 	 * @param itemset The itemset.
 	 * @return True if it is.
 	 */
-	public boolean contains(Itemset itemset) {
+	public boolean contains(AbstractItemset<T> itemset) {
 		for(int i=0; i<itemset.size(); i++) {
 			if(!this.data.contains(itemset.get(i))) {
 				return false;

@@ -3,11 +3,12 @@ package ra.algo;
 import java.util.ArrayList;
 import java.util.List;
 
+import ra.data.AbstractTransaction;
 import ra.data.Transaction;
 
 public abstract class AbstractItemset<T> {
 
-	private ArrayList<T> data;
+	protected ArrayList<T> data;
 	
 	/**
 	 * Empty constructor
@@ -66,19 +67,18 @@ public abstract class AbstractItemset<T> {
 		return new Itemset(base);
 	}*/
 	
-	//TODO : corriger
 	/**
 	 * Computes the support of the itemset on some transactions.
 	 * @param transactions The transactions.
 	 * @return The support.
 	 */
-	public double calcSupport(List<Transaction> transactions) {
-		double support = 0;/*
-		for(Transaction transaction: transactions) {
+	public double calcSupport(List<? extends AbstractTransaction<T>> transactions) {
+		double support = 0;
+		for(AbstractTransaction<T> transaction: transactions) {
 			if(transaction.contains(this)) {
 				support++;
 			}
-		}*/
+		}
 		return support / transactions.size();
 	}
 	
@@ -100,44 +100,18 @@ public abstract class AbstractItemset<T> {
 		return true;
 	}
 	
-	//TODO : corriger
 	/**
 	 * Computes the k+1-itemsets from a k-itemset.
 	 * @param itemset The itemset.
 	 * @return The k+1-itemsets.
 	 */
-	public List<AbstractItemset<T>> calcItemsetsK1(AbstractItemset<T> itemset) {
-		List<AbstractItemset<T>> itemsetsK1 = new ArrayList<AbstractItemset<T>>();
-		if(this.commonBase(itemset)) {
-			AbstractItemset<T> base = this.getBase();
-			T a = this.get(this.size()-1);
-			T b = itemset.get(itemset.size()-1); /*
-			if(a < b) {
-				base.add(a);
-				base.add(b);
-			} else {
-				base.add(b);
-				base.add(a);
-			}
-			itemsetsK1.add(base);*/
-		}
-		return itemsetsK1;
-	}
+	public abstract List<? extends AbstractItemset<T>> calcItemsetsK1(AbstractItemset<T> itemset);
 	
-	//TODO : corriger
 	/**
 	 * Computes the k-itemsets from a k+1-itemset.
 	 * @return The k-itemsets.
 	 */
-	public ArrayList<AbstractItemset<T>> calcSubItemsets() {
-		ArrayList<AbstractItemset<T>> subItemsets = new ArrayList<AbstractItemset<T>>();/*
-		for(int i=0; i<this.size(); i++) {
-			AbstractItemset<T> subItemset = this.clone();
-			subItemset.data.remove(i);
-			subItemsets.add(subItemset);
-		}*/
-		return subItemsets;
-	}
+	public abstract ArrayList<? extends AbstractItemset<T>> calcSubItemsets();
 	
 	/**
 	 * finds out if the current k-itemset is included in a k+1-itemset
@@ -182,7 +156,7 @@ public abstract class AbstractItemset<T> {
 	public String toString() {
 		String result = "Itemset: ";
 		for(T item: this.data) {
-			result += item+" ";
+			result += item.toString() +" ";
 		}
 		return result;
 	}
