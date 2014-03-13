@@ -9,21 +9,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import ra.exception.DifferentSizeException;
+
 public class DataInterpreter {
+	
+	public static final String TXT_SEPARATOR = "[\\s\\t]+";
 	
 	/**
 	 * Computes the transaction list referring to some data
 	 * @param data File in which the data are stored
 	 * @return initial transactions
 	 * @throws IOException fail if the file cannot be read
+	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public List<Transaction> interpret(File data) throws IOException {
-		List<Transaction> res = new ArrayList<Transaction>();
+	public List<SymbolicTransaction> interpret(File data) throws IOException, DifferentSizeException {
+		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
 		List<Attribute> attributes = initAttributes(line);
 		while((line = in.readLine()) != null) {
-			
+			String[] values = line.split(TXT_SEPARATOR);
+			SymbolicTransaction t = new SymbolicTransaction(attributes, values);
+			res.add(t);
 		}
 		return res;
 	}
@@ -35,7 +42,7 @@ public class DataInterpreter {
 	 */
 	public List<Attribute> initAttributes(String attributes) {
 		List<Attribute> res = new ArrayList<Attribute>();
-		String[] table = attributes.split("[\\s\\t]+");
+		String[] table = attributes.split(TXT_SEPARATOR);
 		for(int i = 0 ; i < table.length ; i++)
 			res.add(new Attribute(table[i]));
 		return res;
@@ -51,11 +58,14 @@ public class DataInterpreter {
 		System.out.println(path);
 		DataInterpreter di = new DataInterpreter();
 		File data  = new File(path + "/res/tickets_de_caisse.txt");
+		List<SymbolicTransaction> transactions = null;
 		try {
-			di.interpret(data);
-		} catch (IOException e) {
+			transactions = di.interpret(data);
+		} catch (IOException | DifferentSizeException e) {
 			e.printStackTrace();
 		}
+		System.out.println(transactions);
+		System.out.println(transactions.size());
 	}
 
 }

@@ -19,14 +19,14 @@ public class SymbolicTransaction {
 	 * @param values list of values of given attributes
 	 * @throws DifferentSizeException if the two lists have not the same size
 	 */
-	public SymbolicTransaction(List<Attribute> attributes, List<String> values) 
+	public SymbolicTransaction(List<Attribute> attributes, String[] values) 
 			throws DifferentSizeException{
-		if(attributes.size() != values.size())
+		if(attributes.size() != values.length)
 			throw new DifferentSizeException();
 		this.data = new HashMap<Attribute, String>();
 		for(int i = 0 ; i < attributes.size() ; i++) {
 			Attribute a = attributes.get(i);
-			String s = values.get(i);
+			String s = values[i];
 			a.add(s);
 			data.put(a, s);
 		}
@@ -37,6 +37,11 @@ public class SymbolicTransaction {
 	 */
 	public Map<Attribute, String> getItems() {
 		return this.data;
+	}
+
+	@Override
+	public String toString() {
+		return "SymbolicTransaction [data=" + data + "]";
 	}
 	
 	/**
@@ -53,4 +58,6 @@ public class SymbolicTransaction {
 		return true;
 	}
 	*/
+	
+	
 }
