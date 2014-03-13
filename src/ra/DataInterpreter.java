@@ -22,20 +22,27 @@ public class DataInterpreter {
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
 		List<Attribute> attributes = initAttributes(line);
-		System.out.println(attributes);
 		while((line = in.readLine()) != null) {
 			
 		}
 		return res;
 	}
 	
-	//TODO : revoir les separateur
+	/**
+	 * Initialize the list of attributes with their denomination only
+	 * @param attributes attributes as a string and separated by blanks
+	 * @return the initialized list of attributes
+	 */
 	public List<Attribute> initAttributes(String attributes) {
 		List<Attribute> res = new ArrayList<Attribute>();
-		String[] table = attributes.split("\b\t");
+		String[] table = attributes.split("[\\s\\t]+");
 		for(int i = 0 ; i < table.length ; i++)
 			res.add(new Attribute(table[i]));
 		return res;
+	}
+	
+	public void enrich(List<Attribute> la, String transaction) {
+		
 	}
 	
 	public static void main(String[] args) {
