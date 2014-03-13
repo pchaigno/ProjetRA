@@ -2,9 +2,7 @@ package ra.data;
 
 import java.util.List;
 
-import ra.exception.DifferentSizeException;
-
-public class SymbolicTransaction extends AbstractTransaction<Attribute> {
+public class SymbolicTransaction extends AbstractTransaction<String> {
 	
 	/**
 	 * Constructor
@@ -12,18 +10,17 @@ public class SymbolicTransaction extends AbstractTransaction<Attribute> {
 	 * the value is included in the domain
 	 * @param attributes list of attributes
 	 * @param values list of values of given attributes
-	 * @throws DifferentSizeException if the two lists have not the same size
+	 * @throws IllegalArgumentException if the two lists have not the same size
 	 */
 	public SymbolicTransaction(List<Attribute> attributes, String[] values) 
-			throws DifferentSizeException{
+			throws IllegalArgumentException{
 		super();
 		if(attributes.size() != values.length)
-			throw new DifferentSizeException();
+			throw new IllegalArgumentException("the number of attributes and the number of values id different");
 		for(int i = 0 ; i < attributes.size() ; i++) {
 			Attribute a = attributes.get(i);
 			String s = values[i];
-			a.setValue(this, s);
-			data.add(a);
+			data.add(a + "=" + s);
 		}
 	}
 

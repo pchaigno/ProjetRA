@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import ra.exception.DifferentSizeException;
 
 public class DataInterpreter {
 	
@@ -22,7 +18,7 @@ public class DataInterpreter {
 	 * @throws IOException fail if the file cannot be read
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public List<SymbolicTransaction> interpret(File data) throws IOException, DifferentSizeException {
+	public List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
 		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
@@ -61,7 +57,7 @@ public class DataInterpreter {
 		List<SymbolicTransaction> transactions = null;
 		try {
 			transactions = di.interpret(data);
-		} catch (IOException | DifferentSizeException e) {
+		} catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		System.out.println(transactions);
