@@ -3,10 +3,10 @@ package tests;
 import java.util.List;
 
 import junit.framework.Assert;
-import ra.APriori;
-import ra.ClosAPriori;
-import ra.Itemset;
-import ra.Transaction;
+import ra.algo.APriori;
+import ra.algo.ClosAPriori;
+import ra.algo.Itemset;
+import ra.data.Transaction;
 
 public class TestClosApriori extends TestAPriori {
 

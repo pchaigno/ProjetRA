@@ -4,10 +4,10 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import ra.APriori;
-import ra.Itemset;
-import ra.MaxAPriori;
-import ra.Transaction;
+import ra.algo.APriori;
+import ra.algo.Itemset;
+import ra.algo.MaxAPriori;
+import ra.data.Transaction;
 
 public class TestMaxAPriori extends TestAPriori {
 

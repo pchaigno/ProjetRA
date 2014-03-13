@@ -5,9 +5,9 @@ import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import ra.APriori;
-import ra.Itemset;
-import ra.Transaction;
+import ra.algo.APriori;
+import ra.algo.Itemset;
+import ra.data.Transaction;
 
 public class TestAPriori extends TestCase {
 

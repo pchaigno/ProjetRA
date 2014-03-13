@@ -3,8 +3,8 @@ package tests;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.Itemset;
-import ra.Transaction;
+import ra.algo.Itemset;
+import ra.data.Transaction;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
