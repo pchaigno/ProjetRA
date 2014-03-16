@@ -2,8 +2,6 @@ package ra.data;
 
 import java.util.List;
 
-import ra.algo.Itemset;
-
 public class Transaction extends AbstractTransaction<Integer> {
 	
 	/**
