@@ -35,5 +35,4 @@ public class Attribute {
 	public String toString() {
 		return name;
 	}
-	
 }

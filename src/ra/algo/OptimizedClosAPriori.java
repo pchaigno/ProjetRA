@@ -13,18 +13,18 @@ public class OptimizedClosAPriori extends APriori {
 
 	@Override
 	public List<List<Itemset>> aPriori(double minSupport) {
-		// Mise a jour de l'attribut itemsets
+		// Update the itemsets.
 		super.aPriori(minSupport);
 		
 		ArrayList<ArrayList<Double>> supports = new ArrayList<>();
-		// Calcul des supports
+		// Compute supports:
 		for(int i = 0 ; i < this.itemsets.size() ; i++) {
 			supports.add(new ArrayList<Double>());
 			for(int j = 0 ; j < this.itemsets.get(i).size() ; j++)
 				supports.get(i).add(this.itemsets.get(i).get(j).calcSupport(this.transactions));
 		}
 		
-		// Parcours des itemsets par rang
+		// Iterates on itemsets by ranks:
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
 			for(int j = 0 ; j < this.itemsets.get(i).size() ; j++) {
 				Itemset itemset = this.itemsets.get(i).get(j);

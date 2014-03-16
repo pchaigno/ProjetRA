@@ -103,5 +103,4 @@ public class MaxAPriori extends APriori {
 			System.out.println();
 		}
 	}
-
 }

@@ -11,5 +11,4 @@ public class Transaction extends AbstractTransaction<Integer> {
 	public Transaction(List<Integer> transaction) {
 		super(transaction);
 	}
-	
 }

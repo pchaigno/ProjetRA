@@ -13,16 +13,16 @@ public class ClosAPriori extends APriori {
 	
 	@Override
 	public List<List<Itemset>> aPriori(double minSupport) {
-		// Mise a jour de l'attribut itemsets
+		// Updates the itemsets.
 		super.aPriori(minSupport);
 		
-		// Parcours des itemsets par rang
+		// Iterates on itemsets by ranks:
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
 			for(Itemset itemset: this.itemsets.get(i)) {
 				double support = itemset.calcSupport(this.transactions);
 				ArrayList<Itemset> removeList = new ArrayList<>();
 				for(Itemset filsItemset: this.itemsets.get(i-1))
-					// Si l'itemset de rang i-1 est inclus dans l'interset de rang i et son support est egal au support de son pere
+					// If the k-1-itemset is included in the k-itemset and his support is equal to his father's support:
 					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support)
 						removeList.add(filsItemset);	
 				

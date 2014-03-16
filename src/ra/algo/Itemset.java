@@ -3,9 +3,6 @@ package ra.algo;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.data.AbstractTransaction;
-import ra.data.Transaction;
-
 public class Itemset extends AbstractItemset<Integer> {
 	
 	/**
@@ -67,5 +64,4 @@ public class Itemset extends AbstractItemset<Integer> {
 		}
 		return subItemsets;
 	}
-	
 }

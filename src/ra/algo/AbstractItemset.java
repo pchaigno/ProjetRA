@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ra.data.AbstractTransaction;
-import ra.data.Transaction;
 
 public abstract class AbstractItemset<T> {
 
@@ -160,5 +159,4 @@ public abstract class AbstractItemset<T> {
 		}
 		return result;
 	}
-	
 }

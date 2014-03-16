@@ -47,5 +47,4 @@ public class Attribute {
 	public void setValue(Object o, String value) {
 		values.put(o, value);
 	}
-	
 }

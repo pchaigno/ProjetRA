@@ -65,5 +65,4 @@ public class SymbolicItemset extends AbstractItemset<String> {
 		}
 		return subItemsets;
 	}
-
 }

@@ -10,22 +10,22 @@ public class ClosAPriori extends APriori {
 	}
 	
 	/**
-	 * Algorithme de recuperation des itemsets clos
-	 * @param minSupport valeur minimum du support
-	 * @return liste d'itemsets classés par rang
+	 * Algoritm to retrieve the closed itemsets.
+	 * @param minSupport Minimum support.
+	 * @return List of itemsets ordered by ranks.
 	 */
 	@Override
 	public List<List<Itemset>> aPriori(double minSupport) {
-		// Mise a jour de l'attribut itemsets
+		// Updates the itemsets.
 		super.aPriori(minSupport);
 		
-		// Parcours des itemsets par rang
+		// Iterates on the itemsets by rans:
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
 			for(Itemset itemset: this.itemsets.get(i)) {
 				double support = itemset.calcSupport(this.transactions);
 				ArrayList<Itemset> removeList = new ArrayList<>();
 				for(Itemset filsItemset: this.itemsets.get(i-1))
-					// Si l'itemset de rang i-1 est inclus dans l'interset de rang i et son support est egal au support de son pere
+					// If the k-1-itemset is included in the k-itemset and his support is equal to his father's support:
 					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support)
 						removeList.add(filsItemset);	
 				
@@ -38,24 +38,24 @@ public class ClosAPriori extends APriori {
 	}
 	
 	/**
-	 * Version optimisee de l'algorithme de recuperation des itemsets clos
-	 * La specificite de cet algorithme est le staockage des calculs deja realises
-	 * @param minSupport valeur minimum du support
-	 * @return liste d'itemsets classés par rang
+	 * Optimized version of the algorithm to retrieve the closed itemsets.
+	 * Values computed are stored to avoid repeated calculations.
+	 * @param minSupport Minimum support.
+	 * @return List fo itemsets ordered by ranks.
 	 */
 	public List<List<Itemset>> OptimizedAPriori(double minSupport) {
-		// Mise a jour de l'attribut itemsets
+		// Updates the itemsets.
 		super.aPriori(minSupport);
 		
 		ArrayList<ArrayList<Double>> supports = new ArrayList<>();
-		// Calcul des supports
+		// Compute supports:
 		for(int i = 0 ; i < this.itemsets.size() ; i++) {
 			supports.add(new ArrayList<Double>());
 			for(int j = 0 ; j < this.itemsets.get(i).size() ; j++)
 				supports.get(i).add(this.itemsets.get(i).get(j).calcSupport(this.transactions));
 		}
 		
-		// Parcours des itemsets par rang
+		// Iterates on itemsets by ranks:
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
 			for(int j = 0 ; j < this.itemsets.get(i).size() ; j++) {
 				Itemset itemset = this.itemsets.get(i).get(j);

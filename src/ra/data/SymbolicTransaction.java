@@ -28,5 +28,4 @@ public class SymbolicTransaction extends AbstractTransaction<String> {
 	public String toString() {
 		return "SymbolicTransaction [data=" + data + "]";
 	}
-	
 }

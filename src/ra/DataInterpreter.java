@@ -15,7 +15,7 @@ public class DataInterpreter {
 	 * @return initial transactions
 	 * @throws IOException fail if the file cannot be read
 	 */
-	public List<Transaction> interpret(File data) throws IOException {
+	public static List<Transaction> interpret(File data) throws IOException {
 		List<Transaction> res = new ArrayList<Transaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
@@ -23,6 +23,7 @@ public class DataInterpreter {
 		while((line = in.readLine()) != null) {
 			
 		}
+		in.close();
 		return res;
 	}
 	
@@ -31,7 +32,7 @@ public class DataInterpreter {
 	 * @param attributes attributes as a string and separated by blanks
 	 * @return the initialized list of attributes
 	 */
-	public List<Attribute> initAttributes(String attributes) {
+	public static List<Attribute> initAttributes(String attributes) {
 		List<Attribute> res = new ArrayList<Attribute>();
 		String[] table = attributes.split("[\\s\\t]+");
 		for(int i = 0 ; i < table.length ; i++)
@@ -47,10 +48,9 @@ public class DataInterpreter {
 		File abs = new File("");
 		String path = abs.getAbsolutePath();
 		System.out.println(path);
-		DataInterpreter di = new DataInterpreter();
 		File data  = new File(path + "/res/tickets_de_caisse.txt");
 		try {
-			di.interpret(data);
+			DataInterpreter.interpret(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

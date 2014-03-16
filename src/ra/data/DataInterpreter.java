@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataInterpreter {
-	
 	public static final String TXT_SEPARATOR = "[\\s\\t]+";
 	
 	/**
@@ -18,7 +17,7 @@ public class DataInterpreter {
 	 * @throws IOException fail if the file cannot be read
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
+	public static List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
 		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
@@ -28,6 +27,7 @@ public class DataInterpreter {
 			SymbolicTransaction t = new SymbolicTransaction(attributes, values);
 			res.add(t);
 		}
+		in.close();
 		return res;
 	}
 	
@@ -36,7 +36,7 @@ public class DataInterpreter {
 	 * @param attributes attributes as a string and separated by blanks
 	 * @return the initialized list of attributes
 	 */
-	public List<Attribute> initAttributes(String attributes) {
+	public static List<Attribute> initAttributes(String attributes) {
 		List<Attribute> res = new ArrayList<Attribute>();
 		String[] table = attributes.split(TXT_SEPARATOR);
 		for(int i = 0 ; i < table.length ; i++)
@@ -52,16 +52,14 @@ public class DataInterpreter {
 		File abs = new File("");
 		String path = abs.getAbsolutePath();
 		System.out.println(path);
-		DataInterpreter di = new DataInterpreter();
 		File data  = new File(path + "/res/tickets_de_caisse.txt");
 		List<SymbolicTransaction> transactions = null;
 		try {
-			transactions = di.interpret(data);
+			transactions = DataInterpreter.interpret(data);
 		} catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		System.out.println(transactions);
 		System.out.println(transactions.size());
 	}
-
 }
