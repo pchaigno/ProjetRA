@@ -7,17 +7,14 @@ import java.util.Set;
 
 import ra.data.Transaction;
 
-public class APriori {
-	protected List<Transaction> transactions;
-	protected List<List<Itemset>> itemsets;
+public class APriori extends AbstractAPriori<Transaction, Itemset>{
 	
 	/**
 	 * Constructor
 	 * @param transactions The transactions.
 	 */
 	public APriori(List<Transaction> transactions) {
-		this.transactions = transactions;
-		this.itemsets = new ArrayList<List<Itemset>>();
+		super(transactions);
 	}
 	
 	/**
@@ -42,7 +39,7 @@ public class APriori {
 	/**
 	 * Computes the 1-itemsets from the transactions.
 	 */
-	private void init1Itemset(double minSupport) {
+	protected void init1Itemset(double minSupport) {
 		Set<Integer> items = new HashSet<Integer>();
 		for(Transaction transaction: this.transactions) {
 			for(int item: transaction.getItems()) {
@@ -106,7 +103,7 @@ public class APriori {
 		for(Itemset subItemset: subItemsets) {
 			if(!itemsets.contains(subItemset)) {
 				System.out.println("search: "+subItemset);
-				for(Itemset s: subItemsets) {
+				for(AbstractItemset<Integer> s: subItemsets) {
 					System.out.println(s);
 				}
 				return false;
@@ -114,7 +111,7 @@ public class APriori {
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Tests
 	 * @param args

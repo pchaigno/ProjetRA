@@ -110,7 +110,7 @@ public abstract class AbstractItemset<T> {
 	 * Computes the k-itemsets from a k+1-itemset.
 	 * @return The k-itemsets.
 	 */
-	public abstract ArrayList<? extends AbstractItemset<T>> calcSubItemsets();
+	public abstract List<? extends AbstractItemset<T>> calcSubItemsets();
 	
 	/**
 	 * finds out if the current k-itemset is included in a k+1-itemset

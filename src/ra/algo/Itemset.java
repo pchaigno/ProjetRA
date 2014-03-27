@@ -55,7 +55,7 @@ public class Itemset extends AbstractItemset<Integer> {
 	}
 	
 	@Override
-	public ArrayList<Itemset> calcSubItemsets() {
+	public List<Itemset> calcSubItemsets() {
 		ArrayList<Itemset> subItemsets = new ArrayList<Itemset>();
 		for(int i=0; i<this.size(); i++) {
 			Itemset subItemset = this.clone();
