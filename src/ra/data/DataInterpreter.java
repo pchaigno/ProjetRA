@@ -17,7 +17,7 @@ public class DataInterpreter {
 	 * @throws IOException fail if the file cannot be read
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public static List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
+	public List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
 		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
@@ -37,12 +37,13 @@ public class DataInterpreter {
 	
 	public static void main(String[] args) {
 		File abs = new File("");
+		DataInterpreter di = new DataInterpreter();
 		String path = abs.getAbsolutePath();
 		System.out.println(path);
 		File data  = new File(path + "/res/tickets_de_caisse.txt");
 		List<SymbolicTransaction> transactions = null;
 		try {
-			transactions = DataInterpreter.interpret(data);
+			transactions = di.interpret(data);
 		} catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
