@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.Assert;
+import ra.algo.APriori;
 import ra.data.DataInterpreter;
 import ra.data.SymbolicTransaction;
 
@@ -13,7 +13,7 @@ import ra.data.SymbolicTransaction;
  * @author gwlemoul
  * 
  * Main program
- * usage : java Main source_file
+ * usage : java Main <source_file> <support>
  */
 public class Main {
 
@@ -40,6 +40,10 @@ public class Main {
 				e.printStackTrace();
 			}
 			
+			
+			if(transactions != null) {
+				//APriori apriori = new APriori(transactions);
+			}
 			
 		}
 	}
