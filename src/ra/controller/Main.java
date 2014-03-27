@@ -32,12 +32,15 @@ public class Main {
 			File srcFile = new File(path + "/" + source);
 			List<SymbolicTransaction> transactions = null;
 			
+			//Data interpretation
 			try {
 				transactions =  di.interpret(srcFile);
 			} catch (IllegalArgumentException | IOException e) {
 				System.out.println("The indicated file cannot be read");
 				e.printStackTrace();
 			}
+			
+			
 		}
 	}
 }
