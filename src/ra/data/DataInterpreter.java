@@ -21,26 +21,13 @@ public class DataInterpreter {
 		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
-		List<Attribute> attributes = initAttributes(line);
+		String[] attributes = line.split(TXT_SEPARATOR);
 		while((line = in.readLine()) != null) {
 			String[] values = line.split(TXT_SEPARATOR);
 			SymbolicTransaction t = new SymbolicTransaction(attributes, values);
 			res.add(t);
 		}
 		in.close();
-		return res;
-	}
-	
-	/**
-	 * Initialize the list of attributes with their denomination only
-	 * @param attributes attributes as a string and separated by blanks
-	 * @return the initialized list of attributes
-	 */
-	public static List<Attribute> initAttributes(String attributes) {
-		List<Attribute> res = new ArrayList<Attribute>();
-		String[] table = attributes.split(TXT_SEPARATOR);
-		for(int i = 0 ; i < table.length ; i++)
-			res.add(new Attribute(table[i]));
 		return res;
 	}
 	

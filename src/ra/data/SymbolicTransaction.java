@@ -1,8 +1,7 @@
 package ra.data;
 
-import java.util.List;
 
-public class SymbolicTransaction extends AbstractTransaction<String> {
+public class SymbolicTransaction extends AbstractTransaction<Symbol> {
 	
 	/**
 	 * Constructor
@@ -12,15 +11,15 @@ public class SymbolicTransaction extends AbstractTransaction<String> {
 	 * @param values list of values of given attributes
 	 * @throws IllegalArgumentException if the two lists have not the same size
 	 */
-	public SymbolicTransaction(List<Attribute> attributes, String[] values) 
+	public SymbolicTransaction(String[] attributes, String[] values) 
 			throws IllegalArgumentException{
 		super();
-		if(attributes.size() != values.length)
+		if(attributes.length != values.length)
 			throw new IllegalArgumentException("the number of attributes and the number of values id different");
-		for(int i = 0 ; i < attributes.size() ; i++) {
-			Attribute a = attributes.get(i);
-			String s = values[i];
-			data.add(a + "=" + s);
+		for(int i = 0 ; i < attributes.length ; i++) {
+			String label = attributes[i];
+			String value = values[i];
+			data.add(new Symbol(label, value));
 		}
 	}
 
