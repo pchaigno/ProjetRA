@@ -13,7 +13,11 @@ import ra.data.SymbolicTransaction;
  * @author gwlemoul
  * 
  * Main program
- * usage : java Main <source_file> <support>
+ * usage : java Main <source_file> [options]
+ * options :
+ * -support <double value>
+ * -confidence <double value>
+ * -type <frequent | maximal | closed>
  */
 public class Main {
 
