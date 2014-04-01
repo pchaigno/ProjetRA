@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import ra.algo.APriori;
 import ra.data.DataInterpreter;
 import ra.data.SymbolicTransaction;
 
@@ -27,16 +26,17 @@ public class Main {
 		if(args.length != 1)
 			System.out.println("Usage : java Main source_file");
 		else {
-			
-			//DataInterpreter and File object setUp
-			String source = args[0];
+			Interpretor interpretor = new Interpretor();
 			DataInterpreter di = new DataInterpreter();
-			File abs = new File("");
-			String path = abs.getAbsolutePath();
-			File srcFile = new File(path + "/" + source);
-			List<SymbolicTransaction> transactions = null;
+			try {
+				interpretor.interpret(args);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			File srcFile = interpretor.getSource();
 			
 			//Data interpretation
+			List<SymbolicTransaction> transactions = null;
 			try {
 				transactions =  di.interpret(srcFile);
 			} catch (IllegalArgumentException | IOException e) {
