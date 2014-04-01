@@ -15,6 +15,12 @@ public class Interpretor {
 	private double confidence;
 	private String type;
 	
+	public Interpretor() {
+		support = 0.5;
+		confidence = 1.0;
+		type = "frequent";
+	}
+	
 	public void interpret(String[] args) throws IOException {
 		setSource(args[0]);
 		int i = 1;
