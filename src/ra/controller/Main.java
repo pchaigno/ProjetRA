@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import ra.algo.APriori;
 import ra.data.DataInterpreter;
-import ra.data.SymbolicTransaction;
+import ra.data.Transaction;
 
 /**
  * 
@@ -34,9 +35,12 @@ public class Main {
 				e1.printStackTrace();
 			}
 			File srcFile = interpretor.getSource();
+			double support  = interpretor.getSupport();
+			double confidence = interpretor.getConfidence();
+			String type = interpretor.getType();
 			
 			//Data interpretation
-			List<SymbolicTransaction> transactions = null;
+			List<Transaction> transactions = null;
 			try {
 				transactions =  di.interpret(srcFile);
 			} catch (IllegalArgumentException | IOException e) {
@@ -46,7 +50,7 @@ public class Main {
 			
 			
 			if(transactions != null) {
-				//APriori apriori = new APriori(transactions);
+				APriori ap = APrioriFactory.makeAPriori(type, transactions);
 			}
 			
 		}

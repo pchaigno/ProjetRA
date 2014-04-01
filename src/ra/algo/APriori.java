@@ -7,14 +7,18 @@ import java.util.Set;
 
 import ra.data.Transaction;
 
-public class APriori extends AbstractAPriori<Transaction, Itemset>{
+public class APriori {
+	
+	protected List<Transaction> transactions;
+	protected List<List<Itemset>> itemsets;
 	
 	/**
 	 * Constructor
 	 * @param transactions The transactions.
 	 */
 	public APriori(List<Transaction> transactions) {
-		super(transactions);
+		this.transactions = transactions;
+		this.itemsets = new ArrayList<List<Itemset>>();
 	}
 	
 	/**
@@ -103,7 +107,7 @@ public class APriori extends AbstractAPriori<Transaction, Itemset>{
 		for(Itemset subItemset: subItemsets) {
 			if(!itemsets.contains(subItemset)) {
 				System.out.println("search: "+subItemset);
-				for(AbstractItemset<Integer> s: subItemsets) {
+				for(Itemset s: subItemsets) {
 					System.out.println(s);
 				}
 				return false;

@@ -17,22 +17,18 @@ public class DataInterpreter {
 	 * @throws IOException fail if the file cannot be read
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public List<SymbolicTransaction> interpret(File data) throws IOException, IllegalArgumentException {
-		List<SymbolicTransaction> res = new ArrayList<SymbolicTransaction>();
+	public List<Transaction> interpret(File data) throws IOException, IllegalArgumentException {
+		List<Transaction> res = new ArrayList<Transaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
 		String[] attributes = line.split(TXT_SEPARATOR);
 		while((line = in.readLine()) != null) {
 			String[] values = line.split(TXT_SEPARATOR);
-			SymbolicTransaction t = new SymbolicTransaction(attributes, values);
+			Transaction t = new Transaction(attributes, values);
 			res.add(t);
 		}
 		in.close();
 		return res;
-	}
-	
-	public void enrich(List<Attribute> la, String transaction) {
-		
 	}
 	
 	public static void main(String[] args) {
@@ -41,7 +37,7 @@ public class DataInterpreter {
 		String path = abs.getAbsolutePath();
 		System.out.println(path);
 		File data  = new File(path + "/res/tickets_de_caisse.txt");
-		List<SymbolicTransaction> transactions = null;
+		List<Transaction> transactions = null;
 		try {
 			transactions = di.interpret(data);
 		} catch (IOException | IllegalArgumentException e) {

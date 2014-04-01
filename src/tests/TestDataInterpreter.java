@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ra.data.DataInterpreter;
-import ra.data.SymbolicTransaction;
+import ra.data.Transaction;
 
 public class TestDataInterpreter extends TestCase {
 
@@ -29,9 +29,9 @@ public class TestDataInterpreter extends TestCase {
 	@Test
 	public void testInterpret() {
 		try {
-			List<SymbolicTransaction> transactions =  di.interpret(tickets);
+			List<Transaction> transactions =  di.interpret(tickets);
 			Assert.assertEquals(1000, transactions.size());
-			for(SymbolicTransaction st : transactions)
+			for(Transaction st : transactions)
 				Assert.assertEquals(18, st.getItems().size());
 		} catch (IllegalArgumentException | IOException e) {
 			Assert.fail();

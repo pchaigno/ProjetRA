@@ -22,5 +22,10 @@ public class Symbol {
 	public String toString() {
 		return label+"="+value;
 	}
+
+	@Override
+	public int hashCode() {
+		return label.hashCode() * value.hashCode();
+	}
 	
 }

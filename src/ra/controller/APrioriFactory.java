@@ -16,7 +16,7 @@ import ra.data.Transaction;
  */
 public class APrioriFactory {
 	
-	public APriori makeAPriori(String type, List<Transaction> transactions) {
+	public static APriori makeAPriori(String type, List<Transaction> transactions) {
 		switch(type) {
 		case "frequent" :
 			return new APriori(transactions);
