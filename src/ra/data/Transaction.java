@@ -33,7 +33,8 @@ public class Transaction {
 		data = new ArrayList<Integer>();
 		for(int i = 0 ; i < attributes.length ; i++) {
 			Symbol sym = new Symbol(attributes[i], values[i]);
-			data.add(sym.hashCode());
+			SymbolTable.INSTANCE.add(sym);
+			data.add(SymbolTable.INSTANCE.get(sym));
 		}
 	}
 	

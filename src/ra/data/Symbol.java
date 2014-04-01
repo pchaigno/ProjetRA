@@ -1,5 +1,6 @@
 package ra.data;
 
+
 public class Symbol {
 
 	private String label;
