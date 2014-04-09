@@ -1,8 +1,5 @@
 package tests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ra.algo.Itemset;
 import ra.data.Transaction;
 import junit.framework.Assert;
@@ -13,16 +10,15 @@ public class TestTransaction extends TestCase {
 	private Transaction transaction2;
 	
 	@Override
-	@SuppressWarnings("serial")
 	public void setUp() {
-		List<Integer> t1 = new ArrayList<Integer>() {{
-			add(1); add(3); add(4);
-		}};
-		this.transaction1 = new Transaction(t1);
-		List<Integer> t2 = new ArrayList<Integer>() {{
-			add(2); add(3); add(5);
-		}};
-		this.transaction2 = new Transaction(t2);
+		this.transaction1 = new Transaction();
+		this.transaction2.addItem(1);
+		this.transaction2.addItem(3);
+		this.transaction2.addItem(4);
+		this.transaction2 = new Transaction();
+		this.transaction2.addItem(2);
+		this.transaction2.addItem(3);
+		this.transaction2.addItem(5);
 	}
 
 	/**

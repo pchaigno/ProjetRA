@@ -32,7 +32,7 @@ public class TestDataInterpreter extends TestCase {
 			List<Transaction> transactions =  di.interpret(tickets);
 			Assert.assertEquals(1000, transactions.size());
 			for(Transaction st : transactions)
-				Assert.assertEquals(18, st.getItems().size());
+				Assert.assertEquals(18, st.getData().size());
 		} catch (IllegalArgumentException | IOException e) {
 			Assert.fail();
 			e.printStackTrace();

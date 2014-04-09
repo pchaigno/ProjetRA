@@ -46,7 +46,7 @@ public class APriori {
 	protected void init1Itemset(double minSupport) {
 		Set<Integer> items = new HashSet<Integer>();
 		for(Transaction transaction: this.transactions) {
-			for(int item: transaction.getItems()) {
+			for(int item: transaction.getData()) {
 				items.add(item);
 			}
 		}
@@ -120,25 +120,20 @@ public class APriori {
 	 * Tests
 	 * @param args
 	 */
-	@SuppressWarnings("serial")
 	public static void main(String[] args) {
 		List<Transaction> transactions = new ArrayList<Transaction>();
-		List<Integer> t1 = new ArrayList<Integer>() {{
-			add(1); add(3); add(4);
-		}};
-		transactions.add(new Transaction(t1));
-		List<Integer> t2 = new ArrayList<Integer>() {{
-			add(2); add(3); add(5);
-		}};
-		transactions.add(new Transaction(t2));
-		List<Integer> t3 = new ArrayList<Integer>() {{
-			add(1); add(2); add(3); add(5);
-		}};
-		transactions.add(new Transaction(t3));
-		List<Integer> t4 = new ArrayList<Integer>() {{
-			add(2); add(5);
-		}};
-		transactions.add(new Transaction(t4));
+		transactions.add(new Transaction() {{
+			addItem(1); addItem(3); addItem(4);
+		}});
+		transactions.add(new Transaction() {{
+			addItem(2); addItem(3); addItem(5);
+		}});
+		transactions.add(new Transaction() {{
+			addItem(1); addItem(2); addItem(3); addItem(5);
+		}});
+		transactions.add(new Transaction() {{
+			addItem(2); addItem(5);
+		}});
 		
 		APriori apriori = new APriori(transactions);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);

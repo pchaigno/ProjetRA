@@ -1,26 +1,22 @@
 package ra.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ra.algo.Itemset;
 
 public class Transaction {
+	protected Set<Integer> items;
 	protected List<Integer> data;
 
 	/**
 	 * Empty constructor.
 	 */
 	public Transaction() {
-		data = new ArrayList<Integer>();
-	}
-	
-	/**
-	 * Constructor
-	 * @param transaction The transaction as a list.
-	 */
-	public Transaction(List<Integer> transaction) {
-		this.data = transaction;
+		this.data = new ArrayList<Integer>();
+		this.items = new HashSet<Integer>();
 	}
 	
 	/**
@@ -29,12 +25,13 @@ public class Transaction {
 	 */
 	public void addItem(int i) {
 		this.data.add(i);
+		this.items.add(i);
 	}
 	
 	/**
 	 * @return The items of the transaction as a list.
 	 */
-	public List<Integer> getItems() {
+	public List<Integer> getData() {
 		return this.data;
 	}
 	
@@ -50,5 +47,10 @@ public class Transaction {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Transaction: size="+this.data.size();
 	}
 }
