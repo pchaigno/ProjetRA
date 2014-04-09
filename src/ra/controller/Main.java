@@ -28,6 +28,7 @@ public class Main {
 			System.out.println("-support <double value>");
 			System.out.println("-confidence <double value>");
 			System.out.println("-type <frequent | maximal | closed>");
+			return;
 		}
 
 		// Data interpretation

@@ -40,6 +40,7 @@ public class Interpretor {
 				default:
 					throw new IllegalArgumentException("One or more arguments are not well written");
 			}
+			i++;
 		}
 	}
 
