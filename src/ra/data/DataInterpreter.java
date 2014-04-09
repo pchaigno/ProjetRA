@@ -21,12 +21,16 @@ public class DataInterpreter {
 		List<Transaction> res = new ArrayList<Transaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line = in.readLine();
+		// TODO Rewrite to read lines of integers.
+		// All attributes will be converted to integers before calling the Java program.
+		/*
 		String[] attributes = line.split(TXT_SEPARATOR);
 		while((line = in.readLine()) != null) {
 			String[] values = line.split(TXT_SEPARATOR);
 			Transaction t = new Transaction(attributes, values);
 			res.add(t);
 		}
+		*/
 		in.close();
 		return res;
 	}
