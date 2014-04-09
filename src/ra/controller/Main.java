@@ -20,7 +20,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		Interpretor interpretor = null;
-		DataInterpreter di = new DataInterpreter();
 		try {
 			interpretor = new Interpretor(args);
 		} catch (IllegalArgumentException e) {
@@ -34,7 +33,7 @@ public class Main {
 		// Data interpretation
 		List<Transaction> transactions;
 		try {
-			transactions =  di.interpret(interpretor.getSource());
+			transactions =  DataInterpreter.interpret(interpretor.getSource());
 		} catch (IllegalArgumentException | IOException e) {
 			System.err.println("The indicated file cannot be read:");
 			e.printStackTrace();

@@ -39,42 +39,4 @@ public class OptimizedClosAPriori extends APriori {
 		}
 		return this.itemsets;
 	}
-	
-	public static void main(String[] args) {
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(3); addItem(4);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(5);
-		}});
-		/*
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(3); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(4); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); add(4); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(2); add(3); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); add(4); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(3); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); }}));
-			transactions.add(new Transaction(new ArrayList<Integer>() {{ add(1); add(2); add(3); }}));
-		 */
-		
-		APriori apriori = new ClosAPriori(transactions);
-		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
-		for(int i=0; i<itemsets.size(); i++) {
-			System.out.println((i+1)+"-itemsets:");
-			for(Itemset itemset: itemsets.get(i)) {
-				System.out.println(itemset);
-			}
-			System.out.println();
-		}
-	}
 }

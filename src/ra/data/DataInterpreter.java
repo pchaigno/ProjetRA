@@ -17,35 +17,21 @@ public class DataInterpreter {
 	 * @throws IOException fail if the file cannot be read
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
-	public List<Transaction> interpret(File data) throws IOException, IllegalArgumentException {
+	public static List<Transaction> interpret(File data) throws IOException, IllegalArgumentException {
 		List<Transaction> res = new ArrayList<Transaction>();
 		BufferedReader in = new BufferedReader(new FileReader(data));
-		String line = in.readLine();
+		String line;
 		while((line = in.readLine()) != null) {
-			String[] values = line.split(TXT_SEPARATOR);
-			Transaction transaction = new Transaction();
-			for(int i=0; i<values.length; i++) {
-				transaction.addItem(Integer.valueOf(values[i]));
+			if(!"".equals(line)) {
+				String[] values = line.split(TXT_SEPARATOR);
+				Transaction transaction = new Transaction();
+				for(int i=0; i<values.length; i++) {
+					transaction.addItem(Integer.valueOf(values[i]));
+				}
+				res.add(transaction);
 			}
-			res.add(transaction);
 		}
 		in.close();
 		return res;
-	}
-	
-	public static void main(String[] args) {
-		File abs = new File("");
-		DataInterpreter di = new DataInterpreter();
-		String path = abs.getAbsolutePath();
-		System.out.println(path);
-		File data  = new File(path + "/res/tickets_de_caisse.txt");
-		List<Transaction> transactions = null;
-		try {
-			transactions = di.interpret(data);
-		} catch (IOException | IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		System.out.println(transactions);
-		System.out.println(transactions.size());
 	}
 }

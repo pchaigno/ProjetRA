@@ -115,34 +115,4 @@ public class APriori {
 		}
 		return true;
 	}
-	
-	/**
-	 * Tests
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(3); addItem(4);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(5);
-		}});
-		
-		APriori apriori = new APriori(transactions);
-		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
-		for(int i=0; i<itemsets.size(); i++) {
-			System.out.println((i+1)+"-itemsets:");
-			for(Itemset itemset: itemsets.get(i)) {
-				System.out.println(itemset);
-			}
-			System.out.println();
-		}
-	}
 }
