@@ -24,7 +24,7 @@ public class TestDataInterpreter extends TestCase {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+	/*
 	@Test
 	public static void testTickets() {
 		File tickets = new File("res/fichiers_entree/tickets_de_caisse.txt");
@@ -67,6 +67,6 @@ public class TestDataInterpreter extends TestCase {
 		Assert.assertEquals(4, DataInterpreter.getValueOf("Tu", "Fevrier"));
 		Assert.assertEquals(5, DataInterpreter.getValueOf("Il", "Mars"));
 		
-	}
+	}*/
 	
 }
