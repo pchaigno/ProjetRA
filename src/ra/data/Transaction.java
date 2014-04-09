@@ -6,9 +6,11 @@ import java.util.List;
 import ra.algo.Itemset;
 
 public class Transaction {
-	
 	protected List<Integer> data;
 
+	/**
+	 * Empty constructor.
+	 */
 	public Transaction() {
 		data = new ArrayList<Integer>();
 	}
@@ -19,6 +21,14 @@ public class Transaction {
 	 */
 	public Transaction(List<Integer> transaction) {
 		this.data = transaction;
+	}
+	
+	/**
+	 * Add an item to the transaction.
+	 * @param i The value.
+	 */
+	public void addItem(int i) {
+		this.data.add(i);
 	}
 	
 	/**

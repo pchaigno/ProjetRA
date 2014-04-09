@@ -8,7 +8,6 @@ import java.util.Set;
 import ra.data.Transaction;
 
 public class APriori {
-	
 	protected List<Transaction> transactions;
 	protected List<List<Itemset>> itemsets;
 	
@@ -42,6 +41,7 @@ public class APriori {
 	
 	/**
 	 * Computes the 1-itemsets from the transactions.
+	 * @param minSupport The minimum support to keep an itemset.
 	 */
 	protected void init1Itemset(double minSupport) {
 		Set<Integer> items = new HashSet<Integer>();
@@ -70,7 +70,7 @@ public class APriori {
 	 * @return The k+1-itemsets.
 	 */
 	 /**
-	  * decomposer en : 
+	  * TODO decomposer en : 
 	  * 1)generate candidates of size k+1 from k itemsets
 	  * 2)Check that all subsets of each candidate are frequent. If not, delete candidate
 	  * 3)Go through database and count support :

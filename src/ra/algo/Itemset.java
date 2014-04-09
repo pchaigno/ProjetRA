@@ -6,8 +6,7 @@ import java.util.List;
 import ra.data.Transaction;
 
 public class Itemset {
-	
-protected ArrayList<Integer> data;
+	protected ArrayList<Integer> data;
 	
 	/**
 	 * Empty constructor
@@ -25,7 +24,7 @@ protected ArrayList<Integer> data;
 	}
 	
 	/**
-	 * Accessor to the size of the itemset.
+	 * Getter for the size of the itemset.
 	 * @return The number of item in the itemset.
 	 */
 	public int size() {
@@ -33,7 +32,7 @@ protected ArrayList<Integer> data;
 	}
 	
 	/**
-	 * Accessor to the items of the itemset.
+	 * Getter for the items of the itemset.
 	 * @param i The number of the item to get.
 	 * @return The item.
 	 */

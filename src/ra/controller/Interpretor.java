@@ -1,78 +1,73 @@
 package ra.controller;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
- * 
- * @author gwendal
- * interpretor of the initial command
+ * Interpretor for the command line arguments.
  */
 public class Interpretor {
-
+	public static final String DEFAULT_TYPE = "frequent";
+	public static final double DEFAULT_CONFIDENCE = -1;
+	public static final double DEFAULT_SUPPORT = 0.5;
 	private File source;
-	private double support;
-	private double confidence;
-	private String type;
+	private double support = DEFAULT_SUPPORT;
+	private double confidence = DEFAULT_CONFIDENCE;
+	private String type = DEFAULT_TYPE;
 	
-	public Interpretor() {
-		support = 0.5;
-		confidence = 1.0;
-		type = "frequent";
-	}
-	
-	public void interpret(String[] args) throws IOException {
-		setSource(args[0]);
+	/**
+	 * Constructor
+	 * @param args The arguments from the command line.
+	 * @throws IllegalArgumentException If the arguments are incorrect.
+	 */
+	public Interpretor(String[] args) throws IllegalArgumentException {
+		if(args.length < 1) {
+			throw new IllegalArgumentException("Missing argument");
+		}
+		
+		this.source = new File(new File("").getAbsolutePath() + "/" + args[0]);
 		int i = 1;
 		while(i < args.length) {
 			switch(args[i]) {
-			case "-support":
-				setSupport(Double.parseDouble(args[++i]));
-				break;
-			case "-confidence":
-				setConfidence(Double.parseDouble(args[++i]));
-				break;
-			case "-type":
-				setType(args[++i]);
-				break;
-			default:
-				throw new IOException("One or more arguments are not well written");
+				case "-support":
+					this.support = Double.parseDouble(args[++i]);
+					break;
+				case "-confidence":
+					this.confidence = Double.parseDouble(args[++i]);
+					break;
+				case "-type":
+					this.type = args[++i];
+					break;
+				default:
+					throw new IllegalArgumentException("One or more arguments are not well written");
 			}
 		}
 	}
 
-	private void setSource(String src) {
-		File abs = new File("");
-		String path = abs.getAbsolutePath();
-		source = new File(path + "/" + src);
-	}
-
-	private void setSupport(double support) {
-		this.support = support;
-	}
-
-	private void setConfidence(double confidence) {
-		this.confidence = confidence;
-	}
-
-	private void setType(String type) {
-		this.type = type;
-	}
-
+	/**
+	 * @return The source file.
+	 */
 	public File getSource() {
 		return source;
 	}
 	
+	/**
+	 * @return The minimum support.
+	 */
 	public double getSupport() {
 		return support;
 	}
 
+	/**
+	 * @return The confidence.
+	 */
 	public double getConfidence() {
 		return confidence;
 	}
 
+	/**
+	 * @return The type of APriori algorithm to use.
+	 */
 	public String getType() {
 		return type;
 	}
-	
 }

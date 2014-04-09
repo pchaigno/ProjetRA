@@ -7,6 +7,10 @@ import ra.data.Transaction;
 
 public class ClosAPriori extends APriori {
 
+	/**
+	 * Constructor
+	 * @param transactions The transactions.
+	 */
 	public ClosAPriori(List<Transaction> transactions) {
 		super(transactions);
 	}
