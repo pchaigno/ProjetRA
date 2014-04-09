@@ -106,10 +106,6 @@ public class APriori {
 		List<Itemset> subItemsets = itemset.calcSubItemsets();
 		for(Itemset subItemset: subItemsets) {
 			if(!itemsets.contains(subItemset)) {
-				System.out.println("search: "+subItemset);
-				for(Itemset s: subItemsets) {
-					System.out.println(s);
-				}
 				return false;
 			}
 		}
