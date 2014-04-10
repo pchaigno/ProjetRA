@@ -39,10 +39,10 @@ public class MaxAPriori extends APriori {
 	 * Removes itemsets from the list of K-itemsets if there are not maximal.
 	 * There aren't maximal if they can produce frequent K+1-itemset.
 	 */
-	@Override
+	// TODO Need to be optimized.
+	/*@Override
 	protected List<Itemset> calcK1Itemset(List<Itemset> kItemsets, double minSupport) {
-		// TODO Need to be optimized.
-		/*List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
+		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		// K-itemsets to remove from the list.
 		Set<Itemset> kItemsetsNonMaximal = new HashSet<Itemset>();
 		for(int i=0; i<kItemsets.size(); i++) {
@@ -68,7 +68,7 @@ public class MaxAPriori extends APriori {
 		// Removes the k-itemsets that are not maximal.
 		kItemsets.removeAll(kItemsetsNonMaximal);
 		
-		return itemsetsK1;*/
+		return itemsetsK1;
 		return null;
-	}
+	}*/
 }
