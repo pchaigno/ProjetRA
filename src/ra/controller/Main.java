@@ -1,12 +1,12 @@
 package ra.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import ra.algo.APriori;
 import ra.algo.Itemset;
-import ra.data.DataInterpreter;
-import ra.data.Transaction;
+import ra.data.Database;
+import ra.data.FileDatabase;
+import ra.data.MemoryDatabase;
 
 /**
  * Main program
@@ -28,30 +28,28 @@ public class Main {
 			System.out.println("-support <double value>");
 			System.out.println("-confidence <double value>");
 			System.out.println("-type <frequent | maximal | closed>");
+			System.out.println("-memory The transactions will be saved to the memory");
 			return;
 		}
 
 		// Data interpretation
-		List<Transaction> transactions;
-		try {
-			transactions =  DataInterpreter.interpret(interpretor.getSource());
-		} catch (IllegalArgumentException | IOException e) {
-			System.err.println("The indicated file cannot be read:");
-			e.printStackTrace();
-			return;
+		Database database;
+		if(interpretor.useMemory()) {
+			database = new MemoryDatabase(interpretor.getSource());
+		} else {
+			database = new FileDatabase(interpretor.getSource());
 		}
 
-		if(transactions != null) {
-			APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), transactions);
-			if(ap != null) {
-				List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
-				for(int i=0; i<itemsets.size(); i++) {
-					System.out.println((i+1)+"-itemsets:");
-					for(Itemset itemset: itemsets.get(i)) {
-						System.out.println(itemset);
-					}
-					System.out.println();
+		// APriori algorithm:
+		APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), database);
+		if(ap != null) {
+			List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
+			for(int i=0; i<itemsets.size(); i++) {
+				System.out.println((i+1)+"-itemsets:");
+				for(Itemset itemset: itemsets.get(i)) {
+					System.out.println(itemset);
 				}
+				System.out.println();
 			}
 		}
 	}

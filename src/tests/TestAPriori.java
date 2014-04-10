@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.data.DataInterpreter;
+import ra.data.Database;
+import ra.data.FileDatabase;
 import ra.data.Transaction;
 
 public class TestAPriori extends TestCase {
@@ -54,9 +58,9 @@ public class TestAPriori extends TestCase {
 	 * @throws IllegalArgumentException 
 	 */
 	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
-		File data = new File("res/fichiers_entree/5027_articles.txt");
-		List<Transaction> transactions = DataInterpreter.interpret(data);
-		APriori ap = new APriori(transactions);
+		File file = new File("res/fichiers_entree/5027_articles.txt");
+		Database database = new FileDatabase(file);
+		APriori ap = new APriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(0.0413650465);
 		int totalSize = 0;
 		for(int i=0; i<itemsets.size(); i++) {

@@ -1,22 +1,21 @@
 package ra.algo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ra.data.Transaction;
+import ra.data.Database;
 
 public class APriori {
-	protected List<Transaction> transactions;
+	protected Database database;
 	protected List<List<Itemset>> itemsets;
 	
 	/**
 	 * Constructor
-	 * @param transactions The transactions.
+	 * @param database The database containing the transactions.
 	 */
-	public APriori(List<Transaction> transactions) {
-		this.transactions = transactions;
+	public APriori(Database database) {
+		this.database = database;
 		this.itemsets = new ArrayList<List<Itemset>>();
 	}
 	
@@ -44,21 +43,18 @@ public class APriori {
 	 * @param minSupport The minimum support to keep an itemset.
 	 */
 	protected void init1Itemset(double minSupport) {
-		Set<Integer> items = new HashSet<Integer>();
-		for(Transaction transaction: this.transactions) {
-			for(int item: transaction.getData()) {
-				items.add(item);
-			}
-		}
-
+		Set<Integer> items = this.database.retrieveItems();
+		
+		// Generates the 1-itemsets:
 		List<Itemset> itemsets = new ArrayList<Itemset>();
 		for(int item: items) {
 			Itemset itemset = new Itemset();
 			itemset.add(item);
-			if(itemset.calcSupport(this.transactions) >= minSupport) {
-				itemsets.add(itemset);
-			}
+			itemsets.add(itemset);
 		}
+		
+		// Checks the support of all itemsets:
+		itemsets = this.database.withMinSupport(itemsets, minSupport);
 		
 		this.itemsets.add(itemsets);
 	}
@@ -69,31 +65,27 @@ public class APriori {
 	 * @param minSupport The minimum support to keep a k+1-itemset.
 	 * @return The k+1-itemsets.
 	 */
-	 /**
-	  * TODO decomposer en : 
-	  * 1)generate candidates of size k+1 from k itemsets
-	  * 2)Check that all subsets of each candidate are frequent. If not, delete candidate
-	  * 3)Go through database and count support :
-	  * 	for each data row
-	  * 		if candidate in data row
-	  * 			increment support
-	  * 4)Keep only itemsets with minimum support
-	  */
 	protected List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
-		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
+		List<Itemset> candidates = new ArrayList<Itemset>();
+		
+		// Generates candidates of size k+1 for k-itemsets:
 		for(int i=0; i<itemsets.size(); i++) {
 			for(int j=i+1; j<itemsets.size(); j++) {
-				List<Itemset> someItemsetsK1 = itemsets.get(i).calcItemsetsK1(itemsets.get(j));
-				for(Itemset itemsetK1: someItemsetsK1) {
-					if(allSubItemsetsFrequent(itemsets, itemsetK1)) {
-						if(itemsetK1.calcSupport(this.transactions) >= minSupport) {
-							itemsetsK1.add(itemsetK1);
-						}
-					}
-				}
+				candidates.addAll(itemsets.get(i).calcItemsetsK1(itemsets.get(j)));
 			}
 		}
-		return itemsetsK1;
+		
+		// Checks that all subsets of each candidate are frequent:
+		for(int i=0; i<candidates.size(); i++) {
+			if(!allSubItemsetsFrequent(itemsets, candidates.get(i))) {
+				candidates.remove(i);
+			}
+		}
+		
+		// Checks support for all candidates:
+		candidates = this.database.withMinSupport(candidates, minSupport);
+		
+		return candidates;
 	}
 	
 	/**

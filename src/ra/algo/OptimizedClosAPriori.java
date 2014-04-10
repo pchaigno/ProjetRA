@@ -3,12 +3,13 @@ package ra.algo;
 import java.util.ArrayList;
 import java.util.List;
 
+import ra.data.Database;
 import ra.data.Transaction;
 
 public class OptimizedClosAPriori extends APriori {
 
-	public OptimizedClosAPriori(List<Transaction> transactions) {
-		super(transactions);
+	public OptimizedClosAPriori(Database database) {
+		super(database);
 	}
 
 	@Override

@@ -9,10 +9,12 @@ public class Interpretor {
 	public static final String DEFAULT_TYPE = "frequent";
 	public static final double DEFAULT_CONFIDENCE = -1;
 	public static final double DEFAULT_SUPPORT = 0.5;
+	public static final boolean DEFAULT_MEMORY = false;
 	private File source;
 	private double support = DEFAULT_SUPPORT;
 	private double confidence = DEFAULT_CONFIDENCE;
 	private String type = DEFAULT_TYPE;
+	private boolean memory = DEFAULT_MEMORY;
 	
 	/**
 	 * Constructor
@@ -36,6 +38,9 @@ public class Interpretor {
 					break;
 				case "-type":
 					this.type = args[++i];
+					break;
+				case "-memory":
+					this.memory = true;
 					break;
 				default:
 					throw new IllegalArgumentException("One or more arguments are not well written");
@@ -70,5 +75,12 @@ public class Interpretor {
 	 */
 	public String getType() {
 		return type;
+	}
+	
+	/**
+	 * @return True if the transactions should be saved in memory.
+	 */
+	public boolean useMemory() {
+		return this.memory;
 	}
 }

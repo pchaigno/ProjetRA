@@ -5,16 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ra.data.Database;
 import ra.data.Transaction;
 
 public class MaxAPriori extends APriori {
 
 	/**
 	 * Constructor
-	 * @param transactions The transactions.
+	 * @param database The database containing the transactions.
 	 */
-	public MaxAPriori(List<Transaction> transactions) {
-		super(transactions);
+	public MaxAPriori(Database database) {
+		super(database);
 	}
 
 	@Override

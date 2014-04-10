@@ -3,8 +3,6 @@ package ra.algo;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.data.Transaction;
-
 public class Itemset {
 	protected ArrayList<Integer> data;
 	
@@ -51,21 +49,6 @@ public class Itemset {
 		}
 		this.data.add(item);
 		return true;
-	}
-	
-	/**
-	 * Computes the support of the itemset on some transactions.
-	 * @param transactions The transactions.
-	 * @return The support.
-	 */
-	public double calcSupport(List<Transaction> transactions) {
-		double support = 0;
-		for(Transaction transaction: transactions) {
-			if(transaction.contains(this)) {
-				support++;
-			}
-		}
-		return support / transactions.size();
 	}
 	
 	/**

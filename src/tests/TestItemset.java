@@ -1,10 +1,8 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ra.algo.Itemset;
-import ra.data.Transaction;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -28,29 +26,6 @@ public class TestItemset extends TestCase {
 			add(3);
 			add(5);
 		}};
-	}
-	
-	/**
-	 * Tests the method that computes the support.
-	 */
-	public void testCalcSupport() {
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(3); addItem(4);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(1); addItem(2); addItem(3); addItem(5);
-		}});
-		transactions.add(new Transaction() {{
-			addItem(2); addItem(5);
-		}});
-
-		Assert.assertEquals(0.5, this.itemset1A.calcSupport(transactions));
-		Assert.assertEquals(0.25, this.itemset3A.calcSupport(transactions));
-		Assert.assertEquals(0.25, this.itemset3B.calcSupport(transactions));
 	}
 	
 	/**
