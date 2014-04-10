@@ -42,8 +42,9 @@ public class MemoryDatabase extends Database {
 					}
 					else {
 						System.out.println("value != null");
-						supports.put(itemset, value+1);
+						supports.put(itemset, 1.0);
 					}
+					
 				}
 			}
 		}

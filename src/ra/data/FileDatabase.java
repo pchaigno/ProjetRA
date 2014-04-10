@@ -67,10 +67,11 @@ public class FileDatabase extends Database {
 						// If the whole itemset is present we increment the support:
 						if(itemsetPresent) {
 							Double value = supports.get(itemset);
-							if(value == null)
+							if(value == null) {
 								supports.put(itemset, 1.0);
-							else
+							} else {
 								supports.put(itemset, value+1);
+							}
 						}
 					}
 				}
