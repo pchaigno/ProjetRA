@@ -29,9 +29,9 @@ public class MemoryDatabase extends Database {
 	@Override
 	public void calcSupport(List<Itemset> itemsets) {
 		for(Transaction transaction: this.transactions) {
-			for(Itemset itemset: itemsets) {
-				if(transaction.contains(itemset)) {
-					itemset.incrementSupport();
+			for(int i = 0 ; i < itemsets.size() ;i++) {
+				if(transaction.contains(itemsets.get(i))) {
+					itemsets.get(i).incrementSupport();
 				}
 			}
 		}

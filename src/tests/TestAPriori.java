@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.data.Database;
+import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
 
 public class TestAPriori extends TestCase {
@@ -45,14 +46,15 @@ public class TestAPriori extends TestCase {
 	 * @throws IllegalArgumentException 
 	 */
 	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
-		/*File file = new File("res/fichiers_entree/5027_articles.txt");
-		Database database = new MemoryDatabase(file);
+		File file = new File("res/fichiers_entree/5027_articles.txt");
+		Database database = new FileDatabase(file);
 		APriori ap = new APriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(0.0413650465);
+		int absoluteSupport = database.calcAbsoluteSupport(0.0413650465);
+		List<List<Itemset>> itemsets = ap.aPriori(absoluteSupport);
 		int totalSize = 0;
 		for(int i=0; i<itemsets.size(); i++) {
 			totalSize += itemsets.get(i).size();
 		}
-		Assert.assertEquals(5378, totalSize);*/
+		Assert.assertEquals(5378, totalSize);
 	}
 }

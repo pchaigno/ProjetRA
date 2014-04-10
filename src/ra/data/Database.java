@@ -51,6 +51,7 @@ public abstract class Database {
 		for(int i=0; i<itemsets.size(); i++) {
 			if(itemsets.get(i).getSupport() < minSupport) {
 				itemsets.remove(i);
+				i--;
 			}
 		}
 	}
