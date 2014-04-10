@@ -1,10 +1,13 @@
 package ra.data;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -103,5 +106,27 @@ public class FileDatabase extends Database {
 		}
 		
 		return this.items;
+	}
+
+	@Override
+	protected int getNbTransactions() throws IOException {
+	    InputStream is = new BufferedInputStream(new FileInputStream(this.file));
+	    try {
+	        byte[] c = new byte[1024];
+	        int count = 0;
+	        int readChars = 0;
+	        boolean empty = true;
+			while ((readChars = is.read(c)) != -1) {
+			    empty = false;
+			    for (int i = 0; i < readChars; ++i) {
+			        if (c[i] == '\n') {
+			            ++count;
+			        }
+			    }
+			}
+	        return (count == 0 && !empty) ? 1 : count;
+	    } finally {
+	        is.close();
+	    }
 	}
 }

@@ -21,7 +21,8 @@ public class TestAPriori extends TestCase {
 		File file = new File("res/unit_tests/transactions.txt");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
-		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
+		int absoluteSupport = database.calcAbsoluteSupport(0.5);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(4, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
@@ -39,7 +40,7 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
-		Database database = new FileDatabase(file);
+		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(0.0413650465);
 		int totalSize = 0;

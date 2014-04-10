@@ -10,6 +10,28 @@ public abstract class Database {
 	protected Set<Integer> items;
 	
 	/**
+	 * Computes the absolute support from the relative one.
+	 * absolute_support = nb_transactions * relative_support.
+	 * @param relativeSupport The relative support.
+	 * @return The absolute support.
+	 */
+	public int calcAbsoluteSupport(double relativeSupport) {
+		int support = -1;
+		try {
+			support = Math.round(Math.round(relativeSupport * this.getNbTransactions()));
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+			System.exit(1);
+		}
+		return support;
+	}
+	
+	/**
+	 * @return The number of transactions.
+	 */
+	protected abstract int getNbTransactions() throws IOException;
+	
+	/**
 	 * Computes the supports for a list of itemset with the transactions in this database.
 	 * @param itemsets The itemsets which will be updated with their supports.
 	 * @throws IOException If the database file can't be opened or read.

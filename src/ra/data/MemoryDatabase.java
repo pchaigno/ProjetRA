@@ -41,4 +41,9 @@ public class MemoryDatabase extends Database {
 	public Set<Integer> retrieveItems() {
 		return this.items;
 	}
+
+	@Override
+	protected int getNbTransactions() {
+		return this.transactions.size();
+	}
 }
