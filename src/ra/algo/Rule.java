@@ -39,10 +39,7 @@ public class Rule {
 		Itemset numerator = (new Itemset(this.antecedent)).getUnion(new Itemset(this.consequent));
 		Itemset denominator = new Itemset(this.antecedent);
 		
-		List<Itemset> itemsets = new ArrayList<Itemset>();
-		Map<Itemset, Double> supports = database.calcSupport(itemsets);
-		
-		return supports.get(numerator)/supports.get(denominator);
+		return numerator.getSupport()/denominator.getSupport();
 	}
 	
 	/**
