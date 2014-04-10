@@ -156,19 +156,19 @@ public class Itemset {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Generates all the simple rules associated with the itemset
+	 * @return the associated rules
 	 */
-	public List<Rule> generateAllRules() {
+	public List<Rule> generateSimpleRules() {
 		List<Rule> rules = new ArrayList<Rule>();
 		
 		for(int i=0; i<data.size(); i++) {
 			Rule rule = new Rule();
-			rule.addRightPart(data.get(i));
+			rule.addToConsequent(data.get(i));
 			
 			for(int j=0; j<data.size(); j++) {					
 				if(j != i)
-					rule.addLeftPart(data.get(j));
+					rule.addToAntecedent(data.get(j));
 			}
 			
 			rules.add(rule);
@@ -245,8 +245,8 @@ public class Itemset {
 		Itemset itemset1 = new Itemset(t1);
 		Itemset itemset2 = new Itemset(t2);
 		
-		List<Rule> rules1 = itemset1.generateAllRules();
-		List<Rule> rules2 = itemset2.generateAllRules();
+		List<Rule> rules1 = itemset1.generateSimpleRules();
+		List<Rule> rules2 = itemset2.generateSimpleRules();
 		
 		System.out.println("Rules from itemset1");
 		for(Rule rule : rules1)
