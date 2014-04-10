@@ -1,10 +1,8 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ra.Itemset;
-import ra.Transaction;
+import ra.algo.Itemset;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -15,44 +13,19 @@ public class TestItemset extends TestCase {
 	
 	@Override
 	public void setUp() {
-		this.itemset1A = new Itemset();
-		this.itemset1A.add(1);
-		this.itemset3A = new Itemset();
-		this.itemset3A.add(1);
-		this.itemset3A.add(3);
-		this.itemset3A.add(4);
-		this.itemset3B = new Itemset();
-		this.itemset3B.add(1);
-		this.itemset3B.add(3);
-		this.itemset3B.add(5);
-	}
-	
-	/**
-	 * Tests the method that computes the support.
-	 */
-	@SuppressWarnings("serial")
-	public void testCalcSupport() {
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		List<Integer> t1 = new ArrayList<Integer>() {{
-			add(1); add(3); add(4);
+		this.itemset1A = new Itemset() {{
+			add(1);
 		}};
-		transactions.add(new Transaction(t1));
-		List<Integer> t2 = new ArrayList<Integer>() {{
-			add(2); add(3); add(5);
+		this.itemset3A = new Itemset() {{
+			add(1);
+			add(3);
+			add(4);
 		}};
-		transactions.add(new Transaction(t2));
-		List<Integer> t3 = new ArrayList<Integer>() {{
-			add(1); add(2); add(3); add(5);
+		this.itemset3B = new Itemset() {{
+			add(1);
+			add(3);
+			add(5);
 		}};
-		transactions.add(new Transaction(t3));
-		List<Integer> t4 = new ArrayList<Integer>() {{
-			add(2); add(5);
-		}};
-		transactions.add(new Transaction(t4));
-
-		Assert.assertEquals(0.5, this.itemset1A.calcSupport(transactions));
-		Assert.assertEquals(0.25, this.itemset3A.calcSupport(transactions));
-		Assert.assertEquals(0.25, this.itemset3B.calcSupport(transactions));
 	}
 	
 	/**
