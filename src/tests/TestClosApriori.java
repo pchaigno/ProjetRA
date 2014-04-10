@@ -1,19 +1,21 @@
 package tests;
 
+import java.io.File;
 import java.util.List;
 
 import junit.framework.Assert;
 import ra.algo.APriori;
 import ra.algo.ClosAPriori;
 import ra.algo.Itemset;
-import ra.data.Transaction;
+import ra.data.Database;
+import ra.data.MemoryDatabase;
 
 public class TestClosApriori extends TestAPriori {
 
-	@Override
-	public void testAPriori() {
-		List<Transaction> transactions = getTransactions();
-		APriori apriori = new ClosAPriori(transactions);
+	public void testClosAPrioriMemory() {
+		File file = new File("res/unit_tests/transactions.txt");
+		Database database = new MemoryDatabase(file);
+		APriori apriori = new ClosAPriori(database);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		Assert.assertEquals(3, itemsets.size());
 		

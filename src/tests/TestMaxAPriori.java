@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.File;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -7,14 +8,15 @@ import junit.framework.Assert;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.algo.MaxAPriori;
-import ra.data.Transaction;
+import ra.data.Database;
+import ra.data.MemoryDatabase;
 
 public class TestMaxAPriori extends TestAPriori {
 
-	@Override
-	public void testAPriori() {
-		List<Transaction> transactions = getTransactions();
-		APriori apriori = new MaxAPriori(transactions);
+	public void testMaxAPrioriMemory() {
+		File file = new File("res/unit_tests/transactions.txt");
+		Database database = new MemoryDatabase(file);
+		APriori apriori = new MaxAPriori(database);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println(i+1+"-itemsets:");
