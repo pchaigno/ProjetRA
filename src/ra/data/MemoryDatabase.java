@@ -31,15 +31,19 @@ public class MemoryDatabase extends Database {
 	@Override
 	public Map<Itemset, Double> calcSupport(List<Itemset> itemsets) {
 		Map<Itemset, Double> supports = new HashMap<Itemset, Double>();
-		
+		System.out.println("calcsupport itemset size = " + itemsets.size());
 		for(Transaction transaction: this.transactions) {
 			for(Itemset itemset: itemsets) {
 				if(transaction.contains(itemset)) {
 					Double value = supports.get(itemset);
-					if(value == null)
+					if(value == null) {
+						System.out.println("value == null");
 						supports.put(itemset, 1.0);
-					else
+					}
+					else {
+						System.out.println("value != null");
 						supports.put(itemset, value+1);
+					}
 				}
 			}
 		}
