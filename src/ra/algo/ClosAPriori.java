@@ -31,13 +31,15 @@ public class ClosAPriori extends APriori {
 			for(Itemset itemset: this.itemsets.get(i)) {
 				double support = itemset.calcSupport(this.transactions);
 				ArrayList<Itemset> removeList = new ArrayList<>();
-				for(Itemset filsItemset: this.itemsets.get(i-1))
+				for(Itemset filsItemset: this.itemsets.get(i-1)) {
 					// If the k-1-itemset is included in the k-itemset and his support is equal to his father's support:
-					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support)
-						removeList.add(filsItemset);	
-				
-				for(Itemset toRemove: removeList)
+					if(filsItemset.isIncludedIn(itemset) && filsItemset.calcSupport(this.transactions) == support) {
+						removeList.add(filsItemset);
+					}
+				}
+				for(Itemset toRemove: removeList) {
 					this.itemsets.get(i-1).remove(toRemove);
+				}
 			}
 		}
 
@@ -52,7 +54,8 @@ public class ClosAPriori extends APriori {
 	 */
 	public List<List<Itemset>> OptimizedAPriori(double minSupport) {
 		// Updates the itemsets.
-		super.aPriori(minSupport);
+		// TODO See if this should be removed.
+		/*super.aPriori(minSupport);
 		
 		ArrayList<ArrayList<Double>> supports = new ArrayList<>();
 		// Compute supports:
@@ -78,6 +81,7 @@ public class ClosAPriori extends APriori {
 				}
 			}
 		}
-		return this.itemsets;
+		return this.itemsets;*/
+		return null;
 	}
 }

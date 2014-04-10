@@ -1,10 +1,8 @@
 package ra.algo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ra.data.Database;
-import ra.data.Transaction;
 
 public class OptimizedClosAPriori extends APriori {
 
@@ -15,7 +13,8 @@ public class OptimizedClosAPriori extends APriori {
 	@Override
 	public List<List<Itemset>> aPriori(double minSupport) {
 		// Update the itemsets.
-		super.aPriori(minSupport);
+		// TODO See if this should be removed.
+		/*super.aPriori(minSupport);
 		
 		ArrayList<ArrayList<Double>> supports = new ArrayList<>();
 		// Compute supports:
@@ -38,6 +37,7 @@ public class OptimizedClosAPriori extends APriori {
 					this.itemsets.get(i-1).remove(toRemove);
 			}
 		}
-		return this.itemsets;
+		return this.itemsets;*/
+		return null;
 	}
 }
