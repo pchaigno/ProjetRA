@@ -28,7 +28,9 @@ public abstract class Database {
 	 * @return The itemsets with the minimum support.
 	 */
 	public List<Itemset> withMinSupport(List<Itemset> itemsets, double minSupport) {
+		System.out.println("before calcsuppotrt");
 		Map<Itemset, Double> supports = this.calcSupport(itemsets);
+		System.out.println("after calcsuppotrt");
 		List<Itemset> itemsetsWithMinSupport = new ArrayList<Itemset>();
 		for(Itemset itemset: supports.keySet()) {
 			if(supports.get(itemset) >= minSupport) {

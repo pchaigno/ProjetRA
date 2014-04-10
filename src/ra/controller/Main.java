@@ -49,7 +49,9 @@ public class Main {
 		// APriori algorithm:
 		APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), database);
 		if(ap != null) {
+			System.out.println("Performing apriori...");
 			List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
+			System.out.println("Done");
 			for(int i=0; i<itemsets.size(); i++) {
 				interpretor.getOutput().println((i+1)+"-itemsets:");
 				for(Itemset itemset: itemsets.get(i)) {

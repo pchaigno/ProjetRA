@@ -28,6 +28,7 @@ public class APriori {
 		this.init1Itemset(minSupport);
 		boolean noMoreItemsets = false;
 		for(int i=1; !noMoreItemsets; i++) {
+			System.out.println("i = " + i);
 			List<Itemset> newItemsets = this.calcK1Itemset(itemsets.get(i-1), minSupport);
 			if(newItemsets.size() == 0) {
 				noMoreItemsets = true;
@@ -69,6 +70,7 @@ public class APriori {
 		List<Itemset> candidates = new ArrayList<Itemset>();
 		
 		// Generates candidates of size k+1 for k-itemsets:
+		System.out.println("size = " + itemsets.size());
 		for(int i=0; i<itemsets.size(); i++) {
 			for(int j=i+1; j<itemsets.size(); j++) {
 				candidates.addAll(itemsets.get(i).calcItemsetsK1(itemsets.get(j)));
@@ -81,10 +83,10 @@ public class APriori {
 				candidates.remove(i);
 			}
 		}
-		
+		System.out.println("before critic line");
 		// Checks support for all candidates:
 		candidates = this.database.withMinSupport(candidates, minSupport);
-		
+		System.out.println("after critic line");
 		return candidates;
 	}
 	
