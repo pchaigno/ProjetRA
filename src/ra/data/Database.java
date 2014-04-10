@@ -36,7 +36,7 @@ public abstract class Database {
 	 * @param itemsets The itemsets which will be updated with their supports.
 	 * @throws IOException If the database file can't be opened or read.
 	 */
-	public abstract void calcSupport(List<Itemset> itemsets);
+	public abstract void calcSupport(List<Itemset> itemsets, double minSupport);
 	
 	/**
 	 * Extracts the itemsets with the minimum support from a list of itemset.
@@ -47,13 +47,13 @@ public abstract class Database {
 	 * @param minSupport The minimum support.
 	 */
 	public void withMinSupport(List<Itemset> itemsets, double minSupport) {
-		this.calcSupport(itemsets);
+		this.calcSupport(itemsets, minSupport);/*
 		for(int i=0; i<itemsets.size(); i++) {
 			if(itemsets.get(i).getSupport() < minSupport) {
 				itemsets.remove(i);
 				i--;
 			}
-		}
+		}*/
 	}
 	
 	/**

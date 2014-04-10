@@ -26,7 +26,7 @@ public class FileDatabase extends Database {
 	}
 
 	@Override
-	public void calcSupport(List<Itemset> itemsets) {
+	public void calcSupport(List<Itemset> itemsets, double minSupport) {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(this.file));
@@ -36,12 +36,16 @@ public class FileDatabase extends Database {
 		}
 		// Iterate on the transactions:
 		String line;
+		String succ;
 		try {
-			while((line = in.readLine()) != null) {
+			line = in.readLine();
+			while(line != null) {
+				succ = in.readLine();
 				if(!"".equals(line)) {
 					String[] values = line.split(DataInterpreter.TXT_SEPARATOR);
 					// Compute the new support for each itemset with this transaction:
-					for(Itemset itemset: itemsets) {
+					for(int j = 0 ; j < itemsets.size() ; j++) {
+						Itemset itemset = itemsets.get(j);
 						// Checks that the whole itemset is present in this transaction:
 						boolean itemsetPresent = true;
 						for(int i=0; i<itemset.size(); i++) {
@@ -63,8 +67,13 @@ public class FileDatabase extends Database {
 						if(itemsetPresent) {
 							itemset.incrementSupport();
 						}
+						if(succ == null && itemsets.get(j).getSupport() < minSupport) {
+							itemsets.remove(j);
+							j--;
+						}
 					}
 				}
+				line = succ;
 			}
 			in.close();
 		} catch (IOException e) {

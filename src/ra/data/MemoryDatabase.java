@@ -27,11 +27,16 @@ public class MemoryDatabase extends Database {
 	}
 	
 	@Override
-	public void calcSupport(List<Itemset> itemsets) {
-		for(Transaction transaction: this.transactions) {
+	public void calcSupport(List<Itemset> itemsets, double minSupport) {
+		for(int j = 0 ; j < this.transactions.size() ; j++) {
+			Transaction transaction = this.transactions.get(j);
 			for(int i = 0 ; i < itemsets.size() ;i++) {
 				if(transaction.contains(itemsets.get(i))) {
 					itemsets.get(i).incrementSupport();
+				}
+				if(j == this.transactions.size()-1 && itemsets.get(i).getSupport() < minSupport) {
+					itemsets.remove(i);
+					i--;
 				}
 			}
 		}

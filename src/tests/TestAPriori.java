@@ -47,7 +47,7 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
-		Database database = new FileDatabase(file);
+		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.0413650465);
 		List<List<Itemset>> itemsets = ap.aPriori(absoluteSupport);
