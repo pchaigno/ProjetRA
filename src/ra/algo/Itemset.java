@@ -1,7 +1,9 @@
 package ra.algo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Itemset {
 	protected ArrayList<Integer> data;
@@ -103,6 +105,45 @@ public class Itemset {
 		return true;
 	}
 	
+	/**
+	 * Generates all the simple rules associated with the itemset
+	 * @return the associated rules
+	 */
+	public List<Rule> generateSimpleRules() {
+		List<Rule> rules = new ArrayList<Rule>();
+		
+		for(int i=0; i<data.size(); i++) {
+			Rule rule = new Rule();
+			rule.addToConsequent(data.get(i));
+			
+			for(int j=0; j<data.size(); j++) {					
+				if(j != i)
+					rule.addToAntecedent(data.get(j));
+			}
+			
+			rules.add(rule);
+		}
+		
+		return rules;
+	}
+	
+	public List<Integer> getItems() {
+		return this.data;
+	}
+	
+	/**
+	 * Makes the union of two itemsets
+	 * @return an itemset which the union
+	 */
+	public Itemset getUnion(Itemset itemset) {
+		Set<Integer> result = new HashSet<Integer>();
+
+        result.addAll(this.data);
+        result.addAll(itemset.getItems());
+
+        return new Itemset(new ArrayList<Integer>(result));
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -193,4 +234,5 @@ public class Itemset {
 		}
 		return subItemsets;
 	}
+
 }
