@@ -53,7 +53,7 @@ public class TestAPriori extends TestCase {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public void testAPrioriRealFile() throws IllegalArgumentException, IOException {
+	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
 		File data = new File("res/fichiers_entree/5027_articles.txt");
 		List<Transaction> transactions = DataInterpreter.interpret(data);
 		APriori ap = new APriori(transactions);
