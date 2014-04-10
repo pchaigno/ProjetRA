@@ -14,7 +14,7 @@ import ra.data.MemoryDatabase;
 
 public class TestMaxAPriori extends TestCase {
 
-	public void testMaxAPrioriMemory() {
+	public static void testMaxAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new MaxAPriori(database);

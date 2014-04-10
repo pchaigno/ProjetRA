@@ -22,7 +22,7 @@ public class TestInterpretor extends TestCase {
 		  "-output",
 		  "result.txt"};
 	
-	public void testInterpretorArgs1() {
+	public static void testInterpretorArgs1() {
 		Interpretor inter;
 		try {
 			inter = new Interpretor(args1);
@@ -36,7 +36,7 @@ public class TestInterpretor extends TestCase {
 		
 	}
 	
-	public void testInterpretorArgs2() {
+	public static void testInterpretorArgs2() {
 		Interpretor inter;
 		try {
 			inter = new Interpretor(args2);

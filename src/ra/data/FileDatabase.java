@@ -25,6 +25,7 @@ public class FileDatabase extends Database {
 		this.file = file;
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void calcSupport(List<Itemset> itemsets, double minSupport) {
 		BufferedReader in = null;
@@ -82,6 +83,7 @@ public class FileDatabase extends Database {
 		}
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public Set<Integer> retrieveItems() {
 		// If we already retrieved them:
@@ -119,7 +121,8 @@ public class FileDatabase extends Database {
 
 	@Override
 	protected int getNbTransactions() throws IOException {
-	    InputStream is = new BufferedInputStream(new FileInputStream(this.file));
+	    @SuppressWarnings("resource")
+		InputStream is = new BufferedInputStream(new FileInputStream(this.file));
 	    try {
 	        byte[] c = new byte[1024];
 	        int count = 0;

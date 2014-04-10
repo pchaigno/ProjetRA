@@ -21,6 +21,7 @@ import ra.data.MemoryDatabase;
  */
 public class Main {
 
+	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		Interpretor interpretor = null;
 		try {
@@ -35,7 +36,8 @@ public class Main {
 			System.out.println("-output <file name>");
 			return;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
+			System.exit(1);
 		}
 
 		// Data interpretation

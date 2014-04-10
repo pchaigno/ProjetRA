@@ -13,7 +13,7 @@ import ra.data.MemoryDatabase;
 
 public class TestClosApriori extends TestCase {
 
-	public void testClosAPrioriMemory() {
+	public static void testClosAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new ClosAPriori(database);

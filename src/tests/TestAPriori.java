@@ -9,7 +9,6 @@ import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.data.Database;
-import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
 
 public class TestAPriori extends TestCase {
@@ -17,7 +16,7 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the A Priori algorithm.
 	 */
-	public void testAPrioriMemory() {
+	public static void testAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
@@ -45,7 +44,7 @@ public class TestAPriori extends TestCase {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile() throws IllegalArgumentException, IOException {
+	public static void testAPrioriRealFile() throws IllegalArgumentException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);

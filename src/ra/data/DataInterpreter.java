@@ -27,6 +27,7 @@ public class DataInterpreter {
 	 * @throws DifferentSizeException fail if at least one of the transaction size is different from the number of attributes
 	 */
 	public void interpret(File data) throws IOException, IllegalArgumentException {
+		@SuppressWarnings("resource")
 		BufferedReader in = new BufferedReader(new FileReader(data));
 		String line;
 		while((line = in.readLine()) != null) {
