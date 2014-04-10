@@ -1,6 +1,9 @@
 package ra.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 /**
  * Interpretor for the command line arguments.
@@ -15,17 +18,19 @@ public class Interpretor {
 	private double confidence = DEFAULT_CONFIDENCE;
 	private String type = DEFAULT_TYPE;
 	private boolean memory = DEFAULT_MEMORY;
+	private PrintStream output;
 	
 	/**
 	 * Constructor
 	 * @param args The arguments from the command line.
 	 * @throws IllegalArgumentException If the arguments are incorrect.
+	 * @throws FileNotFoundException 
 	 */
-	public Interpretor(String[] args) throws IllegalArgumentException {
+	public Interpretor(String[] args) throws IllegalArgumentException, FileNotFoundException {
 		if(args.length < 1) {
 			throw new IllegalArgumentException("Missing argument");
 		}
-		
+		this.output = System.out;
 		this.source = new File(new File("").getAbsolutePath() + "/" + args[0]);
 		int i = 1;
 		while(i < args.length) {
@@ -41,6 +46,9 @@ public class Interpretor {
 					break;
 				case "-memory":
 					this.memory = true;
+					break;
+				case "-output":
+					this.output = new PrintStream(new File(args[++i]));
 					break;
 				default:
 					throw new IllegalArgumentException("One or more arguments are not well written");
@@ -82,5 +90,12 @@ public class Interpretor {
 	 */
 	public boolean useMemory() {
 		return this.memory;
+	}
+
+	/**
+	 * @return the output file, or null if the standard output should be used
+	 */
+	public PrintStream getOutput() {
+		return output;
 	}
 }

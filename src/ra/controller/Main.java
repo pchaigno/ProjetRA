@@ -1,5 +1,6 @@
 package ra.controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import ra.algo.APriori;
@@ -15,6 +16,8 @@ import ra.data.MemoryDatabase;
  * -support <double value>
  * -confidence <double value>
  * -type <frequent | maximal | closed>
+ * -memory The transactions will be saved to the memory
+ * -output <file name>
  */
 public class Main {
 
@@ -29,7 +32,10 @@ public class Main {
 			System.out.println("-confidence <double value>");
 			System.out.println("-type <frequent | maximal | closed>");
 			System.out.println("-memory The transactions will be saved to the memory");
+			System.out.println("-output <file name>");
 			return;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 
 		// Data interpretation
@@ -45,11 +51,11 @@ public class Main {
 		if(ap != null) {
 			List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
 			for(int i=0; i<itemsets.size(); i++) {
-				System.out.println((i+1)+"-itemsets:");
+				interpretor.getOutput().println((i+1)+"-itemsets:");
 				for(Itemset itemset: itemsets.get(i)) {
-					System.out.println(itemset);
+					interpretor.getOutput().println(itemset);
 				}
-				System.out.println();
+				interpretor.getOutput().println();
 			}
 		}
 	}
