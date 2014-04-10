@@ -1,8 +1,0 @@
-language: java
-
-notifications:
-  email:
-    recipients:
-      - paul.chaignon@insa-rennes.fr
-    on_success: never
-    on_failure: change

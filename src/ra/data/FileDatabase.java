@@ -1,14 +1,15 @@
 package ra.data;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ra.algo.Itemset;
@@ -24,11 +25,9 @@ public class FileDatabase extends Database {
 		this.file = file;
 	}
 
+	@SuppressWarnings("null")
 	@Override
-	public Map<Itemset, Double> calcSupport(List<Itemset> itemsets) {
-		Map<Itemset, Double> supports = new HashMap<Itemset, Double>();
-		int databaseSize = 0;
-		
+	public void calcSupport(List<Itemset> itemsets, double minSupport) {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(this.file));
@@ -38,15 +37,16 @@ public class FileDatabase extends Database {
 		}
 		// Iterate on the transactions:
 		String line;
+		String succ;
 		try {
-			while((line = in.readLine()) != null) {
+			line = in.readLine();
+			while(line != null) {
+				succ = in.readLine();
 				if(!"".equals(line)) {
-					// New transaction.
-					databaseSize++;
-					
 					String[] values = line.split(DataInterpreter.TXT_SEPARATOR);
 					// Compute the new support for each itemset with this transaction:
-					for(Itemset itemset: itemsets) {
+					for(int j = 0 ; j < itemsets.size() ; j++) {
+						Itemset itemset = itemsets.get(j);
 						// Checks that the whole itemset is present in this transaction:
 						boolean itemsetPresent = true;
 						for(int i=0; i<itemset.size(); i++) {
@@ -66,23 +66,24 @@ public class FileDatabase extends Database {
 						}
 						// If the whole itemset is present we increment the support:
 						if(itemsetPresent) {
-							supports.put(itemset, supports.get(itemset)+1);
+							itemset.incrementSupport();
+						}
+						if(succ == null && itemsets.get(j).getSupport() < minSupport) {
+							itemsets.remove(j);
+							j--;
 						}
 					}
 				}
+				line = succ;
 			}
 			in.close();
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}
-		
-		for(double support: supports.values()) {
-			support = support / databaseSize;
-		}
-		return supports;
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public Set<Integer> retrieveItems() {
 		// If we already retrieved them:
@@ -116,5 +117,28 @@ public class FileDatabase extends Database {
 		}
 		
 		return this.items;
+	}
+
+	@Override
+	protected int getNbTransactions() throws IOException {
+	    @SuppressWarnings("resource")
+		InputStream is = new BufferedInputStream(new FileInputStream(this.file));
+	    try {
+	        byte[] c = new byte[1024];
+	        int count = 0;
+	        int readChars = 0;
+	        boolean empty = true;
+			while ((readChars = is.read(c)) != -1) {
+			    empty = false;
+			    for (int i = 0; i < readChars; ++i) {
+			        if (c[i] == '\n') {
+			            ++count;
+			        }
+			    }
+			}
+	        return (count == 0 && !empty) ? 1 : count;
+	    } finally {
+	        is.close();
+	    }
 	}
 }

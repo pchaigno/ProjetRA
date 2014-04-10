@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import junit.framework.Assert;
+import junit.framework.TestCase;
 
 import ra.algo.APriori;
 import ra.algo.Itemset;
@@ -11,13 +12,14 @@ import ra.algo.MaxAPriori;
 import ra.data.Database;
 import ra.data.MemoryDatabase;
 
-public class TestMaxAPriori extends TestAPriori {
+public class TestMaxAPriori extends TestCase {
 
-	public void testMaxAPrioriMemory() {
+	public static void testMaxAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new MaxAPriori(database);
-		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
+		int absoluteSupport = database.calcAbsoluteSupport(0.5);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println(i+1+"-itemsets:");
 			for(Itemset itemset: itemsets.get(i)) {

@@ -19,7 +19,7 @@ public class TestDataInterpreter extends TestCase {
 		try {
 			dataInterpreter.interpret(tickets);
 			Assert.assertEquals(4835, dataInterpreter.getTransactions().size());
-			Assert.assertEquals(200, dataInterpreter.getItems().size());
+			Assert.assertEquals(92, dataInterpreter.getItems().size());
 		} catch (IllegalArgumentException | IOException e) {
 			Assert.fail(e.getMessage());
 		}
