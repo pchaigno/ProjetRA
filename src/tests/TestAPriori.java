@@ -9,7 +9,6 @@ import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.data.Database;
-import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
 
 public class TestAPriori extends TestCase {
@@ -23,6 +22,13 @@ public class TestAPriori extends TestCase {
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		for(int i=0; i<itemsets.size(); i++) {
+			System.out.println(i+1+"-itemsets:");
+			for(Itemset itemset: itemsets.get(i)) {
+				System.out.println(itemset);
+			}
+			System.out.println();
+		}
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(4, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
