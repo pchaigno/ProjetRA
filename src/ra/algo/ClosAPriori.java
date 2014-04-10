@@ -1,10 +1,8 @@
 package ra.algo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ra.data.Database;
-import ra.data.Transaction;
 
 public class ClosAPriori extends APriori {
 
@@ -24,7 +22,8 @@ public class ClosAPriori extends APriori {
 	@Override
 	public List<List<Itemset>> aPriori(double minSupport) {
 		// Updates the itemsets.
-		super.aPriori(minSupport);
+		// TODO Need to be optimized.
+		/*super.aPriori(minSupport);
 		
 		// Iterates on itemsets by ranks:
 		for(int i = 1 ; i < this.itemsets.size() ; i++) {
@@ -43,7 +42,8 @@ public class ClosAPriori extends APriori {
 			}
 		}
 
-		return this.itemsets;
+		return this.itemsets;*/
+		return null;
 	}
 	
 	/**
