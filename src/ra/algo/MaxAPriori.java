@@ -1,12 +1,9 @@
 package ra.algo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ra.data.Database;
-import ra.data.Transaction;
 
 public class MaxAPriori extends APriori {
 
@@ -42,7 +39,8 @@ public class MaxAPriori extends APriori {
 	 */
 	@Override
 	protected List<Itemset> calcK1Itemset(List<Itemset> kItemsets, double minSupport) {
-		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
+		// TODO Need to be optimized.
+		/*List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
 		// K-itemsets to remove from the list.
 		Set<Itemset> kItemsetsNonMaximal = new HashSet<Itemset>();
 		for(int i=0; i<kItemsets.size(); i++) {
@@ -68,6 +66,7 @@ public class MaxAPriori extends APriori {
 		// Removes the k-itemsets that are not maximal.
 		kItemsets.removeAll(kItemsetsNonMaximal);
 		
-		return itemsetsK1;
+		return itemsetsK1;*/
+		return null;
 	}
 }
