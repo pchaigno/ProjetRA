@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
+import ra.algo.Rule;
 import ra.data.Database;
 import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
@@ -19,6 +20,7 @@ public class TestAPriori extends TestCase {
 	 */
 	public void testAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
+		System.out.println(file);
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
 		List<List<Itemset>> itemsets = apriori.aPriori(0.5);
