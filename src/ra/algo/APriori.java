@@ -29,6 +29,7 @@ public class APriori {
 		boolean noMoreItemsets = false;
 		for(int i=1; !noMoreItemsets; i++) {
 			List<Itemset> newItemsets = this.calcK1Itemset(itemsets.get(i-1), minSupport);
+			System.out.println("---");
 			if(newItemsets.size() == 0) {
 				noMoreItemsets = true;
 			} else {
