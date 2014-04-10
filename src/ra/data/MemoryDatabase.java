@@ -2,9 +2,7 @@ package ra.data;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ra.algo.Itemset;
@@ -29,26 +27,14 @@ public class MemoryDatabase extends Database {
 	}
 	
 	@Override
-	public Map<Itemset, Double> calcSupport(List<Itemset> itemsets) {
-		Map<Itemset, Double> supports = new HashMap<Itemset, Double>();
-		
+	public void calcSupport(List<Itemset> itemsets) {
 		for(Transaction transaction: this.transactions) {
 			for(Itemset itemset: itemsets) {
 				if(transaction.contains(itemset)) {
-					Double value = supports.get(itemset);
-					if(value == null) {
-						supports.put(itemset, 1.0);
-					} else {
-						supports.put(itemset, value+1);
-					}
+					itemset.incrementSupport();
 				}
 			}
 		}
-		
-		for(double support: supports.values()) {
-			support = support / this.transactions.size();
-		}
-		return supports;
 	}
 
 	@Override

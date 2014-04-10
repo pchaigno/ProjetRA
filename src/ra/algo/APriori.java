@@ -54,7 +54,7 @@ public class APriori {
 		}
 		
 		// Checks the support of all itemsets:
-		itemsets = this.database.withMinSupport(itemsets, minSupport);
+		this.database.withMinSupport(itemsets, minSupport);
 		
 		this.itemsets.add(itemsets);
 	}
@@ -82,7 +82,7 @@ public class APriori {
 			}
 		}
 		// Checks support for all candidates:
-		candidates = this.database.withMinSupport(candidates, minSupport);
+		this.database.withMinSupport(candidates, minSupport);
 		return candidates;
 	}
 	

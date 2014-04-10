@@ -5,12 +5,14 @@ import java.util.List;
 
 public class Itemset {
 	protected ArrayList<Integer> data;
+	protected int support;
 	
 	/**
 	 * Empty constructor
 	 */
 	public Itemset() {
 		this.data = new ArrayList<Integer>();
+		this.support = 0;
 	}
 	
 	/**
@@ -19,6 +21,7 @@ public class Itemset {
 	 */
 	public Itemset(ArrayList<Integer> itemset) {
 		this.data = itemset;
+		this.support = 0;
 	}
 	
 	/**
@@ -27,6 +30,20 @@ public class Itemset {
 	 */
 	public int size() {
 		return this.data.size();
+	}
+	
+	/**
+	 * @return The support of the itemset.
+	 */
+	public int getSupport() {
+		return this.support;
+	}
+	
+	/**
+	 * Increment the support.
+	 */
+	public void incrementSupport() {
+		this.support++;
 	}
 	
 	/**
@@ -70,17 +87,20 @@ public class Itemset {
 	}
 	
 	/**
-	 * finds out if the current k-itemset is included in a k+1-itemset
-	 * @param k1Itemset the superior-itemset
-	 * @return true if the current itemset is included in k1Itemset
+	 * Checks if the current k-itemset is included in a k+1-itemset
+	 * @param k1Itemset the superior-itemset.
+	 * @return True if the current itemset is included in k1Itemset.
 	 */
 	public boolean isIncludedIn(Itemset k1Itemset) {
-		boolean res = true;
-		for(int i = 0 ; i < data.size() && res ; i++) {
-			int item = data.get(i);
-			res = k1Itemset.data.contains(item);	
+		if(k1Itemset.size() != this.size()+1) {
+			return false;
 		}
-		return res;
+		for(int i=0; i<this.data.size(); i++) {
+			if(!k1Itemset.data.contains(this.data.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	@Override

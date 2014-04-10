@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ra.algo.Itemset;
@@ -25,10 +23,7 @@ public class FileDatabase extends Database {
 	}
 
 	@Override
-	public Map<Itemset, Double> calcSupport(List<Itemset> itemsets) {
-		Map<Itemset, Double> supports = new HashMap<Itemset, Double>();
-		int databaseSize = 0;
-		
+	public void calcSupport(List<Itemset> itemsets) {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(this.file));
@@ -41,9 +36,6 @@ public class FileDatabase extends Database {
 		try {
 			while((line = in.readLine()) != null) {
 				if(!"".equals(line)) {
-					// New transaction.
-					databaseSize++;
-					
 					String[] values = line.split(DataInterpreter.TXT_SEPARATOR);
 					// Compute the new support for each itemset with this transaction:
 					for(Itemset itemset: itemsets) {
@@ -66,12 +58,7 @@ public class FileDatabase extends Database {
 						}
 						// If the whole itemset is present we increment the support:
 						if(itemsetPresent) {
-							Double value = supports.get(itemset);
-							if(value == null) {
-								supports.put(itemset, 1.0);
-							} else {
-								supports.put(itemset, value+1);
-							}
+							itemset.incrementSupport();
 						}
 					}
 				}
@@ -81,11 +68,6 @@ public class FileDatabase extends Database {
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}
-		
-		for(double support: supports.values()) {
-			support = support / databaseSize;
-		}
-		return supports;
 	}
 
 	@Override
