@@ -1,6 +1,7 @@
 package ra.algo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ra.data.Database;
 
@@ -31,10 +32,17 @@ public class Rule {
 	 * @param transactions The transactions associated with the rule
 	 * @return The confidence of the rule
 	 */
-	public double getConfidence() {
+	public double computeConfidence(Database database) {
+		List<Itemset> itemsets = new ArrayList<Itemset>();
 		
+		// Itemset formation to compute rule confidence
 		Itemset numerator = (new Itemset(this.antecedent)).getUnion(new Itemset(this.consequent));
 		Itemset denominator = new Itemset(this.antecedent);
+		
+		// Support confidence
+		itemsets.add(numerator);
+		itemsets.add(denominator);
+		database.calcSupport(itemsets); 
 		
 		return numerator.getSupport()/denominator.getSupport();
 	}
@@ -92,6 +100,7 @@ public class Rule {
 		return derivedRules;
 	}
 
+	@Override
 	public String toString() {
 		String rule = "Rule: ";
 		for(int item: this.antecedent) {

@@ -138,7 +138,7 @@ public class APriori {
 				// Itemset size must be at least 2 to generate rules
 				if(itemset.size() >= 2) {
 					for(Rule rule: itemset.generateSimpleRules()) {
-						if(rule.getConfidence() >= minConfidence) {
+						if(rule.computeConfidence(this.database) >= minConfidence) {
 							generatedRules.add(rule);
 							
 							// step 3 of rules generation : recursive rule generation
@@ -160,7 +160,7 @@ public class APriori {
 								next.clear();
 								
 								for(Rule derivedRule: derivedRules) {
-									if(derivedRule.getConfidence() >= minConfidence) {
+									if(derivedRule.computeConfidence(this.database) >= minConfidence) {
 										generatedRules.add(derivedRule);
 										
 										for(Rule newDerivedRule: derivedRule.deriveRules()) {
