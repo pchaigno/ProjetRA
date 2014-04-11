@@ -1,14 +1,11 @@
 package ra.data;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ra.algo.Itemset;
 
 public class Transaction {
-	protected Set<Integer> items;
 	protected List<Integer> data;
 
 	/**
@@ -16,7 +13,6 @@ public class Transaction {
 	 */
 	public Transaction() {
 		this.data = new ArrayList<Integer>();
-		this.items = new HashSet<Integer>();
 	}
 	
 	/**
@@ -25,7 +21,6 @@ public class Transaction {
 	 */
 	public void addItem(int i) {
 		this.data.add(i);
-		this.items.add(i);
 	}
 	
 	/**
@@ -41,12 +36,7 @@ public class Transaction {
 	 * @return True if it is.
 	 */
 	public boolean contains(Itemset itemset) {
-		for(int i=0; i<itemset.size(); i++) {
-			if(!this.data.contains(itemset.get(i))) {
-				return false;
-			}
-		}
-		return true;
+		return this.data.containsAll(itemset.getItems());
 	}
 	
 	@Override

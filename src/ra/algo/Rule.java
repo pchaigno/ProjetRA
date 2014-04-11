@@ -1,11 +1,8 @@
 package ra.algo;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import ra.data.Database;
-import ra.data.Transaction;
 
 public class Rule {
 	private ArrayList<Integer> antecedent;
@@ -34,7 +31,7 @@ public class Rule {
 	 * @param transactions The transactions associated with the rule
 	 * @return The confidence of the rule
 	 */
-	public double getConfidence(Database database) {
+	public double getConfidence() {
 		
 		Itemset numerator = (new Itemset(this.antecedent)).getUnion(new Itemset(this.consequent));
 		Itemset denominator = new Itemset(this.antecedent);

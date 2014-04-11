@@ -8,7 +8,6 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.Itemset;
-import ra.algo.Rule;
 import ra.data.Database;
 import ra.data.MemoryDatabase;
 

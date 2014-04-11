@@ -1,12 +1,10 @@
 package ra.algo;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import ra.data.Database;
-import ra.data.MemoryDatabase;
 
 public class APriori {
 	protected Database database;
@@ -83,6 +81,7 @@ public class APriori {
 				candidates.remove(i);
 			}
 		}
+		
 		// Checks support for all candidates:
 		this.database.withMinSupport(candidates, minSupport);
 		return candidates;
@@ -112,14 +111,14 @@ public class APriori {
 	public List<Rule> generateRules(double minConfidence) {
 		List<Rule> generatedRules = new ArrayList<Rule>();
 
-		// generate every possible rule for each itemset
-		// compute confidence for each one and add it if greater than minConfidence
-		for(List<Itemset> setOfItemset : itemsets) {
-			for(Itemset itemset : setOfItemset) {
+		// Generates every possible rule for each itemset:
+		// Computes confidence for each one and add it if greater than minConfidence.
+		for(List<Itemset> setOfItemset: this.itemsets) {
+			for(Itemset itemset: setOfItemset) {
 				// Itemset size must be at least 2 to generate rules
 				if(itemset.size() >= 2) {
-					for(Rule rule : itemset.generateSimpleRules()) {
-						if(rule.getConfidence(database) >= minConfidence) {
+					for(Rule rule: itemset.generateSimpleRules()) {
+						if(rule.getConfidence() >= minConfidence) {
 							generatedRules.add(rule);
 							
 							// step 3 of rules generation : recursive rule generation
@@ -129,19 +128,24 @@ public class APriori {
 
 							while(!next.isEmpty() || !started) {
 								// The first time we want to keep the original derived rules
-								if(started) derivedRules = new ArrayList<Rule>(next);
+								if(started) {
+									derivedRules = new ArrayList<Rule>(next);
+								}
 								
 								// Executed at the first iteration
-								if(!started) started = true;
+								if(!started) {
+									started = true;
+								}
 								
 								next.clear();
 								
-								for(Rule derivedRule : derivedRules) {
-									if(derivedRule.getConfidence(database) >= minConfidence) {
+								for(Rule derivedRule: derivedRules) {
+									if(derivedRule.getConfidence() >= minConfidence) {
 										generatedRules.add(derivedRule);
 										
-										for(Rule newDerivedRule : derivedRule.deriveRules())
+										for(Rule newDerivedRule: derivedRule.deriveRules()) {
 											next.add(newDerivedRule);
+										}
 									}
 								}
 							}
@@ -150,7 +154,6 @@ public class APriori {
 				}
 			}
 		}
-
 		return generatedRules;
 	}
 	
