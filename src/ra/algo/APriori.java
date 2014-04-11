@@ -108,7 +108,7 @@ public class APriori {
 	 * @param minConfidence The required minimum confidence to keep rules during the process
 	 * @return The generated rules
 	 */
-	public List<Rule> generateRules(double minConfidence) {
+	public List<Rule> generateRules(double minConfidence, double minSupport) {
 		List<Rule> generatedRules = new ArrayList<Rule>();
 
 		// Generates every possible rule for each itemset:
@@ -118,7 +118,7 @@ public class APriori {
 				// Itemset size must be at least 2 to generate rules
 				if(itemset.size() >= 2) {
 					for(Rule rule: itemset.generateSimpleRules()) {
-						if(rule.getConfidence() >= minConfidence) {
+						if(rule.computeConfidence(database, minSupport) >= minConfidence) {
 							generatedRules.add(rule);
 							
 							// step 3 of rules generation : recursive rule generation
@@ -140,7 +140,7 @@ public class APriori {
 								next.clear();
 								
 								for(Rule derivedRule: derivedRules) {
-									if(derivedRule.getConfidence() >= minConfidence) {
+									if(derivedRule.computeConfidence(database, minSupport) >= minConfidence) {
 										generatedRules.add(derivedRule);
 										
 										for(Rule newDerivedRule: derivedRule.deriveRules()) {

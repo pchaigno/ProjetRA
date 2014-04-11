@@ -5,6 +5,7 @@ import java.util.List;
 
 import ra.algo.APriori;
 import ra.algo.Itemset;
+import ra.algo.Rule;
 import ra.data.Database;
 import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
@@ -53,6 +54,7 @@ public class Main {
 		if(ap != null) {
 			System.out.println("Performing apriori...");
 			List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
+			List<Rule> rules = ap.generateRules(interpretor.getConfidence(), interpretor.getSupport());
 			System.out.println("Done");
 			for(int i=0; i<itemsets.size(); i++) {
 				interpretor.getOutput().println((i+1)+"-itemsets:");
@@ -60,6 +62,9 @@ public class Main {
 					interpretor.getOutput().println(itemset);
 				}
 				interpretor.getOutput().println();
+			}
+			for(Rule rule : rules) {
+				interpretor.getOutput().print(rule);
 			}
 		}
 	}
