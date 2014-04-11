@@ -62,6 +62,7 @@ public class TestAPriori extends TestCase {
 		double minConfidence = 0.8;
 		double minSupport = 0.5;
 		List<Rule> generatedRules = apriori.generateRules(minConfidence, minSupport);
+		Assert.assertFalse(generatedRules.isEmpty());
 		for(Rule rule : generatedRules) {
 			System.out.println(rule);
 		}
