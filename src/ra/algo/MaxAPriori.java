@@ -13,10 +13,11 @@ public class MaxAPriori extends APriori {
 	 */
 	public MaxAPriori(Database database) {
 		super(database);
+		this.completeSupportCalc = false;
 	}
 
 	@Override
-	public List<List<Itemset>> aPriori(double minSupport) {
+	public List<List<Itemset>> aPriori(int minSupport) {
 		this.itemsets = super.aPriori(minSupport);
 		for(int i=0; i<this.itemsets.size()-1; i++) {
 			List<Itemset> kItemsetList = new ArrayList<Itemset>(this.itemsets.get(i));

@@ -52,7 +52,8 @@ public class Main {
 		APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), database);
 		if(ap != null) {
 			System.out.println("Performing apriori...");
-			List<List<Itemset>> itemsets = ap.aPriori(interpretor.getSupport());
+			int support = database.calcAbsoluteSupport(interpretor.getSupport());
+			List<List<Itemset>> itemsets = ap.aPriori(support);
 			System.out.println("Done");
 			for(int i=0; i<itemsets.size(); i++) {
 				interpretor.getOutput().println((i+1)+"-itemsets:");

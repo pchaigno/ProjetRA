@@ -9,6 +9,7 @@ import ra.data.Database;
 public class APriori {
 	protected Database database;
 	protected List<List<Itemset>> itemsets;
+	protected boolean completeSupportCalc;
 	
 	/**
 	 * Constructor
@@ -17,6 +18,7 @@ public class APriori {
 	public APriori(Database database) {
 		this.database = database;
 		this.itemsets = new ArrayList<List<Itemset>>();
+		this.completeSupportCalc = true;
 	}
 	
 	/**
@@ -24,7 +26,7 @@ public class APriori {
 	 * @param minSupport The minimum support to keep an itemset.
 	 * @return All the computed k-itemsets.
 	 */
-	public List<List<Itemset>> aPriori(double minSupport) {
+	public List<List<Itemset>> aPriori(int minSupport) {
 		this.init1Itemset(minSupport);
 		boolean noMoreItemsets = false;
 		for(int i=1; !noMoreItemsets; i++) {
@@ -35,14 +37,31 @@ public class APriori {
 				this.itemsets.add(newItemsets);
 			}
 		}
+		
+		// If the support calculation was incomplete we need to update it:
+		if(!this.completeSupportCalc) {
+			updateSupport();
+		}
+		
 		return this.itemsets;
+	}
+	
+	/**
+	 * Updates the support of the itemsets found.
+	 * This can be usefull for maximum and closed itemsets because we don't compute completly the support the first time.
+	 * Indeed, some of the itemsets on which we compute the support will then be removed (non-closed or non-maximum).
+	 */
+	private void updateSupport() {
+		for(int level=0; level<this.itemsets.size(); level++) {
+			this.database.calcSupport(this.itemsets.get(level));
+		}
 	}
 	
 	/**
 	 * Computes the 1-itemsets from the transactions.
 	 * @param minSupport The minimum support to keep an itemset.
 	 */
-	protected void init1Itemset(double minSupport) {
+	protected void init1Itemset(int minSupport) {
 		Set<Integer> items = this.database.retrieveItems();
 		
 		// Generates the 1-itemsets:
@@ -54,9 +73,9 @@ public class APriori {
 		}
 		
 		// Checks the support of all itemsets:
-		this.database.withMinSupport(itemsets, minSupport);
+		List<Itemset> frequentItemsets = this.database.withMinSupport(itemsets, minSupport, this.completeSupportCalc);
 		
-		this.itemsets.add(itemsets);
+		this.itemsets.add(frequentItemsets);
 	}
 	
 	/**
@@ -65,7 +84,7 @@ public class APriori {
 	 * @param minSupport The minimum support to keep a k+1-itemset.
 	 * @return The k+1-itemsets.
 	 */
-	protected List<Itemset> calcK1Itemset(List<Itemset> itemsets, double minSupport) {
+	protected List<Itemset> calcK1Itemset(List<Itemset> itemsets, int minSupport) {
 		List<Itemset> candidates = new ArrayList<Itemset>();
 		
 		// Generates candidates of size k+1 for k-itemsets:
@@ -83,8 +102,9 @@ public class APriori {
 		}
 		
 		// Checks support for all candidates:
-		this.database.withMinSupport(candidates, minSupport);
-		return candidates;
+		List<Itemset> frequentItemsets = this.database.withMinSupport(candidates, minSupport, this.completeSupportCalc);
+		
+		return frequentItemsets;
 	}
 	
 	/**

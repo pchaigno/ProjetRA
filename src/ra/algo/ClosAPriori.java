@@ -13,6 +13,7 @@ public class ClosAPriori extends APriori {
 	 */
 	public ClosAPriori(Database database) {
 		super(database);
+		this.completeSupportCalc = false;
 	}
 	
 	/**
@@ -21,7 +22,7 @@ public class ClosAPriori extends APriori {
 	 * @return List of itemsets ordered by ranks.
 	 */
 	@Override
-	public List<List<Itemset>> aPriori(double minSupport) {
+	public List<List<Itemset>> aPriori(int minSupport) {
 		// Computes the itemsets.
 		super.aPriori(minSupport);
 		

@@ -1,8 +1,8 @@
 package ra.controller;
 
 import ra.algo.APriori;
+import ra.algo.ClosAPriori;
 import ra.algo.MaxAPriori;
-import ra.algo.OptimizedClosAPriori;
 import ra.data.Database;
 
 /**
@@ -23,7 +23,7 @@ public class APrioriFactory {
 			case "maximal" :
 				return new MaxAPriori(database);
 			case "closed" :
-				return new OptimizedClosAPriori(database);
+				return new ClosAPriori(database);
 			default:
 				return null;
 		}

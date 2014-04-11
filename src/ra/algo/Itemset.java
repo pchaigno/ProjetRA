@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Itemset {
+public class Itemset implements Comparable<Itemset> {
 	protected ArrayList<Integer> data;
 	protected int support;
+	// The stop point, ie the last transaction read when computing the support.
+	// Used for update of the support.
+	public int stopPoint;
 	
 	/**
 	 * Empty constructor
@@ -15,6 +18,7 @@ public class Itemset {
 	public Itemset() {
 		this.data = new ArrayList<Integer>();
 		this.support = 0;
+		this.stopPoint = 0;
 	}
 	
 	/**
@@ -42,7 +46,7 @@ public class Itemset {
 	}
 	
 	/**
-	 * Increment the support.
+	 * Increments the support.
 	 */
 	public void incrementSupport() {
 		this.support++;
@@ -174,10 +178,10 @@ public class Itemset {
 	@Override
 	public String toString() {
 		String result = "Itemset: ";
-		for(int item: this.data) {
-			result += item +" ";
+		for(int i=0; i<this.data.size()-1; i++) {
+			result += this.data.get(i) + " ";
 		}
-		return result;
+		return result + this.data.get(this.data.size()-1);
 	}
 
 	@Override
@@ -233,6 +237,19 @@ public class Itemset {
 			subItemsets.add(subItemset);
 		}
 		return subItemsets;
+	}
+
+	@Override
+	public int compareTo(Itemset itemset) {
+		int minSize = Math.min(itemset.size(), this.size());
+		int compare;
+		for(int i=0; i<minSize; i++) {
+			compare = this.data.get(i).compareTo(itemset.get(i));
+			if(compare != 0) {
+				return compare;
+			}
+		}
+		return 0;
 	}
 
 }

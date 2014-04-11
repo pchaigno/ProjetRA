@@ -27,7 +27,7 @@ public class FileDatabase extends Database {
 
 	@SuppressWarnings("null")
 	@Override
-	public void calcSupport(List<Itemset> itemsets, double minSupport) {
+	public void calcSupport(List<Itemset> itemsets) {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(this.file));
@@ -37,11 +37,8 @@ public class FileDatabase extends Database {
 		}
 		// Iterate on the transactions:
 		String line;
-		String succ;
 		try {
-			line = in.readLine();
-			while(line != null) {
-				succ = in.readLine();
+			while((line = in.readLine()) != null) {
 				if(!"".equals(line)) {
 					String[] values = line.split(DataInterpreter.TXT_SEPARATOR);
 					// Compute the new support for each itemset with this transaction:
@@ -68,19 +65,20 @@ public class FileDatabase extends Database {
 						if(itemsetPresent) {
 							itemset.incrementSupport();
 						}
-						if(succ == null && itemsets.get(j).getSupport() < minSupport) {
-							itemsets.remove(j);
-							j--;
-						}
 					}
 				}
-				line = succ;
 			}
 			in.close();
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}
+	}
+
+	@Override
+	protected List<Itemset> calcSupportIncomplete(List<Itemset> itemsets, int minSupport) {
+		// TODO
+		return itemsets;
 	}
 
 	@SuppressWarnings("null")
@@ -140,5 +138,11 @@ public class FileDatabase extends Database {
 	    } finally {
 	        is.close();
 	    }
+	}
+
+	@Override
+	public void updateSupport(List<Itemset> itemsets) {
+		// TODO Optimize?
+		this.calcSupport(itemsets);
 	}
 }
