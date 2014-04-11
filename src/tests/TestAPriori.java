@@ -61,6 +61,7 @@ public class TestAPriori extends TestCase {
 		
 		double minConfidence = 0.8;
 		List<Rule> generatedRules = apriori.generateRules(minConfidence);
+		Assert.assertFalse(generatedRules.isEmpty());
 		for(Rule rule : generatedRules) {
 			System.out.println(rule);
 		}
@@ -76,8 +77,7 @@ public class TestAPriori extends TestCase {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
-		int support = database.calcAbsoluteSupport(0.20);
-		List<List<Itemset>> itemsets = ap.aPriori(support);
+		List<List<Itemset>> itemsets = ap.aPriori(200);
 		int totalSize = 0;
 		for(int i=0; i<itemsets.size(); i++) {
 			for(Itemset itemset: itemsets.get(i)) {
