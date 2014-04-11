@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -32,5 +33,22 @@ public class TestMaxAPriori extends TestCase {
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
 		Assert.assertEquals(1, itemsets.get(2).size());
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+	}
+	
+	/**
+	 * Tests the Max APriori algorithm on a real file.
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 */
+	public static void testMaxAPrioriRealFile() throws IllegalArgumentException {
+		File file = new File("res/fichiers_entree/5027_articles.txt");
+		Database database = new MemoryDatabase(file);
+		APriori ap = new MaxAPriori(database);
+		List<List<Itemset>> itemsets = ap.aPriori(200);
+		int totalSize = 0;
+		for(int i=0; i<itemsets.size(); i++) {
+			totalSize += itemsets.get(i).size();
+		}
+		Assert.assertEquals(2052, totalSize);
 	}
 }

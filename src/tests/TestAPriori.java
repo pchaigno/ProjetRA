@@ -49,8 +49,7 @@ public class TestAPriori extends TestCase {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
-		int absoluteSupport = database.calcAbsoluteSupport(0.0413650465);
-		List<List<Itemset>> itemsets = ap.aPriori(absoluteSupport);
+		List<List<Itemset>> itemsets = ap.aPriori(200);
 		int totalSize = 0;
 		for(int i=0; i<itemsets.size(); i++) {
 			totalSize += itemsets.get(i).size();

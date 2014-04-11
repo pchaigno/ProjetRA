@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -30,5 +31,22 @@ public class TestClosApriori extends TestCase {
 
 		Assert.assertEquals(1, itemsets.get(2).size());
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+	}
+	
+	/**
+	 * Tests the Closed APriori algorithm on a real file.
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 */
+	public static void testClosAPrioriRealFile() throws IllegalArgumentException {
+		File file = new File("res/fichiers_entree/5027_articles.txt");
+		Database database = new MemoryDatabase(file);
+		APriori ap = new ClosAPriori(database);
+		List<List<Itemset>> itemsets = ap.aPriori(200);
+		int totalSize = 0;
+		for(int i=0; i<itemsets.size(); i++) {
+			totalSize += itemsets.get(i).size();
+		}
+		Assert.assertEquals(4518, totalSize);
 	}
 }

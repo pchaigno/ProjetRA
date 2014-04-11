@@ -47,13 +47,13 @@ public abstract class Database {
 	 * @param minSupport The minimum support.
 	 */
 	public void withMinSupport(List<Itemset> itemsets, double minSupport) {
-		this.calcSupport(itemsets, minSupport);/*
+		this.calcSupport(itemsets, minSupport);
 		for(int i=0; i<itemsets.size(); i++) {
 			if(itemsets.get(i).getSupport() < minSupport) {
 				itemsets.remove(i);
 				i--;
 			}
-		}*/
+		}
 	}
 	
 	/**
