@@ -25,6 +25,7 @@ close(DICTIONARY);
 open(OUT, "> $output_file") or die "Unable to write $output_file:\n$!\n";
 open(ARTICLES, "< $data_file") or die "Unable to read $data_file:\n$!\n";
 while(my $article = <ARTICLES>) {
+	$article =~ tr/ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöùúûüýÿ/AAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinooooouuuuyy/;
 	my $empty_line = true;
 	for(my $i=0; $i<=$#dictionary; $i++) {
 		my $word = $dictionary[$i];

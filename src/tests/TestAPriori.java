@@ -95,14 +95,7 @@ public class TestAPriori extends TestCase {
 		APriori ap = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = ap.aPriori(support);
-		int totalSize = 0;
-		for(int i=0; i<itemsets.size(); i++) {
-			for(Itemset itemset: itemsets.get(i)) {
-				System.out.println(itemset+" - "+itemset.getSupport());
-			}
-			totalSize += itemsets.get(i).size();
-		}
-		Assert.assertEquals(8, totalSize);
+		Assert.assertEquals(7, itemsets.get(0).size());
 	}
 	
 	/**
@@ -119,6 +112,6 @@ public class TestAPriori extends TestCase {
 		for(int i=0; i<itemsets.size(); i++) {
 			totalSize += itemsets.get(i).size();
 		}
-		Assert.assertEquals(544, totalSize);
+		Assert.assertEquals(420, totalSize);
 	}
 }
