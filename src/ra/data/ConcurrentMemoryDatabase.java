@@ -10,7 +10,7 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	protected int nbThreads;
 	
 	/**
-	 * Thread which compute the support.
+	 * Thread which computes the support.
 	 * @see calcSupport
 	 */
 	class CalcSupportThread extends Thread {
@@ -20,7 +20,7 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 		
 		/**
 		 * Constructor
-		 * @param itemsets Itemsets whose support need to be computed.
+		 * @param itemsets Itemsets whose support needs to be computed.
 		 * @param firstTransaction The first transaction to read.
 		 * @param nbTransactions The number of transaction to read in this thread.
 		 */
@@ -35,6 +35,41 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 			for(int i=this.firstTransaction; i<=this.lastTransaction; i++) {
 				for(Itemset itemset: this.itemsets) {
 					if(transactions.get(i).contains(itemset)) {
+						itemset.incrementSupport();
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Thread which updates the support.
+	 * @see updateSupport
+	 */
+	class UpdateSupportThread extends Thread {
+		private List<Itemset> itemsets;
+		private int firstItemset;
+		private int lastItemset;
+		
+		/**
+		 * Constructor
+		 * @param itemsets Itemsets whose support needs to be updated.
+		 * @param firstItemset The first itemset to update.
+		 * @param nbItemset The number of itemsets to update.
+		 */
+		public UpdateSupportThread(List<Itemset> itemsets, int firstItemset, int nbItemset) {
+			this.itemsets = itemsets;
+			this.firstItemset = firstItemset;
+			this.lastItemset = firstItemset + nbItemset - 1;
+		}
+		
+		@Override
+		public void run() {
+			Itemset itemset;
+			for(int i=this.firstItemset; i<=this.lastItemset; i++) {
+				itemset = this.itemsets.get(i);
+				for(int j=itemset.stopPoint+1; j<transactions.size(); j++) {
+					if(transactions.get(j).contains(itemset)) {
 						itemset.incrementSupport();
 					}
 				}
@@ -71,6 +106,32 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 		
 		// Wait for all the threads to end:
 		for(CalcSupportThread thread: threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+	}
+	
+	@Override
+	public void updateSupport(List<Itemset> itemsets) {
+		int nbItemsetsPerThread = itemsets.size() / this.nbThreads;
+		int nbRemainingItemsets = itemsets.size() - nbItemsetsPerThread * this.nbThreads;
+		List<UpdateSupportThread> threads = new ArrayList<UpdateSupportThread>();
+		
+		// The first thread will get a bit more itemsets (nbItemsets not always divisible by nbThreads):
+		UpdateSupportThread firstThread = new UpdateSupportThread(itemsets, 0, nbRemainingItemsets + nbItemsetsPerThread);
+		threads.add(firstThread);
+		firstThread.start();
+		for(int i=nbRemainingItemsets+nbItemsetsPerThread; i<itemsets.size(); i+=nbItemsetsPerThread) {
+			UpdateSupportThread thread = new UpdateSupportThread(itemsets, i, nbItemsetsPerThread);
+			threads.add(thread);
+			thread.start();
+		}
+		
+		// Wait for all the threads to end:
+		for(UpdateSupportThread thread: threads) {
 			try {
 				thread.join();
 			} catch (InterruptedException e) {

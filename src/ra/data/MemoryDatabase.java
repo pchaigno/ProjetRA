@@ -43,7 +43,7 @@ public class MemoryDatabase extends Database {
 	public void updateSupport(List<Itemset> itemsets) {
 		for(Itemset itemset: itemsets) {
 			for(int i=itemset.stopPoint+1; i<this.transactions.size(); i++) {
-				if(transactions.get(i).contains(itemset)) {
+				if(this.transactions.get(i).contains(itemset)) {
 					itemset.incrementSupport();
 				}
 			}
