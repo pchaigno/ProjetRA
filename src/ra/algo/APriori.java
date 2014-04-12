@@ -53,7 +53,7 @@ public class APriori {
 	 */
 	private void updateSupport() {
 		for(int level=0; level<this.itemsets.size(); level++) {
-			this.database.calcSupport(this.itemsets.get(level));
+			this.database.updateSupport(this.itemsets.get(level));
 		}
 	}
 	
