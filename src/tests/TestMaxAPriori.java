@@ -49,6 +49,6 @@ public class TestMaxAPriori extends TestCase {
 		for(int i=0; i<itemsets.size(); i++) {
 			totalSize += itemsets.get(i).size();
 		}
-		Assert.assertEquals(2052, totalSize);
+		Assert.assertEquals(382, totalSize);
 	}
 }

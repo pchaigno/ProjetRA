@@ -47,6 +47,6 @@ public class TestClosApriori extends TestCase {
 		for(int i=0; i<itemsets.size(); i++) {
 			totalSize += itemsets.get(i).size();
 		}
-		Assert.assertEquals(4518, totalSize);
+		Assert.assertEquals(544, totalSize);
 	}
 }

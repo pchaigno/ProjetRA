@@ -67,17 +67,17 @@ public class TestAPriori extends TestCase {
 		}
 	}
 	
-	
 	/**
 	 * Tests the APriori algorithm on a real file.
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile() throws IllegalArgumentException {
+	public static void testAPrioriRealFile20() throws IllegalArgumentException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(200);
+		int support = database.calcAbsoluteSupport(0.2);
+		List<List<Itemset>> itemsets = ap.aPriori(support);
 		int totalSize = 0;
 		for(int i=0; i<itemsets.size(); i++) {
 			for(Itemset itemset: itemsets.get(i)) {
@@ -85,6 +85,23 @@ public class TestAPriori extends TestCase {
 			}
 			totalSize += itemsets.get(i).size();
 		}
-		Assert.assertEquals(5378, totalSize);
+		Assert.assertEquals(8, totalSize);
+	}
+	
+	/**
+	 * Tests the APriori algorithm on a real file.
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 */
+	public static void testAPrioriRealFile4() throws IllegalArgumentException {
+		File file = new File("res/fichiers_entree/5027_articles.txt");
+		Database database = new MemoryDatabase(file);
+		APriori ap = new APriori(database);
+		List<List<Itemset>> itemsets = ap.aPriori(200);
+		int totalSize = 0;
+		for(int i=0; i<itemsets.size(); i++) {
+			totalSize += itemsets.get(i).size();
+		}
+		Assert.assertEquals(544, totalSize);
 	}
 }

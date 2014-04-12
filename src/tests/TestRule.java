@@ -1,19 +1,15 @@
 package tests;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import ra.algo.APriori;
-import ra.algo.Itemset;
-import ra.algo.MaxAPriori;
 import ra.algo.Rule;
-import ra.data.Database;
 
 public class TestRule extends TestCase {
-
+	
+	@SuppressWarnings("serial")
 	public void testDeriveRules() {
 		ArrayList<Integer> antecedent = new ArrayList<Integer>() {{
 			add(1); add(2); add(3);
@@ -43,8 +39,5 @@ public class TestRule extends TestCase {
 		Assert.assertEquals(new Integer(2), derivedRules.get(2).getAntecedent().get(1));
 		Assert.assertEquals(new Integer(4), derivedRules.get(2).getConsequent().get(0));
 		Assert.assertEquals(new Integer(3), derivedRules.get(2).getConsequent().get(1));
-
-
 	}
-
 }
