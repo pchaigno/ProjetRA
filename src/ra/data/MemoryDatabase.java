@@ -10,7 +10,7 @@ import java.util.Set;
 import ra.algo.Itemset;
 
 public class MemoryDatabase extends Database {
-	private List<Transaction> transactions;
+	protected List<Transaction> transactions;
 	
 	/**
 	 * Constructor

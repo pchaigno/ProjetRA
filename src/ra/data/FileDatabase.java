@@ -15,7 +15,7 @@ import java.util.Set;
 import ra.algo.Itemset;
 
 public class FileDatabase extends Database {
-	private File file;
+	protected File file;
 	
 	/**
 	 * Constructor
