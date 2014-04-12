@@ -3,6 +3,7 @@ package ra.algo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import ra.data.Database;
 
@@ -65,7 +66,7 @@ public class APriori {
 		Set<Integer> items = this.database.retrieveItems();
 		
 		// Generates the 1-itemsets:
-		List<Itemset> itemsets = new ArrayList<Itemset>();
+		List<Itemset> itemsets = new Vector<Itemset>();
 		for(int item: items) {
 			Itemset itemset = new Itemset();
 			itemset.add(item);
@@ -85,7 +86,7 @@ public class APriori {
 	 * @return The k+1-itemsets.
 	 */
 	protected List<Itemset> calcK1Itemset(List<Itemset> itemsets, int minSupport) {
-		List<Itemset> candidates = new ArrayList<Itemset>();
+		List<Itemset> candidates = new Vector<Itemset>();
 		
 		// Generates candidates of size k+1 for k-itemsets:
 		for(int i=0; i<itemsets.size(); i++) {

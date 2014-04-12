@@ -75,7 +75,8 @@ public abstract class Database {
 			}
 			return itemsets;
 		}
-		return this.calcSupportIncomplete(itemsets, minSupport);
+		List<Itemset> frequentItemsets = this.calcSupportIncomplete(itemsets, minSupport);
+		return frequentItemsets;
 	}
 	
 	/**

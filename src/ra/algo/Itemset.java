@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 public class Itemset implements Comparable<Itemset> {
 	protected ArrayList<Integer> data;
@@ -50,6 +51,14 @@ public class Itemset implements Comparable<Itemset> {
 	 */
 	public synchronized void incrementSupport() {
 		this.support++;
+	}
+	
+	/**
+	 * Synchronized method to update the stop point.
+	 * @param stopPoint The new stop point.
+	 */
+	public synchronized void setStopPoint(int stopPoint) {
+		this.stopPoint = stopPoint;
 	}
 	
 	/**
@@ -208,7 +217,7 @@ public class Itemset implements Comparable<Itemset> {
 	 * @return The k+1-itemsets.
 	 */
 	public List<Itemset> calcItemsetsK1(Itemset itemset) {
-		List<Itemset> itemsetsK1 = new ArrayList<Itemset>();
+		List<Itemset> itemsetsK1 = new Vector<Itemset>();
 		if(this.commonBase(itemset)) {
 			Itemset base = this.getBase();
 			int a = this.get(this.size()-1);
@@ -230,7 +239,7 @@ public class Itemset implements Comparable<Itemset> {
 	 * @return The k-itemsets.
 	 */
 	public List<Itemset> calcSubItemsets() {
-		ArrayList<Itemset> subItemsets = new ArrayList<Itemset>();
+		Vector<Itemset> subItemsets = new Vector<Itemset>();
 		for(int i=0; i<this.size(); i++) {
 			Itemset subItemset = this.clone();
 			subItemset.data.remove(i);

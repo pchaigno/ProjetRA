@@ -43,6 +43,51 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	}
 	
 	/**
+	 * Thread which computes partially the support.
+	 * @see calcSupportIncomplete
+	 */
+	class CalcSupportIncompleteThread extends Thread {
+		List<Itemset> itemsets;
+		private int minSupport;
+		private int firstTransaction;
+		private int lastTransaction;
+		
+		/**
+		 * Constructor
+		 * @param itemsets Itemsets whose support needs to be updated.
+		 * @param minSupport The minimum support.
+		 * @param firstItemset The first itemset to update.
+		 * @param nbItemset The number of itemsets to update.
+		 */
+		public CalcSupportIncompleteThread(List<Itemset> itemsets, int minSupport, int firstTransaction, int nbTransactions) {
+			this.itemsets = itemsets;
+			this.minSupport = minSupport;
+			this.firstTransaction = firstTransaction;
+			this.lastTransaction = firstTransaction + nbTransactions - 1;
+		}
+
+		@Override
+		public void run() {
+			Itemset itemset;
+			for(int j=this.firstTransaction; j<=this.lastTransaction; j++) {
+				for(int i=0; i<this.itemsets.size(); i++) {
+					itemset = this.itemsets.get(i);
+					// Checks if the itemset isn't already known as frequent.
+					if(itemset.stopPoint == 0) {
+						if(transactions.get(j).contains(itemset)) {
+							itemset.incrementSupport();
+							if(itemset.getSupport() >= this.minSupport) {
+								// Save the last transaction read to update later.
+								itemset.setStopPoint(j);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Thread which updates the support.
 	 * @see updateSupport
 	 */
@@ -138,5 +183,53 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 				System.err.println(e.getMessage());
 			}
 		}
+	}
+	
+	/**
+	 * We must redefine withMinSupport because the algorithm for calcSupportIncomplete isn't the same as in MemoryDatabase.
+	 * In this algorithm the un-frequent itemsets are not removed while reading the transactions.
+	 */
+	@Override
+	public List<Itemset> withMinSupport(List<Itemset> itemsets, int minSupport, boolean completeSupportCalc) {
+		if(completeSupportCalc) {
+			this.calcSupport(itemsets);
+		} else {
+			this.calcSupportIncomplete(itemsets, minSupport);
+		}
+		for(int i=0; i<itemsets.size(); i++) {
+			if(itemsets.get(i).getSupport() < minSupport) {
+				itemsets.remove(i);
+				i--;
+			}
+		}
+		return itemsets;
+	}
+	
+	@Override
+	protected List<Itemset> calcSupportIncomplete(List<Itemset> itemsets, int minSupport) {
+		int nbTransactionsPerThread = this.transactions.size() / this.nbThreads;
+		int nbRemainingTransactions = this.transactions.size() - nbTransactionsPerThread * this.nbThreads;
+		List<CalcSupportIncompleteThread> threads = new ArrayList<CalcSupportIncompleteThread>();
+		
+		// The first thread will get a bit more transactions (nbTransactions not always divisible by nbThreads):
+		CalcSupportIncompleteThread firstThread = new CalcSupportIncompleteThread(itemsets, minSupport, 0, nbRemainingTransactions + nbTransactionsPerThread);
+		threads.add(firstThread);
+		firstThread.start();
+		for(int i=nbRemainingTransactions+nbTransactionsPerThread; i<this.transactions.size(); i+=nbTransactionsPerThread) {
+			CalcSupportIncompleteThread thread = new CalcSupportIncompleteThread(itemsets, minSupport, i, nbTransactionsPerThread);
+			threads.add(thread);
+			thread.start();
+		}
+		
+		// Wait for all the threads to end:
+		for(CalcSupportIncompleteThread thread: threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		return itemsets;
 	}
 }
