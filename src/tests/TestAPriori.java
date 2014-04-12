@@ -21,7 +21,6 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
-		System.out.println(file);
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
@@ -48,7 +47,6 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriConcurrentMemory() {
 		File file = new File("res/unit_tests/transactions.txt");
-		System.out.println(file);
 		Database database = new ConcurrentMemoryDatabase(file, 4);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
@@ -75,7 +73,6 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriRulesGeneration() {
 		File file = new File("res/unit_tests/transactions.txt");
-		System.out.println(file);
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);

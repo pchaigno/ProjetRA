@@ -48,7 +48,7 @@ public class Itemset implements Comparable<Itemset> {
 	/**
 	 * Increments the support.
 	 */
-	public void incrementSupport() {
+	public synchronized void incrementSupport() {
 		this.support++;
 	}
 	
