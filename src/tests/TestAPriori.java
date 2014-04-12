@@ -65,6 +65,23 @@ public class TestAPriori extends TestCase {
 		for(Rule rule : generatedRules) {
 			System.out.println(rule);
 		}
+		// 1 -> 3
+		Assert.assertEquals((Integer) 1, generatedRules.get(0).getAntecedent().get(0));
+		Assert.assertEquals((Integer) 3, generatedRules.get(0).getConsequent().get(0));
+		// 5 -> 2
+		Assert.assertEquals((Integer) 5, generatedRules.get(1).getAntecedent().get(0));
+		Assert.assertEquals((Integer) 2, generatedRules.get(1).getConsequent().get(0));
+		// 2 -> 5
+		Assert.assertEquals((Integer) 2, generatedRules.get(2).getAntecedent().get(0));
+		Assert.assertEquals((Integer) 5, generatedRules.get(2).getConsequent().get(0));
+		// 3 5 -> 2
+		Assert.assertEquals((Integer) 3, generatedRules.get(3).getAntecedent().get(0));
+		Assert.assertEquals((Integer) 5, generatedRules.get(3).getAntecedent().get(1));
+		Assert.assertEquals((Integer) 2, generatedRules.get(3).getConsequent().get(0));
+		// 2 3 -> 5
+		Assert.assertEquals((Integer) 2, generatedRules.get(4).getAntecedent().get(0));
+		Assert.assertEquals((Integer) 3, generatedRules.get(4).getAntecedent().get(1));
+		Assert.assertEquals((Integer) 5, generatedRules.get(4).getConsequent().get(0));
 	}
 	
 	/**
