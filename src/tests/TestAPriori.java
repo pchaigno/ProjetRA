@@ -124,7 +124,12 @@ public class TestAPriori extends TestCase {
 		APriori ap = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = ap.aPriori(support);
-		Assert.assertEquals(7, itemsets.get(0).size());
+		Assert.assertEquals(1, itemsets.size());
+		Assert.assertEquals(8, itemsets.get(0).size());
+		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1000, 1359, 1249, 1023};
+		for(int i=0; i<itemsets.get(0).size(); i++) {
+			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
+		}
 	}
 	
 	/**
@@ -137,11 +142,10 @@ public class TestAPriori extends TestCase {
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int totalSize = 0;
+		int[] nbItemsets = new int[] {135, 360, 106, 7};
 		for(int i=0; i<itemsets.size(); i++) {
-			totalSize += itemsets.get(i).size();
+			Assert.assertEquals(nbItemsets[i], itemsets.get(i).size());
 		}
-		Assert.assertEquals(420, totalSize);
 	}
 	
 	/**
@@ -155,7 +159,12 @@ public class TestAPriori extends TestCase {
 		APriori ap = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = ap.aPriori(support);
-		Assert.assertEquals(7, itemsets.get(0).size());
+		Assert.assertEquals(1, itemsets.size());
+		Assert.assertEquals(8, itemsets.get(0).size());
+		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1000, 1359, 1249, 1023};
+		for(int i=0; i<itemsets.get(0).size(); i++) {
+			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
+		}
 	}
 	
 	/**
@@ -168,10 +177,9 @@ public class TestAPriori extends TestCase {
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new APriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int totalSize = 0;
+		int[] nbItemsets = new int[] {135, 360, 106, 7};
 		for(int i=0; i<itemsets.size(); i++) {
-			totalSize += itemsets.get(i).size();
+			Assert.assertEquals(nbItemsets[i], itemsets.get(i).size());
 		}
-		Assert.assertEquals(420, totalSize);
 	}
 }

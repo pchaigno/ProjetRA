@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 use strict;
+use utf8;
 
 use constant false => 0;
 use constant true => 1;
@@ -23,7 +24,7 @@ close(DICTIONARY);
 
 # Builds the ouput file:
 open(OUT, "> $output_file") or die "Unable to write $output_file:\n$!\n";
-open(ARTICLES, "< $data_file") or die "Unable to read $data_file:\n$!\n";
+open(ARTICLES, "<:encoding(UTF-8)", $data_file) or die "Unable to read $data_file:\n$!\n";
 while(my $article = <ARTICLES>) {
 	$article =~ tr/ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöùúûüýÿ/AAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinooooouuuuyy/;
 	my $empty_line = true;
