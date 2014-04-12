@@ -6,6 +6,7 @@ import java.util.List;
 import ra.algo.APriori;
 import ra.algo.Itemset;
 import ra.algo.Rule;
+import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.FileDatabase;
 import ra.data.MemoryDatabase;
@@ -33,7 +34,7 @@ public class Main {
 			System.out.println("-support <double value>");
 			System.out.println("-confidence <double value>");
 			System.out.println("-type <frequent | maximal | closed>");
-			System.out.println("-memory The transactions will be saved to the memory");
+			System.out.println("-nomemory The transactions won't be saved to the memory");
 			System.out.println("-output <file name>");
 			return;
 		} catch (FileNotFoundException e) {
@@ -44,7 +45,8 @@ public class Main {
 		// Data interpretation
 		Database database;
 		if(interpretor.useMemory()) {
-			database = new MemoryDatabase(interpretor.getSource());
+			int nbCores = Runtime.getRuntime().availableProcessors();
+			database = new ConcurrentMemoryDatabase(interpretor.getSource(), nbCores);
 		} else {
 			database = new FileDatabase(interpretor.getSource());
 		}

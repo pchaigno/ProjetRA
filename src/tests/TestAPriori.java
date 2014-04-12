@@ -14,6 +14,7 @@ import ra.data.Database;
 import ra.data.MemoryDatabase;
 
 public class TestAPriori extends TestCase {
+	public static final int nbCores = Runtime.getRuntime().availableProcessors();
 	
 	/**
 	 * Tests the A Priori algorithm.
@@ -150,7 +151,7 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriRealFile20Concurrent() throws IllegalArgumentException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
-		Database database = new ConcurrentMemoryDatabase(file, 4);
+		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = ap.aPriori(support);
@@ -164,7 +165,7 @@ public class TestAPriori extends TestCase {
 	 */
 	public static void testAPrioriRealFile4Concurrent() throws IllegalArgumentException {
 		File file = new File("res/fichiers_entree/5027_articles.txt");
-		Database database = new ConcurrentMemoryDatabase(file, 4);
+		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new APriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(200);
 		int totalSize = 0;

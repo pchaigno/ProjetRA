@@ -11,7 +11,7 @@ public class Interpretor {
 	public static final String DEFAULT_TYPE = "frequent";
 	public static final double DEFAULT_CONFIDENCE = -1;
 	public static final double DEFAULT_SUPPORT = 0.5;
-	public static final boolean DEFAULT_MEMORY = false;
+	public static final boolean DEFAULT_MEMORY = true;
 	private File source;
 	private double support = DEFAULT_SUPPORT;
 	private double confidence = DEFAULT_CONFIDENCE;
@@ -43,8 +43,8 @@ public class Interpretor {
 				case "-type":
 					this.type = args[++i];
 					break;
-				case "-memory":
-					this.memory = true;
+				case "-nomemory":
+					this.memory = false;
 					break;
 				case "-output":
 					this.output = new PrintStream(new File(args[++i]));
