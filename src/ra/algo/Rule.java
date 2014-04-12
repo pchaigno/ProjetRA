@@ -32,7 +32,7 @@ public class Rule {
 	 * @param transactions The transactions associated with the rule
 	 * @return The confidence of the rule
 	 */
-	public double computeConfidence(Database database) {
+	public double calcConfidence(Database database) {
 		List<Itemset> itemsets = new ArrayList<Itemset>();
 		
 		// Itemset formation to compute rule confidence

@@ -65,7 +65,7 @@ public class Main {
 				interpretor.getOutput().println();
 			}
 			for(Rule rule : rules) {
-				interpretor.getOutput().print(rule);
+				interpretor.getOutput().println(rule);
 			}
 		}
 	}
