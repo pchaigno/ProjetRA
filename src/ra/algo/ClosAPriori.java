@@ -24,6 +24,7 @@ public class ClosAPriori extends APriori {
 	@Override
 	public List<List<Itemset>> aPriori(int minSupport) {
 		// Computes the itemsets.
+		/* TODO verify that it's not better to put this operation at the end of the algorithm (not normally) */
 		super.aPriori(minSupport);
 		
 		// Iterates on itemsets by ranks:
