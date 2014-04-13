@@ -8,8 +8,10 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import ra.algo.APriori;
+import ra.algo.ClosAPriori;
 import ra.algo.Itemset;
 import ra.algo.MaxAPriori;
+import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.MemoryDatabase;
@@ -68,5 +70,21 @@ public class TestMaxAPriori extends TestCase {
 			totalSize += itemsets.get(i).size();
 		}
 		Assert.assertEquals(433, totalSize);
+	}
+	
+	/**
+	 * Tests the max A Priori algorithm on tickets.
+	 */
+	public static void testMaxAPrioriConcurrentMemoryTickets() {
+		File file = new File("res/fichiers_entree/tickets.txt");
+		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
+		APriori apriori = new MaxAPriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.65);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(3, itemsets.size());
+		Assert.assertEquals(0, itemsets.get(0).size());
+		Assert.assertEquals(7, itemsets.get(1).size());
+		Assert.assertEquals(6, itemsets.get(2).size());
 	}
 }

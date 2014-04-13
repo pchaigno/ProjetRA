@@ -45,16 +45,25 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the A Priori algorithm.
 	 */
-	public static void testAPrioriMemoryTickets() {
+	public static void testAPrioriConcurrentMemoryTickets() {
 		File file = new File("res/fichiers_entree/tickets.txt");
-		Database database = new MemoryDatabase(file);
+		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		List<Rule> rules = apriori.generateRules(0.9);
+		for(int i=0; i<itemsets.size(); i++) {
+			System.out.println(i+1+"-itemsets:");
+			for(Itemset itemset: itemsets.get(i)) {
+				System.out.println(itemset);
+			}
+			System.out.println();
+		}
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(12, itemsets.get(0).size());
 		Assert.assertEquals(17, itemsets.get(1).size());
 		Assert.assertEquals(6, itemsets.get(2).size());
+		Assert.assertTrue(rules.size() >= 10);
 	}
 	
 	/**

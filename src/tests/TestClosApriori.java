@@ -9,6 +9,8 @@ import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.ClosAPriori;
 import ra.algo.Itemset;
+import ra.algo.MaxAPriori;
+import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.MemoryDatabase;
@@ -66,5 +68,25 @@ public class TestClosApriori extends TestCase {
 			totalSize += itemsets.get(i).size();
 		}
 		Assert.assertEquals(608, totalSize);
+	}
+	
+	/**
+	 * Tests the closed A Priori algorithm on tickets.
+	 */
+	public static void testAPrioriConcurrentMemoryTickets() {
+		File file = new File("res/fichiers_entree/tickets.txt");
+		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
+		APriori apriori = new MaxAPriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.65);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		List<Rule> rules = apriori.generateRules(0.9);
+		for(int i=0; i<itemsets.size(); i++) {
+			System.out.println(i+1+"-itemsets:");
+			for(Itemset itemset: itemsets.get(i)) {
+				System.out.println(itemset);
+			}
+			System.out.println();
+		}
+		Assert.assertTrue(itemsets.size() > 0);
 	}
 }
