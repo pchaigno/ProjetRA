@@ -37,6 +37,25 @@ public class TestAPriori extends TestCase {
 	}
 	
 	/**
+	 * Tests the A Priori algorithm.
+	 */
+	public static void testSimpleMemoryWords() {
+		File file = new File("res/unit_tests/simple_words.trans");
+		Database database = new MemoryDatabase(file);
+		APriori apriori = new APriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.5);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		Assert.assertEquals(3, itemsets.size());
+		Assert.assertEquals(4, itemsets.get(1).size());
+		Assert.assertEquals(2, itemsets.get(1).get(0).size());
+		Assert.assertEquals(2, itemsets.get(1).get(1).size());
+		Assert.assertEquals(2, itemsets.get(1).get(2).size());
+		Assert.assertEquals(2, itemsets.get(1).get(3).size());
+		Assert.assertEquals(1, itemsets.get(2).size());
+		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+	}
+	
+	/**
 	 * Tests the A Priori algorithm with the concurrent database.
 	 */
 	public static void testSimpleConcurrentMemory() {
@@ -87,14 +106,7 @@ public class TestAPriori extends TestCase {
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
-		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
-		for(int i=0; i<itemsets.size(); i++) {
-			System.out.println(i+1+"-itemsets:");
-			for(Itemset itemset: itemsets.get(i)) {
-				System.out.println(itemset);
-			}
-			System.out.println();
-		}
+		apriori.aPriori(absoluteSupport);
 		
 		double minConfidence = 0.8;
 		List<Rule> generatedRules = apriori.generateRules(minConfidence);
@@ -122,6 +134,41 @@ public class TestAPriori extends TestCase {
 	}
 	
 	/**
+	 * Tests the rules generation
+	 */
+	public static void testRulesGenerationWords() {
+		File file = new File("res/unit_tests/simple_words.trans");
+		Database database = new MemoryDatabase(file);
+		APriori apriori = new APriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.5);
+		apriori.aPriori(absoluteSupport);
+		
+		double minConfidence = 0.8;
+		List<Rule> generatedRules = apriori.generateRules(minConfidence);
+		Assert.assertFalse(generatedRules.isEmpty());
+		for(Rule rule : generatedRules) {
+			System.out.println(rule);
+		}
+		// info -> eii
+		Assert.assertEquals("info", generatedRules.get(0).getAntecedent().get(0).toString());
+		Assert.assertEquals("eii", generatedRules.get(0).getConsequent().get(0).toString());
+		// mnt -> gma
+		Assert.assertEquals("mnt", generatedRules.get(1).getAntecedent().get(0).toString());
+		Assert.assertEquals("gma", generatedRules.get(1).getConsequent().get(0).toString());
+		// gma -> mnt
+		Assert.assertEquals("gma", generatedRules.get(2).getAntecedent().get(0).toString());
+		Assert.assertEquals("mnt", generatedRules.get(2).getConsequent().get(0).toString());
+		// eii mnt -> gma
+		Assert.assertEquals("eii", generatedRules.get(3).getAntecedent().get(0).toString());
+		Assert.assertEquals("mnt", generatedRules.get(3).getAntecedent().get(1).toString());
+		Assert.assertEquals("gma", generatedRules.get(3).getConsequent().get(0).toString());
+		// eii gma -> mnt
+		Assert.assertEquals("eii", generatedRules.get(4).getAntecedent().get(0).toString());
+		Assert.assertEquals("gma", generatedRules.get(4).getAntecedent().get(1).toString());
+		Assert.assertEquals("mnt", generatedRules.get(4).getConsequent().get(0).toString());
+	}
+	
+	/**
 	 * Tests the APriori algorithm on a real file.
 	 * The support is of 20%.
 	 * @throws IOException 
@@ -137,7 +184,6 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(8, itemsets.get(0).size());
 		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1359, 1000, 1249, 1023};
 		for(int i=0; i<itemsets.get(0).size(); i++) {
-			System.out.println(itemsets.get(0).get(i));
 			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
 		}
 	}
