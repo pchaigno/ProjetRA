@@ -73,20 +73,23 @@ public class TestClosApriori extends TestCase {
 	/**
 	 * Tests the closed A Priori algorithm on tickets.
 	 */
-	public static void testAPrioriConcurrentMemoryTickets() {
+	public static void testClosAPrioriConcurrentMemoryTickets() {
 		File file = new File("res/fichiers_entree/tickets.txt");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
-		APriori apriori = new MaxAPriori(database);
+		APriori apriori = new ClosAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
-		List<Rule> rules = apriori.generateRules(0.9);
+		List<Rule> rules = apriori.generateRules(0.9);/*
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println(i+1+"-itemsets:");
 			for(Itemset itemset: itemsets.get(i)) {
 				System.out.println(itemset);
 			}
 			System.out.println();
-		}
-		Assert.assertTrue(itemsets.size() > 0);
+		}*/
+		Assert.assertEquals(3, itemsets.size());
+		Assert.assertEquals(1, itemsets.get(0).size());
+		Assert.assertEquals(11, itemsets.get(1).size());
+		Assert.assertEquals(6, itemsets.get(2).size());
 	}
 }
