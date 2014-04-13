@@ -19,7 +19,7 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the A Priori algorithm.
 	 */
-	public static void testAPrioriMemory() {
+	public static void testSimpleMemory() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
@@ -45,7 +45,7 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the A Priori algorithm.
 	 */
-	public static void testAPrioriConcurrentMemoryTickets() {
+	public static void testTicketsConcurrentMemory() {
 		File file = new File("res/real_tests/tickets_caisse.trans");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
 		APriori apriori = new APriori(database);
@@ -69,7 +69,7 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the A Priori algorithm with the concurrent database.
 	 */
-	public static void testAPrioriConcurrentMemory() {
+	public static void testSimpleConcurrentMemory() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new ConcurrentMemoryDatabase(file, 4);
 		APriori apriori = new APriori(database);
@@ -95,7 +95,7 @@ public class TestAPriori extends TestCase {
 	/**
 	 * Tests the rules generation
 	 */
-	public static void testAPrioriRulesGeneration() {
+	public static void testRulesGeneration() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
@@ -136,10 +136,11 @@ public class TestAPriori extends TestCase {
 	
 	/**
 	 * Tests the APriori algorithm on a real file.
+	 * The support is of 20%.
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile20() throws IllegalArgumentException {
+	public static void testArticles20Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
@@ -155,10 +156,11 @@ public class TestAPriori extends TestCase {
 	
 	/**
 	 * Tests the APriori algorithm on a real file.
+	 * The support is of 200 (approximately 4%).
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile4() throws IllegalArgumentException {
+	public static void testArticles4Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new APriori(database);
@@ -171,10 +173,11 @@ public class TestAPriori extends TestCase {
 	
 	/**
 	 * Tests the APriori algorithm on a real file using the concurrent memory database.
+	 * The support is of 20%.
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile20Concurrent() throws IllegalArgumentException {
+	public static void testArticles20ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new APriori(database);
@@ -190,10 +193,11 @@ public class TestAPriori extends TestCase {
 	
 	/**
 	 * Tests the APriori algorithm on a real file using the concurrent memory database.
+	 * The support is of 200 (approximately 4%).
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testAPrioriRealFile4Concurrent() throws IllegalArgumentException {
+	public static void testArticles4ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new APriori(database);

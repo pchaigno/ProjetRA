@@ -16,9 +16,28 @@ import ra.data.MemoryDatabase;
 
 public class TestClosApriori extends TestCase {
 
-	public static void testClosAPrioriMemory() {
+	public static void testSimpleMemory() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
+		APriori apriori = new ClosAPriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.5);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		Assert.assertEquals(3, itemsets.size());
+		
+		Assert.assertEquals(1, itemsets.get(0).size());
+		Assert.assertEquals(1, itemsets.get(0).get(0).size());
+		
+		Assert.assertEquals(2, itemsets.get(1).size());
+		Assert.assertEquals(2, itemsets.get(1).get(0).size());
+		Assert.assertEquals(2, itemsets.get(1).get(1).size());
+
+		Assert.assertEquals(1, itemsets.get(2).size());
+		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+	}
+
+	public static void testSimpleConcurrentMemory() {
+		File file = new File("res/unit_tests/simple.trans");
+		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori apriori = new ClosAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
@@ -40,7 +59,7 @@ public class TestClosApriori extends TestCase {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testClosAPrioriRealFile() throws IllegalArgumentException {
+	public static void testArticles4Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new ClosAPriori(database);
@@ -57,7 +76,7 @@ public class TestClosApriori extends TestCase {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void testClosAPrioriRealFileConcurrent() throws IllegalArgumentException {
+	public static void testArticles4ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new ClosAPriori(database);
@@ -72,7 +91,7 @@ public class TestClosApriori extends TestCase {
 	/**
 	 * Tests the closed A Priori algorithm on tickets.
 	 */
-	public static void testClosAPrioriConcurrentMemoryTickets() {
+	public static void testTicketsConcurrentMemory() {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
 		APriori apriori = new ClosAPriori(database);
