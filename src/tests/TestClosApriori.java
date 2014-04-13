@@ -92,7 +92,7 @@ public class TestClosApriori extends TestCase {
 	 * Tests the closed A Priori algorithm on tickets.
 	 */
 	public static void testTicketsConcurrentMemory() {
-		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
+		File file = new File("res/real_tests/tickets_caisse.trans");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
 		APriori apriori = new ClosAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
