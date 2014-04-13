@@ -1,1 +1,0 @@
-ignore 20_30 symbol symbol	bool 10000 35 boo bool bool bool bool bool bool	bool bool bool bool

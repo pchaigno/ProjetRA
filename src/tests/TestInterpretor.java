@@ -8,11 +8,11 @@ import junit.framework.TestCase;
 
 public class TestInterpretor extends TestCase {
 
-	private static final String[] args1 = {"res/fichiers_entree/tickets_de_caisse.txt",
+	private static final String[] args1 = {"res/real_tests/tickets_caisse.trans",
 		  "-support",
 		  "0.4"};
 	
-	private static final String[] args2 = {"res/fichiers_entree/tickets_de_caisse.txt",
+	private static final String[] args2 = {"res/real_tests/tickets_caisse.trans",
 		  "-support",
 		  "0.4",
 		  "-confidence",
@@ -50,5 +50,4 @@ public class TestInterpretor extends TestCase {
 		}
 		
 	}
-
 }

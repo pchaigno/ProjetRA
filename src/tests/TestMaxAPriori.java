@@ -8,7 +8,6 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import ra.algo.APriori;
-import ra.algo.ClosAPriori;
 import ra.algo.Itemset;
 import ra.algo.MaxAPriori;
 import ra.algo.Rule;
@@ -19,7 +18,7 @@ import ra.data.MemoryDatabase;
 public class TestMaxAPriori extends TestCase {
 
 	public static void testMaxAPrioriMemory() {
-		File file = new File("res/unit_tests/transactions.txt");
+		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new MaxAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
@@ -44,7 +43,7 @@ public class TestMaxAPriori extends TestCase {
 	 * @throws IllegalArgumentException 
 	 */
 	public static void testMaxAPrioriRealFile() throws IllegalArgumentException {
-		File file = new File("res/fichiers_entree/5027_articles.txt");
+		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
 		APriori ap = new MaxAPriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(200);
@@ -61,7 +60,7 @@ public class TestMaxAPriori extends TestCase {
 	 * @throws IllegalArgumentException 
 	 */
 	public static void testMaxAPrioriRealFileConcurrent() throws IllegalArgumentException {
-		File file = new File("res/fichiers_entree/5027_articles.txt");
+		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
 		APriori ap = new MaxAPriori(database);
 		List<List<Itemset>> itemsets = ap.aPriori(200);
@@ -76,7 +75,7 @@ public class TestMaxAPriori extends TestCase {
 	 * Tests the max A Priori algorithm on tickets.
 	 */
 	public static void testMaxAPrioriConcurrentMemoryTickets() {
-		File file = new File("res/fichiers_entree/tickets.txt");
+		File file = new File("res/real_tests/tickets_caisse.trans");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
 		APriori apriori = new MaxAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
