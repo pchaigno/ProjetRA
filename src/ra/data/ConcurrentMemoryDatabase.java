@@ -15,26 +15,28 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	 */
 	class CalcSupportThread extends Thread {
 		private List<Itemset> itemsets;
-		private int firstTransaction;
-		private int lastTransaction;
+		private int firstItemset;
+		private int lastItemset;
 		
 		/**
 		 * Constructor
 		 * @param itemsets Itemsets whose support needs to be computed.
-		 * @param firstTransaction The first transaction to read.
-		 * @param nbTransactions The number of transaction to read in this thread.
+		 * @param firstItemset The first transaction to read.
+		 * @param nbItemsets The number of transaction to read in this thread.
 		 */
-		public CalcSupportThread(List<Itemset> itemsets, int firstTransaction, int nbTransactions) {
+		public CalcSupportThread(List<Itemset> itemsets, int firstItemset, int nbItemsets) {
 			this.itemsets = itemsets;
-			this.firstTransaction = firstTransaction;
-			this.lastTransaction = firstTransaction + nbTransactions - 1;
+			this.firstItemset = firstItemset;
+			this.lastItemset = firstItemset + nbItemsets - 1;
 		}
 		
 		@Override
 		public void run() {
-			for(int i=this.firstTransaction; i<=this.lastTransaction; i++) {
-				for(Itemset itemset: this.itemsets) {
-					if(transactions.get(i).contains(itemset)) {
+			Itemset itemset;
+			for(int i=this.firstItemset; i<=this.lastItemset; i++) {
+				itemset = this.itemsets.get(i);
+				for(Transaction transaction: transactions) {
+					if(transaction.contains(itemset)) {
 						itemset.incrementSupport();
 					}
 				}
@@ -49,36 +51,36 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	class CalcSupportIncompleteThread extends Thread {
 		List<Itemset> itemsets;
 		private int minSupport;
-		private int firstTransaction;
-		private int lastTransaction;
+		private int firstItemset;
+		private int lastItemset;
 		
 		/**
 		 * Constructor
 		 * @param itemsets Itemsets whose support needs to be updated.
 		 * @param minSupport The minimum support.
 		 * @param firstItemset The first itemset to update.
-		 * @param nbItemset The number of itemsets to update.
+		 * @param nbItemsets The number of itemsets to update.
 		 */
-		public CalcSupportIncompleteThread(List<Itemset> itemsets, int minSupport, int firstTransaction, int nbTransactions) {
+		public CalcSupportIncompleteThread(List<Itemset> itemsets, int minSupport, int firstItemset, int nbItemsets) {
 			this.itemsets = itemsets;
 			this.minSupport = minSupport;
-			this.firstTransaction = firstTransaction;
-			this.lastTransaction = firstTransaction + nbTransactions - 1;
+			this.firstItemset = firstItemset;
+			this.lastItemset = firstItemset + nbItemsets - 1;
 		}
 
 		@Override
 		public void run() {
 			Itemset itemset;
-			for(int j=this.firstTransaction; j<=this.lastTransaction; j++) {
-				for(int i=0; i<this.itemsets.size(); i++) {
-					itemset = this.itemsets.get(i);
+			for(int i=this.firstItemset; i<=this.lastItemset; i++) {
+				itemset = this.itemsets.get(i);
+				for(int j=0; j<transactions.size(); j++) {
 					// Checks if the itemset isn't already known as frequent.
 					if(itemset.stopPoint == 0) {
 						if(transactions.get(j).contains(itemset)) {
 							itemset.incrementSupport();
 							if(itemset.getSupport() >= this.minSupport) {
 								// Save the last transaction read to update later.
-								itemset.setStopPoint(j);
+								itemset.stopPoint = j;
 							}
 						}
 					}
@@ -135,16 +137,16 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	
 	@Override
 	public void calcSupport(List<Itemset> itemsets) {
-		int nbTransactionsPerThread = this.transactions.size() / this.nbThreads;
-		int nbRemainingTransactions = this.transactions.size() - nbTransactionsPerThread * this.nbThreads;
+		int nbItemsetsPerThread = itemsets.size() / this.nbThreads;
+		int nbRemainingItemsets = itemsets.size() - nbItemsetsPerThread * this.nbThreads;
 		List<CalcSupportThread> threads = new ArrayList<CalcSupportThread>();
 		
 		// The first thread will get a bit more transactions (nbTransactions not always divisible by nbThreads):
-		CalcSupportThread firstThread = new CalcSupportThread(itemsets, 0, nbRemainingTransactions + nbTransactionsPerThread);
+		CalcSupportThread firstThread = new CalcSupportThread(itemsets, 0, nbRemainingItemsets + nbItemsetsPerThread);
 		threads.add(firstThread);
 		firstThread.start();
-		for(int i=nbRemainingTransactions+nbTransactionsPerThread; i<this.transactions.size(); i+=nbTransactionsPerThread) {
-			CalcSupportThread thread = new CalcSupportThread(itemsets, i, nbTransactionsPerThread);
+		for(int i=nbRemainingItemsets+nbItemsetsPerThread; i<itemsets.size(); i+=nbItemsetsPerThread) {
+			CalcSupportThread thread = new CalcSupportThread(itemsets, i, nbItemsetsPerThread);
 			threads.add(thread);
 			thread.start();
 		}
@@ -207,16 +209,16 @@ public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	
 	@Override
 	protected List<Itemset> calcSupportIncomplete(List<Itemset> itemsets, int minSupport) {
-		int nbTransactionsPerThread = this.transactions.size() / this.nbThreads;
-		int nbRemainingTransactions = this.transactions.size() - nbTransactionsPerThread * this.nbThreads;
+		int nbItemsetsPerThread = itemsets.size() / this.nbThreads;
+		int nbRemainingItemsets = itemsets.size() - nbItemsetsPerThread * this.nbThreads;
 		List<CalcSupportIncompleteThread> threads = new ArrayList<CalcSupportIncompleteThread>();
 		
 		// The first thread will get a bit more transactions (nbTransactions not always divisible by nbThreads):
-		CalcSupportIncompleteThread firstThread = new CalcSupportIncompleteThread(itemsets, minSupport, 0, nbRemainingTransactions + nbTransactionsPerThread);
+		CalcSupportIncompleteThread firstThread = new CalcSupportIncompleteThread(itemsets, minSupport, 0, nbRemainingItemsets + nbItemsetsPerThread);
 		threads.add(firstThread);
 		firstThread.start();
-		for(int i=nbRemainingTransactions+nbTransactionsPerThread; i<this.transactions.size(); i+=nbTransactionsPerThread) {
-			CalcSupportIncompleteThread thread = new CalcSupportIncompleteThread(itemsets, minSupport, i, nbTransactionsPerThread);
+		for(int i=nbRemainingItemsets+nbItemsetsPerThread; i<itemsets.size(); i+=nbItemsetsPerThread) {
+			CalcSupportIncompleteThread thread = new CalcSupportIncompleteThread(itemsets, minSupport, i, nbItemsetsPerThread);
 			threads.add(thread);
 			thread.start();
 		}

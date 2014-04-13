@@ -29,6 +29,7 @@ public class Itemset implements Comparable<Itemset> {
 	public Itemset(ArrayList<Integer> itemset) {
 		this.data = itemset;
 		this.support = 0;
+		this.stopPoint = 0;
 	}
 	
 	/**
@@ -49,16 +50,8 @@ public class Itemset implements Comparable<Itemset> {
 	/**
 	 * Increments the support.
 	 */
-	public synchronized void incrementSupport() {
+	public void incrementSupport() {
 		this.support++;
-	}
-	
-	/**
-	 * Synchronized method to update the stop point.
-	 * @param stopPoint The new stop point.
-	 */
-	public synchronized void setStopPoint(int stopPoint) {
-		this.stopPoint = stopPoint;
 	}
 	
 	/**

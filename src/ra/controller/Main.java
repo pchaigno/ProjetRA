@@ -9,7 +9,6 @@ import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.FileDatabase;
-import ra.data.MemoryDatabase;
 
 /**
  * Main program
