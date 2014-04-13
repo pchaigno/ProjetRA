@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import ra.algo.APriori;
-import ra.algo.Itemset;
 import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.FileDatabase;
+import ra.data.Itemset;
 
 /**
  * Main program

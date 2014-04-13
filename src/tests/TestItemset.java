@@ -2,7 +2,8 @@ package tests;
 
 import java.util.List;
 
-import ra.algo.Itemset;
+import ra.data.Item;
+import ra.data.Itemset;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -14,17 +15,17 @@ public class TestItemset extends TestCase {
 	@Override
 	public void setUp() {
 		this.itemset1A = new Itemset() {{
-			add(1);
+			add(new Item(1));
 		}};
 		this.itemset3A = new Itemset() {{
-			add(1);
-			add(3);
-			add(4);
+			add(new Item(1));
+			add(new Item(3));
+			add(new Item(4));
 		}};
 		this.itemset3B = new Itemset() {{
-			add(1);
-			add(3);
-			add(5);
+			add(new Item(1));
+			add(new Item(3));
+			add(new Item(5));
 		}};
 	}
 	
@@ -35,9 +36,9 @@ public class TestItemset extends TestCase {
 		Assert.assertTrue(this.itemset3A.commonBase(this.itemset3B));
 		
 		Itemset test = new Itemset();
-		test.add(1);
-		test.add(2);
-		test.add(5);
+		test.add(new Item(1));
+		test.add(new Item(2));
+		test.add(new Item(5));
 		Assert.assertFalse(this.itemset3B.commonBase(test));
 		
 		// The common base can only be computed for itemsets that are the same size:
@@ -72,9 +73,9 @@ public class TestItemset extends TestCase {
 	 */
 	public void testEquals() {
 		Itemset test = new Itemset();
-		test.add(1);
+		test.add(new Item(1));
 		Assert.assertEquals(this.itemset1A, test);
-		test.add(4);
+		test.add(new Item(4));
 		Assert.assertFalse(this.itemset1A.equals(test));
 	}
 }

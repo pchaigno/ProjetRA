@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ra.data.Database;
+import ra.data.Itemset;
 
 public class MaxAPriori extends APriori {
 

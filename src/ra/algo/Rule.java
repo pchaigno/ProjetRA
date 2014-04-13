@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ra.data.Database;
+import ra.data.Item;
+import ra.data.Itemset;
 
 public class Rule {
-	private ArrayList<Integer> antecedent;
-	private ArrayList<Integer> consequent;
+	private ArrayList<Item> antecedent;
+	private ArrayList<Item> consequent;
 
 	/**
 	 * Empty-parameter constructor
 	 */
 	public Rule() {
-		this.antecedent = new ArrayList<Integer>();
-		this.consequent = new ArrayList<Integer>();
+		this.antecedent = new ArrayList<Item>();
+		this.consequent = new ArrayList<Item>();
 	}
 
 	/**
@@ -22,7 +24,7 @@ public class Rule {
 	 * @param antecedent The antecedent of the rule
 	 * @param consequent The consequent of the rule
 	 */
-	public Rule(ArrayList<Integer> antecedent, ArrayList<Integer> consequent) {
+	public Rule(ArrayList<Item> antecedent, ArrayList<Item> consequent) {
 		this.antecedent = antecedent;
 		this.consequent = consequent;
 	}
@@ -51,7 +53,7 @@ public class Rule {
 	 * Accessor to the antecedent
 	 * @return The antecedent
 	 */
-	public ArrayList<Integer> getAntecedent() {
+	public ArrayList<Item> getAntecedent() {
 		return this.antecedent;
 	}
 	
@@ -59,21 +61,21 @@ public class Rule {
 	 * Accessor to the consequent
 	 * @return The consequent
 	 */
-	public ArrayList<Integer> getConsequent() {
+	public ArrayList<Item> getConsequent() {
 		return this.consequent;
 	}
 
 	/**
 	 * @param value The value to add to the rule as antecedent
 	 */
-	public void addToAntecedent(int value) {
+	public void addToAntecedent(Item value) {
 		this.antecedent.add(value);
 	}
 
 	/**
 	 * @param value The value to add to the rule as consequent
 	 */
-	public void addToConsequent(int value) {
+	public void addToConsequent(Item value) {
 		this.consequent.add(value);
 	}
 
@@ -87,9 +89,9 @@ public class Rule {
 
 		// The rule must have at least an antecedent of size two to derive rules
 		if(this.antecedent.size() >= 2) {
-			for(Integer i : this.antecedent) {
-				ArrayList<Integer> derivedAntecedent = new ArrayList<Integer>(this.antecedent);
-				ArrayList<Integer> derivedConsequent = new ArrayList<Integer>(this.consequent);
+			for(Item i: this.antecedent) {
+				ArrayList<Item> derivedAntecedent = new ArrayList<Item>(this.antecedent);
+				ArrayList<Item> derivedConsequent = new ArrayList<Item>(this.consequent);
 				derivedAntecedent.remove(i);
 				derivedConsequent.add(i);
 
@@ -103,16 +105,13 @@ public class Rule {
 	@Override
 	public String toString() {
 		String rule = "Rule: ";
-		for(int item: this.antecedent) {
+		for(Item item: this.antecedent) {
 			rule += item+" ";
 		}
-
 		rule += "-> ";
-
-		for(int item: this.consequent) {
+		for(Item item: this.consequent) {
 			rule += item+" ";
 		}
-
 		return rule;
 	}
 }

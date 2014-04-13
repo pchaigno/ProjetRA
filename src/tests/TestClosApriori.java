@@ -8,10 +8,10 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.algo.APriori;
 import ra.algo.ClosAPriori;
-import ra.algo.Itemset;
 import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
+import ra.data.Itemset;
 import ra.data.MemoryDatabase;
 
 public class TestClosApriori extends TestCase {

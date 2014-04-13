@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ra.algo.Itemset;
 
 public class FileDatabase extends Database {
 	protected File file;
@@ -83,13 +82,13 @@ public class FileDatabase extends Database {
 
 	@SuppressWarnings("null")
 	@Override
-	public Set<Integer> retrieveItems() {
+	public Set<Item> retrieveItems() {
 		// If we already retrieved them:
 		if(this.items != null) {
 			return this.items;
 		}
 		
-		this.items = new HashSet<Integer>();
+		this.items = new HashSet<Item>();
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(this.file));
@@ -104,7 +103,7 @@ public class FileDatabase extends Database {
 				if(!"".equals(line)) {
 					String[] values = line.split(DataInterpreter.TXT_SEPARATOR);
 					for(String value: values) {
-						this.items.add(Integer.valueOf(value));
+						this.items.add(new Item(Integer.valueOf(value)));
 					}
 				}
 			}

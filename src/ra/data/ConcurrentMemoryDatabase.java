@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.algo.Itemset;
 
 public class ConcurrentMemoryDatabase extends MemoryDatabase {
 	protected int nbThreads;

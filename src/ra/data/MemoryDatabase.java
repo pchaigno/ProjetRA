@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import ra.algo.Itemset;
 
 public class MemoryDatabase extends Database {
 	protected List<Transaction> transactions;
@@ -74,7 +73,7 @@ public class MemoryDatabase extends Database {
 	}
 
 	@Override
-	public Set<Integer> retrieveItems() {
+	public Set<Item> retrieveItems() {
 		return this.items;
 	}
 

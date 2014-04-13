@@ -1,4 +1,4 @@
-package ra.algo;
+package ra.data;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import ra.algo.Rule;
+
 public class Itemset implements Comparable<Itemset> {
-	protected ArrayList<Integer> data;
+	protected ArrayList<Item> items;
 	protected int support;
 	// The stop point, ie the last transaction read when computing the support.
 	// Used for update of the support.
@@ -17,7 +19,7 @@ public class Itemset implements Comparable<Itemset> {
 	 * Empty constructor
 	 */
 	public Itemset() {
-		this.data = new ArrayList<Integer>();
+		this.items = new ArrayList<Item>();
 		this.support = 0;
 		this.stopPoint = 0;
 	}
@@ -26,8 +28,8 @@ public class Itemset implements Comparable<Itemset> {
 	 * Constructor
 	 * @param itemset The itemset as a list.
 	 */
-	public Itemset(ArrayList<Integer> itemset) {
-		this.data = itemset;
+	public Itemset(ArrayList<Item> itemset) {
+		this.items = itemset;
 		this.support = 0;
 		this.stopPoint = 0;
 	}
@@ -37,7 +39,7 @@ public class Itemset implements Comparable<Itemset> {
 	 * @return The number of item in the itemset.
 	 */
 	public int size() {
-		return this.data.size();
+		return this.items.size();
 	}
 	
 	/**
@@ -59,8 +61,8 @@ public class Itemset implements Comparable<Itemset> {
 	 * @param i The number of the item to get.
 	 * @return The item.
 	 */
-	public int get(int i) {
-		return this.data.get(i);
+	public Item get(int i) {
+		return this.items.get(i);
 	}
 	
 	/**
@@ -68,11 +70,11 @@ public class Itemset implements Comparable<Itemset> {
 	 * @param item The item.
 	 * @return True if the item was not already part of the itemset.
 	 */
-	public boolean add(int item) {
-		if(this.data.contains(item)) {
+	public boolean add(Item item) {
+		if(this.items.contains(item)) {
 			return false;
 		}
-		this.data.add(item);
+		this.items.add(item);
 		return true;
 	}
 	
@@ -87,7 +89,7 @@ public class Itemset implements Comparable<Itemset> {
 			throw new IllegalArgumentException("The two itemset must have the same size ("+itemset.size()+" != "+this.size()+").");
 		}
 		for(int i=0; i<this.size()-1; i++) {
-			if(itemset.get(i) != this.get(i)) {
+			if(!itemset.get(i).equals(this.get(i))) {
 				return false;
 			}
 		}
@@ -103,8 +105,8 @@ public class Itemset implements Comparable<Itemset> {
 		if(k1Itemset.size() != this.size()+1) {
 			return false;
 		}
-		for(int i=0; i<this.data.size(); i++) {
-			if(!k1Itemset.data.contains(this.data.get(i))) {
+		for(int i=0; i<this.items.size(); i++) {
+			if(!k1Itemset.items.contains(this.items.get(i))) {
 				return false;
 			}
 		}
@@ -118,13 +120,13 @@ public class Itemset implements Comparable<Itemset> {
 	public List<Rule> generateSimpleRules() {
 		List<Rule> rules = new ArrayList<Rule>();
 		
-		for(int i=0; i<data.size(); i++) {
+		for(int i=0; i<this.items.size(); i++) {
 			Rule rule = new Rule();
-			rule.addToConsequent(data.get(i));
+			rule.addToConsequent(this.items.get(i));
 			
-			for(int j=0; j<data.size(); j++) {					
+			for(int j=0; j<this.items.size(); j++) {					
 				if(j != i)
-					rule.addToAntecedent(data.get(j));
+					rule.addToAntecedent(this.items.get(j));
 			}
 			
 			rules.add(rule);
@@ -133,8 +135,8 @@ public class Itemset implements Comparable<Itemset> {
 		return rules;
 	}
 	
-	public List<Integer> getItems() {
-		return this.data;
+	public List<Item> getItems() {
+		return this.items;
 	}
 	
 	/**
@@ -142,19 +144,19 @@ public class Itemset implements Comparable<Itemset> {
 	 * @return an itemset which the union
 	 */
 	public Itemset getUnion(Itemset itemset) {
-		Set<Integer> result = new HashSet<Integer>();
+		Set<Item> result = new HashSet<Item>();
 
-        result.addAll(this.data);
+        result.addAll(this.items);
         result.addAll(itemset.getItems());
 
-        return new Itemset(new ArrayList<Integer>(result));
+        return new Itemset(new ArrayList<Item>(result));
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((items == null) ? 0 : items.hashCode());
 		return result;
 	}
 
@@ -167,11 +169,11 @@ public class Itemset implements Comparable<Itemset> {
 			return false;
 		}
 		Itemset other = (Itemset) obj;
-		if (data == null) {
-			if (other.data != null) {
+		if (items == null) {
+			if (other.items != null) {
 				return false;
 			}
-		} else if (!data.equals(other.data)) {
+		} else if (!items.equals(other.items)) {
 			return false;
 		}
 		return true;
@@ -180,16 +182,16 @@ public class Itemset implements Comparable<Itemset> {
 	@Override
 	public String toString() {
 		String result = "Itemset: ";
-		for(int i=0; i<this.data.size()-1; i++) {
-			result += this.data.get(i) + " ";
+		for(int i=0; i<this.items.size()-1; i++) {
+			result += this.items.get(i) + " ";
 		}
-		return result + this.data.get(this.data.size()-1);
+		return result + this.items.get(this.items.size()-1);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Itemset clone() {
-	    return new Itemset((ArrayList<Integer>)this.data.clone());
+	    return new Itemset((ArrayList<Item>)this.items.clone());
 	}
 	
 	/**
@@ -197,7 +199,7 @@ public class Itemset implements Comparable<Itemset> {
 	 * @return The base of the itemset.
 	 */
 	public Itemset getBase() {
-		ArrayList<Integer> base = new ArrayList<Integer>();
+		ArrayList<Item> base = new ArrayList<Item>();
 		for(int i=0; i<this.size()-1; i++) {
 			base.add(this.get(i));
 		}
@@ -213,9 +215,10 @@ public class Itemset implements Comparable<Itemset> {
 		List<Itemset> itemsetsK1 = new Vector<Itemset>();
 		if(this.commonBase(itemset)) {
 			Itemset base = this.getBase();
-			int a = this.get(this.size()-1);
-			int b = itemset.get(itemset.size()-1);
-			if(a < b) {
+			Item a = this.get(this.size()-1);
+			Item b = itemset.get(itemset.size()-1);
+			if(a.compareTo(b) == -1) {
+			// a < b
 				base.add(a);
 				base.add(b);
 			} else {
@@ -235,7 +238,7 @@ public class Itemset implements Comparable<Itemset> {
 		Vector<Itemset> subItemsets = new Vector<Itemset>();
 		for(int i=0; i<this.size(); i++) {
 			Itemset subItemset = this.clone();
-			subItemset.data.remove(i);
+			subItemset.items.remove(i);
 			subItemsets.add(subItemset);
 		}
 		return subItemsets;
@@ -246,12 +249,11 @@ public class Itemset implements Comparable<Itemset> {
 		int minSize = Math.min(itemset.size(), this.size());
 		int compare;
 		for(int i=0; i<minSize; i++) {
-			compare = this.data.get(i).compareTo(itemset.get(i));
+			compare = this.items.get(i).compareTo(itemset.get(i));
 			if(compare != 0) {
 				return compare;
 			}
 		}
 		return 0;
 	}
-
 }

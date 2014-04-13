@@ -3,31 +3,30 @@ package ra.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.algo.Itemset;
 
 public class Transaction {
-	protected List<Integer> data;
+	protected List<Item> items;
 
 	/**
 	 * Empty constructor.
 	 */
 	public Transaction() {
-		this.data = new ArrayList<Integer>();
+		this.items = new ArrayList<Item>();
 	}
 	
 	/**
 	 * Add an item to the transaction.
-	 * @param i The value.
+	 * @param i The item.
 	 */
-	public void addItem(int i) {
-		this.data.add(i);
+	public void addItem(Item i) {
+		this.items.add(i);
 	}
 	
 	/**
 	 * @return The items of the transaction as a list.
 	 */
-	public List<Integer> getData() {
-		return this.data;
+	public List<Item> getData() {
+		return this.items;
 	}
 	
 	/**
@@ -36,11 +35,11 @@ public class Transaction {
 	 * @return True if it is.
 	 */
 	public boolean contains(Itemset itemset) {
-		return this.data.containsAll(itemset.getItems());
+		return this.items.containsAll(itemset.getItems());
 	}
 	
 	@Override
 	public String toString() {
-		return "Transaction: size="+this.data.size();
+		return "Transaction: size="+this.items.size();
 	}
 }

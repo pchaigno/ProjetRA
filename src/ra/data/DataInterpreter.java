@@ -12,11 +12,11 @@ import java.util.Set;
 public class DataInterpreter {
 	public static final String TXT_SEPARATOR = "[\\s\\t]+";
 	private List<Transaction> transactions;
-	private Set<Integer> items;
+	private Set<Item> items;
 	
 	public DataInterpreter() {
 		this.transactions = new ArrayList<Transaction>();
-		this.items = new HashSet<Integer>();
+		this.items = new HashSet<Item>();
 	}
 	
 	/**
@@ -35,9 +35,9 @@ public class DataInterpreter {
 				String[] values = line.split(TXT_SEPARATOR);
 				Transaction transaction = new Transaction();
 				for(int i=0; i<values.length; i++) {
-					int item = Integer.valueOf(values[i]);
+					Item item = new Item(Integer.valueOf(values[i]));
 					transaction.addItem(item);
-					items.add(item);
+					this.items.add(item);
 				}
 				this.transactions.add(transaction);
 			}
@@ -48,7 +48,7 @@ public class DataInterpreter {
 	/**
 	 * @return The items.
 	 */
-	public Set<Integer> getItems() {
+	public Set<Item> getItems() {
 		return this.items;
 	}
 	

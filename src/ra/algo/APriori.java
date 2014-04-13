@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.Vector;
 
 import ra.data.Database;
+import ra.data.Item;
+import ra.data.Itemset;
 
 public class APriori {
 	protected Database database;
@@ -63,11 +65,11 @@ public class APriori {
 	 * @param minSupport The minimum support to keep an itemset.
 	 */
 	protected void init1Itemset(int minSupport) {
-		Set<Integer> items = this.database.retrieveItems();
+		Set<Item> items = this.database.retrieveItems();
 		
 		// Generates the 1-itemsets:
 		List<Itemset> itemsets = new Vector<Itemset>();
-		for(int item: items) {
+		for(Item item: items) {
 			Itemset itemset = new Itemset();
 			itemset.add(item);
 			itemsets.add(itemset);

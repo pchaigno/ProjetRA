@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import ra.algo.Itemset;
 
 public abstract class Database {
-	protected Set<Integer> items;
+	protected Set<Item> items;
 	
 	/**
 	 * Computes the absolute support from the relative one.
@@ -83,5 +82,5 @@ public abstract class Database {
 	 * Retrieves the items from the database.
 	 * @return A set of items.
 	 */
-	public abstract Set<Integer> retrieveItems();
+	public abstract Set<Item> retrieveItems();
 }
