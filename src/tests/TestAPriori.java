@@ -24,14 +24,14 @@ public class TestAPriori extends TestCase {
 		Database database = new MemoryDatabase(file);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
-		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);/*
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println(i+1+"-itemsets:");
 			for(Itemset itemset: itemsets.get(i)) {
 				System.out.println(itemset);
 			}
 			System.out.println();
-		}
+		}*/
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(4, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
@@ -43,6 +43,21 @@ public class TestAPriori extends TestCase {
 	}
 	
 	/**
+	 * Tests the A Priori algorithm.
+	 */
+	public static void testAPrioriMemoryTickets() {
+		File file = new File("res/fichiers_entree/tickets.txt");
+		Database database = new MemoryDatabase(file);
+		APriori apriori = new APriori(database);
+		int absoluteSupport = database.calcAbsoluteSupport(0.65);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		Assert.assertEquals(3, itemsets.size());
+		Assert.assertEquals(12, itemsets.get(0).size());
+		Assert.assertEquals(17, itemsets.get(1).size());
+		Assert.assertEquals(6, itemsets.get(2).size());
+	}
+	
+	/**
 	 * Tests the A Priori algorithm with the concurrent database.
 	 */
 	public static void testAPrioriConcurrentMemory() {
@@ -50,14 +65,14 @@ public class TestAPriori extends TestCase {
 		Database database = new ConcurrentMemoryDatabase(file, 4);
 		APriori apriori = new APriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
-		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
+		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);/*
 		for(int i=0; i<itemsets.size(); i++) {
 			System.out.println(i+1+"-itemsets:");
 			for(Itemset itemset: itemsets.get(i)) {
 				System.out.println(itemset);
 			}
 			System.out.println();
-		}
+		}*/
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(4, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
