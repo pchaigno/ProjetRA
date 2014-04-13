@@ -1,7 +1,7 @@
 package ra.data;
 
 public class Item implements Comparable<Item> {
-	public int id;
+	private int id;
 	
 	/**
 	 * Constructor
