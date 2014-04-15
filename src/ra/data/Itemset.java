@@ -65,7 +65,7 @@ public class Itemset implements Comparable<Itemset> {
 	}
 	
 	/**
-	 * Adds an item to the itemsets.
+	 * Adds an item to the itemset.
 	 * @param item The item.
 	 * @return True if the item was not already part of the itemset.
 	 */
@@ -75,6 +75,15 @@ public class Itemset implements Comparable<Itemset> {
 		}
 		this.items.add(item);
 		return true;
+	}
+	
+	/**
+	 * Removes an item from the itemset.
+	 * @param item The item.
+	 * @return True if the itemset contained the item.
+	 */
+	public boolean remove(Item item) {
+		return this.items.remove(item);
 	}
 	
 	/**

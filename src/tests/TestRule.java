@@ -1,22 +1,21 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.data.Item;
+import ra.data.Itemset;
 import ra.data.Rule;
 
 public class TestRule extends TestCase {
 	
-	@SuppressWarnings("serial")
 	public void testDeriveRules() {
-		ArrayList<Item> antecedent = new ArrayList<Item>() {{
+		Itemset antecedent = new Itemset() {{
 			add(new Item(1)); add(new Item(2)); add(new Item(3));
 		}};
 
-		ArrayList<Item> consequent = new ArrayList<Item>() {{
+		Itemset consequent = new Itemset() {{
 			add(new Item(4));
 		}};
 		Rule r = new Rule(antecedent, consequent);

@@ -5,15 +5,15 @@ import java.util.List;
 
 
 public class Rule {
-	private ArrayList<Item> antecedent;
-	private ArrayList<Item> consequent;
+	private Itemset antecedent;
+	private Itemset consequent;
 
 	/**
 	 * Empty-parameter constructor
 	 */
 	public Rule() {
-		this.antecedent = new ArrayList<Item>();
-		this.consequent = new ArrayList<Item>();
+		this.antecedent = new Itemset();
+		this.consequent = new Itemset();
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class Rule {
 	 * @param antecedent The antecedent of the rule
 	 * @param consequent The consequent of the rule
 	 */
-	public Rule(ArrayList<Item> antecedent, ArrayList<Item> consequent) {
+	public Rule(Itemset antecedent, Itemset consequent) {
 		this.antecedent = antecedent;
 		this.consequent = consequent;
 	}
@@ -35,22 +35,21 @@ public class Rule {
 		List<Itemset> itemsets = new ArrayList<Itemset>();
 		
 		// Itemset formation to compute rule confidence
-		Itemset numerator = (new Itemset(this.antecedent)).getUnion(new Itemset(this.consequent));
-		Itemset denominator = new Itemset(this.antecedent);
+		Itemset numerator = this.antecedent.getUnion(this.consequent);
 		
 		// Support confidence
 		itemsets.add(numerator);
-		itemsets.add(denominator);
+		itemsets.add(this.antecedent);
 		database.calcSupport(itemsets);
 		
-		return numerator.getSupport()*1.0/denominator.getSupport();
+		return numerator.getSupport()*1.0/this.antecedent.getSupport();
 	}
 	
 	/**
 	 * Accessor to the antecedent
 	 * @return The antecedent
 	 */
-	public ArrayList<Item> getAntecedent() {
+	public Itemset getAntecedent() {
 		return this.antecedent;
 	}
 	
@@ -58,7 +57,7 @@ public class Rule {
 	 * Accessor to the consequent
 	 * @return The consequent
 	 */
-	public ArrayList<Item> getConsequent() {
+	public Itemset getConsequent() {
 		return this.consequent;
 	}
 
@@ -81,14 +80,14 @@ public class Rule {
 	 * each antecedent item as consequent
 	 * @return The derived rules
 	 */
-	public ArrayList<Rule> deriveRules() {
-		ArrayList<Rule> derivedRules = new ArrayList<Rule>();
+	public List<Rule> deriveRules() {
+		List<Rule> derivedRules = new ArrayList<Rule>();
 
 		// The rule must have at least an antecedent of size two to derive rules
 		if(this.antecedent.size() >= 2) {
-			for(Item i: this.antecedent) {
-				ArrayList<Item> derivedAntecedent = new ArrayList<Item>(this.antecedent);
-				ArrayList<Item> derivedConsequent = new ArrayList<Item>(this.consequent);
+			for(Item i: this.antecedent.getItems()) {
+				Itemset derivedAntecedent = this.antecedent.clone();
+				Itemset derivedConsequent = this.consequent.clone();
 				derivedAntecedent.remove(i);
 				derivedConsequent.add(i);
 
@@ -102,11 +101,11 @@ public class Rule {
 	@Override
 	public String toString() {
 		String rule = "Rule: ";
-		for(Item item: this.antecedent) {
+		for(Item item: this.antecedent.getItems()) {
 			rule += item+" ";
 		}
 		rule += "-> ";
-		for(Item item: this.consequent) {
+		for(Item item: this.consequent.getItems()) {
 			rule += item+" ";
 		}
 		return rule;

@@ -144,8 +144,8 @@ public class APriori {
 						generatedRules.add(rule);
 						
 						// step 3 of rules generation : recursive rule generation
-						ArrayList<Rule> derivedRules = rule.deriveRules();
-						ArrayList<Rule> next = new ArrayList<Rule>();
+						List<Rule> derivedRules = rule.deriveRules();
+						List<Rule> next = new ArrayList<Rule>();
 						Boolean started = false;
 
 						while(!next.isEmpty() || !started) {
