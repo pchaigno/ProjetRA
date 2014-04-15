@@ -136,39 +136,36 @@ public class APriori {
 
 		// Generates every possible rule for each itemset:
 		// Computes confidence for each one and add it if greater than minConfidence.
-		for(List<Itemset> setOfItemset: this.itemsets) {
-			for(Itemset itemset: setOfItemset) {
-				// Itemset size must be at least 2 to generate rules
-				if(itemset.size() >= 2) {
-					for(Rule rule: itemset.generateSimpleRules()) {
-						if(rule.calcConfidence(this.database) >= minConfidence) {
-							generatedRules.add(rule);
-							
-							// step 3 of rules generation : recursive rule generation
-							ArrayList<Rule> derivedRules = rule.deriveRules();
-							ArrayList<Rule> next = new ArrayList<Rule>();
-							Boolean started = false;
+		for(int level=1; level<this.itemsets.size(); level++) {
+			for(Itemset itemset: this.itemsets.get(level)) {
+				for(Rule rule: itemset.generateSimpleRules()) {
+					if(rule.calcConfidence(this.database) >= minConfidence) {
+						generatedRules.add(rule);
+						
+						// step 3 of rules generation : recursive rule generation
+						ArrayList<Rule> derivedRules = rule.deriveRules();
+						ArrayList<Rule> next = new ArrayList<Rule>();
+						Boolean started = false;
 
-							while(!next.isEmpty() || !started) {
-								// The first time we want to keep the original derived rules
-								if(started) {
-									derivedRules = new ArrayList<Rule>(next);
-								}
-								
-								// Executed at the first iteration
-								if(!started) {
-									started = true;
-								}
-								
-								next.clear();
-								
-								for(Rule derivedRule: derivedRules) {
-									if(derivedRule.calcConfidence(this.database) >= minConfidence) {
-										generatedRules.add(derivedRule);
-										
-										for(Rule newDerivedRule: derivedRule.deriveRules()) {
-											next.add(newDerivedRule);
-										}
+						while(!next.isEmpty() || !started) {
+							// The first time we want to keep the original derived rules
+							if(started) {
+								derivedRules = new ArrayList<Rule>(next);
+							}
+							
+							// Executed at the first iteration
+							if(!started) {
+								started = true;
+							}
+							
+							next.clear();
+							
+							for(Rule derivedRule: derivedRules) {
+								if(derivedRule.calcConfidence(this.database) >= minConfidence) {
+									generatedRules.add(derivedRule);
+									
+									for(Rule newDerivedRule: derivedRule.deriveRules()) {
+										next.add(newDerivedRule);
 									}
 								}
 							}
