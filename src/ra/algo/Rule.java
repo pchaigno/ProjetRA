@@ -42,20 +42,11 @@ public class Rule {
 		Itemset denominator = new Itemset(this.antecedent);
 		
 		// Support confidence
-		boolean calcNeeded = false;
-		if(numerator.getSupport() == 0) {
-			itemsets.add(numerator);
-			calcNeeded = true;
-		}
-		if(denominator.getSupport() == 0) {
-			itemsets.add(denominator);
-			calcNeeded = true;
-		}
-		if(calcNeeded) {
-			database.calcSupport(itemsets); 
-		}
+		itemsets.add(numerator);
+		itemsets.add(denominator);
+		database.calcSupport(itemsets);
 		
-		return numerator.getSupport()/denominator.getSupport();
+		return numerator.getSupport()*1.0/denominator.getSupport();
 	}
 	
 	/**
