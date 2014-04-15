@@ -16,7 +16,7 @@ my $data_file = $ARGV[0];
 my $output_file = $ARGV[1];
 my $filters_file = $ARGV[2];
 
-# TODO : filters file reading
+# filters file reading
 open(FILTERS, "<:encoding(UTF-8)", $filters_file) or die "Unable to read $filters_file:\n$!\n";
 my $filters = <FILTERS>;
 my @filters_table = split(/[\b\t\s]+/, $filters);
@@ -39,23 +39,22 @@ while(my $line = <ARTICLES>) {
 		my $empty_line = true;
 		for(my $i=0; $i<=$#filters_table; $i++) {
 			my $type = $filters_table[$i];
-			print "type : $type\n";
 			my $item;
 			
 			# type = number(_number)* => each number is a stage of the discretization
 			if($type =~ /[1..9]+(_[1..9]+)*/) {
-				my $stage = stage($value[$i-2], $type);
+				my $stage = stage($value[$i], $type);
 				$item = get_item($i, $stage);
 				print OUT ($item).' ';
 				
 			# type = bool => the attribute is boolean (some possibles values : True, T, F, False, Yes, No, Y, N)
-			} elsif($type =~ /bool/ && ($value[$i-2] =~ /T/ || $value[$i-2] =~ /Y/)) {
+			} elsif($type =~ /bool/ && ($value[$i] =~ /T/ || $value[$i] =~ /Y/)) {
 				$item = get_item($i, true);
 				print OUT ($item).' ';
 				
 			# type = symbol => symbolic attribute
 			} elsif($type =~ /symbol/) {
-				$item = get_item($i, $value[$i-2]);
+				$item = get_item($i, $value[$i]);
 				print OUT ($item).' ';
 			}
 			
