@@ -8,6 +8,7 @@ import java.util.Vector;
 import ra.data.Database;
 import ra.data.Item;
 import ra.data.Itemset;
+import ra.data.ItemsetWithoutSupportException;
 import ra.data.Rule;
 
 public class APriori {
@@ -173,12 +174,19 @@ public class APriori {
 			}
 		}
 		
+		// Computes the confidence.
+		this.calcConfidence(candidates);
+		
 		// Removes rules with confidence below minimum:
-		for(int i=0; i<candidates.size(); i++) {
-			if(candidates.get(i).calcConfidence(this.database) < minConfidence) {
-				candidates.remove(i);
-				i--;
+		try  {
+			for(int i=0; i<candidates.size(); i++) {
+				if(candidates.get(i).getConfidence() < minConfidence) {
+					candidates.remove(i);
+					i--;
+				}
 			}
+		} catch(ItemsetWithoutSupportException e) {
+			System.err.println(e.getMessage());
 		}
 		
 		this.rules.add(candidates);
@@ -196,15 +204,35 @@ public class APriori {
 		for(Rule rule: rules) {
 			derivedRules.addAll(rule.deriveRules());
 		}
+
+		// Computes the confidence.
+		this.calcConfidence(derivedRules);
 		
 		// Removes rules with confidence below minimum:
-		for(int i=0; i<derivedRules.size(); i++) {
-			if(derivedRules.get(i).calcConfidence(this.database) < minConfidence) {
-				derivedRules.remove(i);
-				i--;
+		try  {
+			for(int i=0; i<derivedRules.size(); i++) {
+				if(derivedRules.get(i).getConfidence() < minConfidence) {
+					derivedRules.remove(i);
+					i--;
+				}
 			}
+		} catch(ItemsetWithoutSupportException e) {
+			System.err.println(e.getMessage());
 		}
 		
 		return derivedRules;
+	}
+	
+	/**
+	 * Computes the confidence for the numerators and antecedents of all specified rules.
+	 * @param candidates The rules.
+	 */
+	private void calcConfidence(List<Rule> candidates) {
+		List<Itemset> itemsets = new ArrayList<Itemset>();
+		for(Rule rule: candidates) {
+			itemsets.add(rule.getAntecedent());
+			itemsets.add(rule.getNumerator());
+		}
+		this.database.calcSupport(itemsets);
 	}
 }

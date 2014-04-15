@@ -129,20 +129,26 @@ public class Itemset implements Comparable<Itemset> {
 		List<Rule> rules = new ArrayList<Rule>();
 		
 		for(int i=0; i<this.items.size(); i++) {
-			Rule rule = new Rule();
-			rule.addToConsequent(this.items.get(i));
+			Itemset consequent = new Itemset();
+			Itemset antecedent = new Itemset();
+			consequent.add(this.items.get(i));
 			
 			for(int j=0; j<this.items.size(); j++) {					
-				if(j != i)
-					rule.addToAntecedent(this.items.get(j));
+				if(j != i) {
+					antecedent.add(this.items.get(j));
+				}
 			}
-			
+
+			Rule rule = new Rule(antecedent, consequent);
 			rules.add(rule);
 		}
 		
 		return rules;
 	}
 	
+	/**
+	 * @return The items.
+	 */
 	public List<Item> getItems() {
 		return this.items;
 	}
@@ -153,10 +159,8 @@ public class Itemset implements Comparable<Itemset> {
 	 */
 	public Itemset getUnion(Itemset itemset) {
 		Set<Item> result = new HashSet<Item>();
-
         result.addAll(this.items);
         result.addAll(itemset.getItems());
-
         return new Itemset(new ArrayList<Item>(result));
 	}
 	

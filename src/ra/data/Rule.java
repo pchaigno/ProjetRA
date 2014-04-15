@@ -7,14 +7,7 @@ import java.util.List;
 public class Rule {
 	private Itemset antecedent;
 	private Itemset consequent;
-
-	/**
-	 * Empty-parameter constructor
-	 */
-	public Rule() {
-		this.antecedent = new Itemset();
-		this.consequent = new Itemset();
-	}
+	private Itemset numerator;
 
 	/**
 	 * Constructor
@@ -24,55 +17,46 @@ public class Rule {
 	public Rule(Itemset antecedent, Itemset consequent) {
 		this.antecedent = antecedent;
 		this.consequent = consequent;
-	}
-
-	/**
-	 * 
-	 * @param transactions The transactions associated with the rule
-	 * @return The confidence of the rule
-	 */
-	public double calcConfidence(Database database) {
-		List<Itemset> itemsets = new ArrayList<Itemset>();
-		
-		// Itemset formation to compute rule confidence
-		Itemset numerator = this.antecedent.getUnion(this.consequent);
-		
-		// Support confidence
-		itemsets.add(numerator);
-		itemsets.add(this.antecedent);
-		database.calcSupport(itemsets);
-		
-		return numerator.getSupport()*1.0/this.antecedent.getSupport();
+		this.numerator = this.consequent.getUnion(this.antecedent);
 	}
 	
 	/**
-	 * Accessor to the antecedent
-	 * @return The antecedent
+	 * Accessor to the antecedent.
+	 * @return The antecedent.
 	 */
 	public Itemset getAntecedent() {
 		return this.antecedent;
 	}
 	
 	/**
-	 * Accessor to the consequent
-	 * @return The consequent
+	 * Accessor to the consequent.
+	 * @return The consequent.
 	 */
 	public Itemset getConsequent() {
 		return this.consequent;
 	}
-
+	
 	/**
-	 * @param value The value to add to the rule as antecedent
+	 * Accessor to the numerator.
+	 * @return The numerator.
 	 */
-	public void addToAntecedent(Item value) {
-		this.antecedent.add(value);
+	public Itemset getNumerator() {
+		return this.numerator;
 	}
 
 	/**
-	 * @param value The value to add to the rule as consequent
+	 * Computes the confidence of the rule.
+	 * @return The confidence.
+	 * @throws ItemsetWithoutSupportException If one of the itemsets doesn't have asupport value.
 	 */
-	public void addToConsequent(Item value) {
-		this.consequent.add(value);
+	public double getConfidence() throws ItemsetWithoutSupportException {
+		if(this.numerator.getSupport()==0) {
+			throw new ItemsetWithoutSupportException(this.numerator+" doesn't have a support value.");
+		}
+		if(this.antecedent.getSupport()==0) {
+			throw new ItemsetWithoutSupportException(this.antecedent+" doesn't have a support value.");
+		}
+		return 1.0 * numerator.getSupport() / this.antecedent.getSupport();
 	}
 
 	/**
