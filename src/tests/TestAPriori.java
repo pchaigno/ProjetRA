@@ -7,12 +7,12 @@ import java.util.List;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import ra.algo.APriori;
-import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.Item;
 import ra.data.Itemset;
 import ra.data.MemoryDatabase;
+import ra.data.Rule;
 
 public class TestAPriori extends TestCase {
 	public static final int nbCores = Runtime.getRuntime().availableProcessors();

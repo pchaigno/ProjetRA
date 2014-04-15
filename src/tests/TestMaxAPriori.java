@@ -9,11 +9,11 @@ import junit.framework.TestCase;
 
 import ra.algo.APriori;
 import ra.algo.MaxAPriori;
-import ra.algo.Rule;
 import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.Itemset;
 import ra.data.MemoryDatabase;
+import ra.data.Rule;
 
 public class TestMaxAPriori extends TestCase {
 

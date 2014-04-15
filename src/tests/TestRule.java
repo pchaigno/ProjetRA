@@ -5,8 +5,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import ra.algo.Rule;
 import ra.data.Item;
+import ra.data.Rule;
 
 public class TestRule extends TestCase {
 	

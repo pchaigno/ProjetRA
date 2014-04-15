@@ -8,6 +8,7 @@ import java.util.Vector;
 import ra.data.Database;
 import ra.data.Item;
 import ra.data.Itemset;
+import ra.data.Rule;
 
 public class APriori {
 	protected Database database;

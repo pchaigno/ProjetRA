@@ -1,11 +1,8 @@
-package ra.algo;
+package ra.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ra.data.Database;
-import ra.data.Item;
-import ra.data.Itemset;
 
 public class Rule {
 	private ArrayList<Item> antecedent;

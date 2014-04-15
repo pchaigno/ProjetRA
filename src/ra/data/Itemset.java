@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import ra.algo.Rule;
 
 public class Itemset implements Comparable<Itemset> {
 	protected ArrayList<Item> items;
