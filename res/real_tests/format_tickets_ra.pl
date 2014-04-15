@@ -33,18 +33,26 @@ while(my $line = <ARTICLES>) {
 		for(my $i=2; $i<=$#ARGV; $i++) {
 			my $type = $ARGV[$i];
 			my $item;
-			# type = number => the argument specifies the number of intervalls
+			
+			# type = number(_number)* => each number is a stage of the discretization
 			if($type =~ /[1..9]+(_[1..9]+)*/) {
 				my $stage = stage($value[$i-2], $type);
 				$item = get_item($i, $stage);
 				print OUT ($item).' ';
+				
+			# type = bool => the attribute is boolean (some possibles values : True, T, F, False, Yes, No, Y, N)
 			} elsif($type =~ /bool/ && ($value[$i-2] =~ /T/ || $value[$i-2] =~ /Y/)) {
 				$item = get_item($i, true);
 				print OUT ($item).' ';
+				
+			# type = symbol => symbolic attribute
 			} elsif($type =~ /symbol/) {
 				$item = get_item($i, $value[$i-2]);
 				print OUT ($item).' ';
 			}
+			
+			# type = ignore => the column will be ignored
+			
 			$empty_line = false;
 		}
 		# Doesn't print empty lines:
@@ -58,6 +66,12 @@ while(my $line = <ARTICLES>) {
 close(ARTICLES);
 close(OUT);
 
+# param $value : numeric value of an attribute
+# param $stages : different stages used for the discretization of the attribute
+# return :
+# 	"min" if $value < min($stage)
+#	"max" if $value > max($stage)
+#	else, the direct greater stage
 sub stage{
 	my ($value, $stages) = @_;
 	my @list = split("_", $stages);
