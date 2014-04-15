@@ -19,7 +19,6 @@ public class TestRule extends TestCase {
 		ArrayList<Item> consequent = new ArrayList<Item>() {{
 			add(new Item(4));
 		}};
-
 		Rule r = new Rule(antecedent, consequent);
 		List<Rule> derivedRules = r.deriveRules();
 
@@ -35,7 +34,7 @@ public class TestRule extends TestCase {
 		Assert.assertEquals(new Item(4), derivedRules.get(1).getConsequent().get(0));
 		Assert.assertEquals(new Item(2), derivedRules.get(1).getConsequent().get(1));
 		
-		// 1,2 -> 4, 3
+		// 1, 2 -> 4, 3
 		Assert.assertEquals(new Item(1), derivedRules.get(2).getAntecedent().get(0));
 		Assert.assertEquals(new Item(2), derivedRules.get(2).getAntecedent().get(1));
 		Assert.assertEquals(new Item(4), derivedRules.get(2).getConsequent().get(0));

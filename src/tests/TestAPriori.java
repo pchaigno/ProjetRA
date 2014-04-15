@@ -177,15 +177,18 @@ public class TestAPriori extends TestCase {
 	public static void testArticles20Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
-		APriori ap = new APriori(database);
+		APriori apriori = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
-		List<List<Itemset>> itemsets = ap.aPriori(support);
+		List<List<Itemset>> itemsets = apriori.aPriori(support);
 		Assert.assertEquals(1, itemsets.size());
 		Assert.assertEquals(8, itemsets.get(0).size());
 		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1359, 1000, 1249, 1023};
 		for(int i=0; i<itemsets.get(0).size(); i++) {
 			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
 		}
+		
+		List<Rule> rules = apriori.generateRules(0);
+		Assert.assertEquals(0, rules.size());
 	}
 	
 	/**
@@ -197,12 +200,19 @@ public class TestAPriori extends TestCase {
 	public static void testArticles4Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
-		APriori ap = new APriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int[] nbItemsets = new int[] {135, 360, 106, 7};
+		APriori apriori = new APriori(database);
+		List<List<Itemset>> itemsets = apriori.aPriori(200);
+		Assert.assertEquals(4, itemsets.size());
+		int[] nbkItemsets = new int[] {135, 360, 106, 7};
+		int nbItemsets = 0;
 		for(int i=0; i<itemsets.size(); i++) {
-			Assert.assertEquals(nbItemsets[i], itemsets.get(i).size());
+			Assert.assertEquals(nbkItemsets[i], itemsets.get(i).size());
+			nbItemsets += nbkItemsets[i];
 		}
+		Assert.assertEquals(608, nbItemsets);
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(7, rules.size());
 	}
 	
 	/**
@@ -214,15 +224,18 @@ public class TestAPriori extends TestCase {
 	public static void testArticles20ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
-		APriori ap = new APriori(database);
+		APriori apriori = new APriori(database);
 		int support = database.calcAbsoluteSupport(0.2);
-		List<List<Itemset>> itemsets = ap.aPriori(support);
+		List<List<Itemset>> itemsets = apriori.aPriori(support);
 		Assert.assertEquals(1, itemsets.size());
 		Assert.assertEquals(8, itemsets.get(0).size());
 		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1359, 1000, 1249, 1023};
-		for(int i=0; i<itemsets.get(0).size(); i++) {
+		for(int i=0; i<itemsets.size(); i++) {
 			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
 		}
+		
+		List<Rule> rules = apriori.generateRules(0.0);
+		Assert.assertEquals(0, rules.size());
 	}
 	
 	/**
@@ -234,11 +247,18 @@ public class TestAPriori extends TestCase {
 	public static void testArticles4ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
-		APriori ap = new APriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int[] nbItemsets = new int[] {135, 360, 106, 7};
+		APriori apriori = new APriori(database);
+		List<List<Itemset>> itemsets = apriori.aPriori(200);
+		Assert.assertEquals(4, itemsets.size());
+		int[] nbkItemsets = new int[] {135, 360, 106, 7};
+		int nbItemsets = 0;
 		for(int i=0; i<itemsets.size(); i++) {
-			Assert.assertEquals(nbItemsets[i], itemsets.get(i).size());
+			Assert.assertEquals(nbkItemsets[i], itemsets.get(i).size());
+			nbItemsets += nbkItemsets[i];
 		}
+		Assert.assertEquals(608, nbItemsets);
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(7, rules.size());
 	}
 }

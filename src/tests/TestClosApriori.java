@@ -23,16 +23,16 @@ public class TestClosApriori extends TestCase {
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
-		
 		Assert.assertEquals(1, itemsets.get(0).size());
 		Assert.assertEquals(1, itemsets.get(0).get(0).size());
-		
 		Assert.assertEquals(2, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
 		Assert.assertEquals(2, itemsets.get(1).get(1).size());
-
 		Assert.assertEquals(1, itemsets.get(2).size());
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(5, rules.size());
 	}
 
 	public static void testSimpleMemoryWords() {
@@ -42,16 +42,16 @@ public class TestClosApriori extends TestCase {
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
-		
 		Assert.assertEquals(1, itemsets.get(0).size());
 		Assert.assertEquals(1, itemsets.get(0).get(0).size());
-		
 		Assert.assertEquals(2, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
 		Assert.assertEquals(2, itemsets.get(1).get(1).size());
-
 		Assert.assertEquals(1, itemsets.get(2).size());
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(5, rules.size());
 	}
 
 	public static void testSimpleConcurrentMemory() {
@@ -61,16 +61,16 @@ public class TestClosApriori extends TestCase {
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
-		
 		Assert.assertEquals(1, itemsets.get(0).size());
 		Assert.assertEquals(1, itemsets.get(0).get(0).size());
-		
 		Assert.assertEquals(2, itemsets.get(1).size());
 		Assert.assertEquals(2, itemsets.get(1).get(0).size());
 		Assert.assertEquals(2, itemsets.get(1).get(1).size());
-
 		Assert.assertEquals(1, itemsets.get(2).size());
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(5, rules.size());
 	}
 	
 	/**
@@ -81,13 +81,16 @@ public class TestClosApriori extends TestCase {
 	public static void testArticles4Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
-		APriori ap = new ClosAPriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int totalSize = 0;
+		APriori apriori = new ClosAPriori(database);
+		List<List<Itemset>> itemsets = apriori.aPriori(200);
+		Assert.assertEquals(4, itemsets.size());
+		int[] nbkItemsets = new int[] {135, 360, 106, 7}; // total size of 608.
 		for(int i=0; i<itemsets.size(); i++) {
-			totalSize += itemsets.get(i).size();
+			Assert.assertEquals(nbkItemsets[i], itemsets.get(i).size());
 		}
-		Assert.assertEquals(608, totalSize);
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(7, rules.size());
 	}
 	
 	/**
@@ -98,13 +101,16 @@ public class TestClosApriori extends TestCase {
 	public static void testArticles4ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
-		APriori ap = new ClosAPriori(database);
-		List<List<Itemset>> itemsets = ap.aPriori(200);
-		int totalSize = 0;
+		APriori apriori = new ClosAPriori(database);
+		List<List<Itemset>> itemsets = apriori.aPriori(200);
+		Assert.assertEquals(4, itemsets.size());
+		int[] nbkItemsets = new int[] {135, 360, 106, 7}; // total size of 608.
 		for(int i=0; i<itemsets.size(); i++) {
-			totalSize += itemsets.get(i).size();
+			Assert.assertEquals(nbkItemsets[i], itemsets.get(i).size());
 		}
-		Assert.assertEquals(608, totalSize);
+		
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(7, rules.size());
 	}
 	
 	/**
@@ -116,17 +122,12 @@ public class TestClosApriori extends TestCase {
 		APriori apriori = new ClosAPriori(database);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
-		List<Rule> rules = apriori.generateRules(0.9);/*
-		for(int i=0; i<itemsets.size(); i++) {
-			System.out.println(i+1+"-itemsets:");
-			for(Itemset itemset: itemsets.get(i)) {
-				System.out.println(itemset);
-			}
-			System.out.println();
-		}*/
 		Assert.assertEquals(3, itemsets.size());
 		Assert.assertEquals(1, itemsets.get(0).size());
 		Assert.assertEquals(11, itemsets.get(1).size());
 		Assert.assertEquals(6, itemsets.get(2).size());
+
+		List<Rule> rules = apriori.generateRules(0.9);
+		Assert.assertEquals(17, rules.size());
 	}
 }
