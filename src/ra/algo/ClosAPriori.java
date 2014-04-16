@@ -11,10 +11,11 @@ public class ClosAPriori extends APriori {
 	/**
 	 * Constructor
 	 * @param database The database containing the transactions.
+	 * @param calcSupportComplitely If true computes the support complitely.
 	 */
-	public ClosAPriori(Database database) {
-		super(database);
-		this.completeSupportCalc = false;
+	public ClosAPriori(Database database, boolean calcSupportComplitely) {
+		super(database, calcSupportComplitely);
+		this.calcSupportTwoShots = false;
 	}
 	
 	/**

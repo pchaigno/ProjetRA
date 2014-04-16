@@ -51,7 +51,8 @@ public class Main {
 		}
 
 		// APriori algorithm:
-		APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), database);
+		// The last parameter means that the supports for the itemsets won't be fully computed.
+		APriori ap = APrioriFactory.makeAPriori(interpretor.getType(), database, false);
 		if(ap != null) {
 			System.out.println("Performing apriori...");
 			int support = database.calcAbsoluteSupport(interpretor.getSupport());

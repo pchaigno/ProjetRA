@@ -16,14 +16,14 @@ public class APrioriFactory {
 	 * @param database The database containing the transactions.
 	 * @return The APriori algorithm.
 	 */
-	public static APriori makeAPriori(String type, Database database) {
+	public static APriori makeAPriori(String type, Database database, boolean calcSupportComplitely) {
 		switch(type) {
 			case "frequent" :
-				return new APriori(database);
+				return new APriori(database, calcSupportComplitely);
 			case "maximal" :
-				return new MaxAPriori(database);
+				return new MaxAPriori(database, calcSupportComplitely);
 			case "closed" :
-				return new ClosAPriori(database);
+				return new ClosAPriori(database, calcSupportComplitely);
 			default:
 				return null;
 		}

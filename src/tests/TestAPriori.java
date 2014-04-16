@@ -1,7 +1,7 @@
 package tests;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -17,13 +17,10 @@ import ra.data.Rule;
 public class TestAPriori extends TestCase {
 	public static final int nbCores = Runtime.getRuntime().availableProcessors();
 	
-	/**
-	 * Tests the A Priori algorithm.
-	 */
 	public static void testSimpleMemory() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
@@ -36,13 +33,10 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
 	}
 	
-	/**
-	 * Tests the A Priori algorithm.
-	 */
 	public static void testSimpleMemoryWords() {
 		File file = new File("res/unit_tests/simple_words.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
@@ -55,13 +49,10 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
 	}
 	
-	/**
-	 * Tests the A Priori algorithm with the concurrent database.
-	 */
 	public static void testSimpleConcurrentMemory() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new ConcurrentMemoryDatabase(file, 4);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		Assert.assertEquals(3, itemsets.size());
@@ -74,13 +65,10 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(3, itemsets.get(2).get(0).size());
 	}
 	
-	/**
-	 * Tests the A Priori algorithm.
-	 */
 	public static void testTicketsConcurrentMemory() {
 		File file = new File("res/real_tests/tickets_caisse.trans");
 		Database database = new ConcurrentMemoryDatabase(file, Runtime.getRuntime().availableProcessors());
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.65);
 		List<List<Itemset>> itemsets = apriori.aPriori(absoluteSupport);
 		List<Rule> rules = apriori.generateRules(0.9);
@@ -98,13 +86,10 @@ public class TestAPriori extends TestCase {
 		Assert.assertTrue(rules.size() >= 10);
 	}
 	
-	/**
-	 * Tests the rules generation
-	 */
 	public static void testRulesGeneration() {
 		File file = new File("res/unit_tests/simple.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		apriori.aPriori(absoluteSupport);
 		
@@ -133,13 +118,10 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(new Item(5), generatedRules.get(4).getConsequent().get(0));
 	}
 	
-	/**
-	 * Tests the rules generation
-	 */
 	public static void testRulesGenerationWords() {
 		File file = new File("res/unit_tests/simple_words.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		int absoluteSupport = database.calcAbsoluteSupport(0.5);
 		apriori.aPriori(absoluteSupport);
 		
@@ -168,39 +150,39 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals("mnt", generatedRules.get(4).getConsequent().get(0).toString());
 	}
 	
-	/**
-	 * Tests the APriori algorithm on a real file.
-	 * The support is of 20%.
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 */
 	public static void testArticles20Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, true);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = apriori.aPriori(support);
 		Assert.assertEquals(1, itemsets.size());
 		Assert.assertEquals(8, itemsets.get(0).size());
-		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1359, 1000, 1249, 1023};
+		@SuppressWarnings("serial")
+		List<Integer> supports = new ArrayList<Integer>() {{
+			add(1061); add(1220); add(1639); add(1259); add(1359); add(1000); add(1249); add(1023);
+		}};
+		// All supports need to be found once:
 		for(int i=0; i<itemsets.get(0).size(); i++) {
-			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
+			boolean supportFound = false;
+			for(int j=0; j<supports.size(); j++) {
+				if(itemsets.get(0).get(i).getSupport() == supports.get(j)) {
+					supportFound = true;
+					supports.remove(j);
+					j--;
+				}
+			}
+			Assert.assertTrue(supportFound);
 		}
 		
 		List<Rule> rules = apriori.generateRules(0);
 		Assert.assertEquals(0, rules.size());
 	}
 	
-	/**
-	 * Tests the APriori algorithm on a real file.
-	 * The support is of 200 (approximately 4%).
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 */
 	public static void testArticles4Memory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new MemoryDatabase(file);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		List<List<Itemset>> itemsets = apriori.aPriori(200);
 		Assert.assertEquals(4, itemsets.size());
 		int[] nbkItemsets = new int[] {135, 360, 106, 7};
@@ -215,39 +197,39 @@ public class TestAPriori extends TestCase {
 		Assert.assertEquals(7, rules.size());
 	}
 	
-	/**
-	 * Tests the APriori algorithm on a real file using the concurrent memory database.
-	 * The support is of 20%.
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 */
 	public static void testArticles20ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, true);
 		int support = database.calcAbsoluteSupport(0.2);
 		List<List<Itemset>> itemsets = apriori.aPriori(support);
 		Assert.assertEquals(1, itemsets.size());
 		Assert.assertEquals(8, itemsets.get(0).size());
-		int[] supports =  new int[] {1061, 1220, 1639, 1259, 1359, 1000, 1249, 1023};
-		for(int i=0; i<itemsets.size(); i++) {
-			Assert.assertEquals(supports[i], itemsets.get(0).get(i).getSupport());
+		@SuppressWarnings("serial")
+		List<Integer> supports = new ArrayList<Integer>() {{
+			add(1061); add(1220); add(1639); add(1259); add(1359); add(1000); add(1249); add(1023);
+		}};
+		// All supports need to be found once:
+		for(int i=0; i<itemsets.get(0).size(); i++) {
+			boolean supportFound = false;
+			for(int j=0; j<supports.size(); j++) {
+				if(itemsets.get(0).get(i).getSupport() == supports.get(j)) {
+					supportFound = true;
+					supports.remove(j);
+					j--;
+				}
+			}
+			Assert.assertTrue(supportFound);
 		}
 		
 		List<Rule> rules = apriori.generateRules(0.0);
 		Assert.assertEquals(0, rules.size());
 	}
 	
-	/**
-	 * Tests the APriori algorithm on a real file using the concurrent memory database.
-	 * The support is of 200 (approximately 4%).
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 */
 	public static void testArticles4ConcurrentMemory() throws IllegalArgumentException {
 		File file = new File("res/real_tests/articles_grand_100_pourcent.trans");
 		Database database = new ConcurrentMemoryDatabase(file, TestAPriori.nbCores);
-		APriori apriori = new APriori(database);
+		APriori apriori = new APriori(database, false);
 		List<List<Itemset>> itemsets = apriori.aPriori(200);
 		Assert.assertEquals(4, itemsets.size());
 		int[] nbkItemsets = new int[] {135, 360, 106, 7};
@@ -257,7 +239,7 @@ public class TestAPriori extends TestCase {
 			nbItemsets += nbkItemsets[i];
 		}
 		Assert.assertEquals(608, nbItemsets);
-		
+
 		List<Rule> rules = apriori.generateRules(0.9);
 		Assert.assertEquals(7, rules.size());
 	}

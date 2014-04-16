@@ -11,10 +11,11 @@ public class MaxAPriori extends APriori {
 	/**
 	 * Constructor
 	 * @param database The database containing the transactions.
+	 * @param calcSupportComplitely If true computes the support complitely.
 	 */
-	public MaxAPriori(Database database) {
-		super(database);
-		this.completeSupportCalc = false;
+	public MaxAPriori(Database database, boolean calcSupportComplitely) {
+		super(database, calcSupportComplitely);
+		this.calcSupportTwoShots = false;
 	}
 
 	@Override

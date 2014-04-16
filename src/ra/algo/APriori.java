@@ -15,17 +15,22 @@ public class APriori {
 	protected Database database;
 	protected List<List<Itemset>> itemsets;
 	private List<List<Rule>> rules;
-	protected boolean completeSupportCalc;
+	// If false computes the support in two shots.
+	protected boolean calcSupportTwoShots;
+	// If true computes the support entirely.
+	protected boolean calcSupportComplitely;
 	
 	/**
 	 * Constructor
 	 * @param database The database containing the transactions.
+	 * @param calcSupportComplitely If true computes the support complitely.
 	 */
-	public APriori(Database database) {
+	public APriori(Database database, boolean calcSupportComplitely) {
 		this.database = database;
 		this.itemsets = new ArrayList<List<Itemset>>();
 		this.rules = new ArrayList<List<Rule>>();
-		this.completeSupportCalc = true;
+		this.calcSupportTwoShots = true;
+		this.calcSupportComplitely = calcSupportComplitely;
 	}
 	
 	/**
@@ -48,8 +53,9 @@ public class APriori {
 			}
 		}
 		
-		// If the support calculation was incomplete we need to update it:
-		if(!this.completeSupportCalc) {
+		// If the support calculation was incomplete and we want a complete support
+		// we need to update it:
+		if(this.calcSupportComplitely) {
 			updateSupport();
 		}
 		
@@ -83,7 +89,8 @@ public class APriori {
 		}
 		
 		// Checks the support of all itemsets:
-		List<Itemset> frequentItemsets = this.database.withMinSupport(itemsets, minSupport, this.completeSupportCalc);
+		boolean completeSupportCalc = !this.calcSupportTwoShots && !this.calcSupportComplitely;
+		List<Itemset> frequentItemsets = this.database.withMinSupport(itemsets, minSupport, completeSupportCalc);
 		
 		this.itemsets.add(frequentItemsets);
 	}
@@ -112,7 +119,8 @@ public class APriori {
 		}
 		
 		// Checks support for all candidates:
-		List<Itemset> frequentItemsets = this.database.withMinSupport(candidates, minSupport, this.completeSupportCalc);
+		boolean completeSupportCalc = !this.calcSupportTwoShots && !this.calcSupportComplitely;
+		List<Itemset> frequentItemsets = this.database.withMinSupport(candidates, minSupport, completeSupportCalc);
 		
 		return frequentItemsets;
 	}
