@@ -8,6 +8,7 @@ import ra.data.ConcurrentMemoryDatabase;
 import ra.data.Database;
 import ra.data.FileDatabase;
 import ra.data.Itemset;
+import ra.data.MemoryDatabase;
 import ra.data.Rule;
 
 /**
@@ -33,7 +34,7 @@ public class Main {
 			System.out.println("-support <double value>");
 			System.out.println("-confidence <double value>");
 			System.out.println("-type <frequent | maximal | closed>");
-			System.out.println("-nomemory The transactions won't be saved to the memory");
+			System.out.println("-memory <no | single | parallel>");
 			System.out.println("-output <file name>");
 			return;
 		} catch (FileNotFoundException e) {
@@ -43,9 +44,11 @@ public class Main {
 
 		// Data interpretation
 		Database database;
-		if(interpretor.useMemory()) {
+		if("parallel".equals(interpretor.useMemory())) {
 			int nbCores = Runtime.getRuntime().availableProcessors();
 			database = new ConcurrentMemoryDatabase(interpretor.getSource(), nbCores);
+		} else if("single".equals(interpretor.useMemory())){
+			database = new MemoryDatabase(interpretor.getSource());
 		} else {
 			database = new FileDatabase(interpretor.getSource());
 		}
