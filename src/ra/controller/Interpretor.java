@@ -11,12 +11,12 @@ public class Interpretor {
 	public static final String DEFAULT_TYPE = "frequent";
 	public static final double DEFAULT_CONFIDENCE = -1;
 	public static final double DEFAULT_SUPPORT = 0.5;
-	public static final boolean DEFAULT_MEMORY = true;
+	public static final String DEFAULT_MEMORY = "parallel";
 	private File source;
 	private double support = DEFAULT_SUPPORT;
 	private double confidence = DEFAULT_CONFIDENCE;
 	private String type = DEFAULT_TYPE;
-	private boolean memory = DEFAULT_MEMORY;
+	private String memory = DEFAULT_MEMORY;
 	private PrintStream output;
 	
 	/**
@@ -43,8 +43,8 @@ public class Interpretor {
 				case "-type":
 					this.type = args[++i];
 					break;
-				case "-nomemory":
-					this.memory = false;
+				case "-memory":
+					this.memory = args[++i];
 					break;
 				case "-output":
 					this.output = new PrintStream(new File(args[++i]));
@@ -87,7 +87,7 @@ public class Interpretor {
 	/**
 	 * @return True if the transactions should be saved in memory.
 	 */
-	public boolean useMemory() {
+	public String useMemory() {
 		return this.memory;
 	}
 
